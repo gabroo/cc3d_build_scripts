@@ -18,7 +18,7 @@ function run_and_watch_status {
 }
 
 
-export CC3D_BUILD_SCRIPTS_GIT_DIR=~/CC3D_BUILD_SCRIPTS_GIT_DIR
+export CC3D_BUILD_SCRIPTS_GIT_DIR=~/CC3D_BUILD_SCRIPTS_GIT
 eval CC3D_BUILD_SCRIPTS_GIT_DIR=$CC3D_BUILD_SCRIPTS_GIT_DIR
 /home/m/CC3D_BUILD_SCRIPTS_GIT/compiler_farm_scripts/sharedVM/scripts
 
