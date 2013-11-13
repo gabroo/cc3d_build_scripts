@@ -20,7 +20,7 @@ cd $RR_LLVM_GIT_DIR
 git pull
 git checkout develop
 
-cd $CC3D_BUILD_SCRIPTS_GIT_DIR/build_scripts/linux
-
+cd $CC3D_BUILD_SCRIPTS_GIT_DIR/linux
+pwd
 time ./build-rr-llvm.sh -s=$RR_LLVM_GIT_DIR -p=$install_path -c=$number_of_cpus
 

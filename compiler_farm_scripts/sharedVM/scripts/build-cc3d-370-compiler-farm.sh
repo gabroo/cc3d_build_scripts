@@ -44,12 +44,12 @@ cd $CC3D_GIT_DIR
 git checkout $VERSION
 git pull
 
-cd $CC3D_BUILD_SCRIPTS_GIT_DIR/build_scripts/linux
+cd $CC3D_BUILD_SCRIPTS_GIT_DIR/linux
 
 time run_and_watch_status BUILDING_CC3D_370_COMPILER_FARM_SCRIPT ./build-debian-cc3d-370.sh -s=$CC3D_GIT_DIR -p=$install_path -c=$number_of_cpus
 
 
-cd $CC3D_BUILD_SCRIPTS_GIT_DIR/build_scripts/linux/DebianPackageBuilder
+cd $CC3D_BUILD_SCRIPTS_GIT_DIR/linux/DebianPackageBuilder
 
 # remove old deb packages
 rm -rf ${install_path}_deb/*
