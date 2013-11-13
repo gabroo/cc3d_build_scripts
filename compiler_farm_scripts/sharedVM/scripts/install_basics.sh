@@ -34,7 +34,7 @@ export CC3D_BUILD_SCRIPTS_GIT_DIR=~/CC3D_BUILD_SCRIPTS_GIT
 
 mkdir $CC3D_BUILD_SCRIPTS_GIT_DIR
 cd $CC3D_BUILD_SCRIPTS_GIT_DIR
-git clone git@github.com:CompuCell3D/cc3d_build_scripts.git .
+git clone https://github.com/CompuCell3D/cc3d_build_scripts.git .
 
 
 
