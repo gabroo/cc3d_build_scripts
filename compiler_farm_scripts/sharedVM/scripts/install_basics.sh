@@ -30,6 +30,13 @@ mkdir $RR_LLVM_GIT_DIR
 cd $RR_LLVM_GIT_DIR
 git clone https://github.com/AndySomogyi/roadrunner.git .
 
+export CC3D_BUILD_SCRIPTS_GIT_DIR=~/CC3D_BUILD_SCRIPTS_GIT
+
+mkdir $CC3D_BUILD_SCRIPTS_GIT_DIR
+cd $CC3D_BUILD_SCRIPTS_GIT_DIR
+git clone git@github.com:CompuCell3D/cc3d_build_scripts.git .
+
+
 
 # adding group for folder sharing on VirtualBox
 sudo groupadd vboxsf

@@ -33,17 +33,23 @@ eval install_path=$install_path
 # svn checkout http://www.compucell3d.org/BinDoc/cc3d_binaries/binaries/3.7.0/linux .
 # svn update
 
+export CC3D_BUILD_SCRIPTS_GIT_DIR=~/CC3D_BUILD_SCRIPTS_GIT
+eval CC3D_BUILD_SCRIPTS_GIT_DIR=$CC3D_BUILD_SCRIPTS_GIT_DIR
+
+cd $CC3D_BUILD_SCRIPTS_GIT_DIR
+git checkout master
+git pull
 
 cd $CC3D_GIT_DIR
 git checkout $VERSION
 git pull
 
-cd $CC3D_GIT_DIR/build_scripts/linux
+cd $CC3D_BUILD_SCRIPTS_GIT_DIR/build_scripts/linux
 
 time run_and_watch_status BUILDING_CC3D_370_COMPILER_FARM_SCRIPT ./build-debian-cc3d-370.sh -s=$CC3D_GIT_DIR -p=$install_path -c=$number_of_cpus
 
 
-cd $CC3D_GIT_DIR/build_scripts/linux/DebianPackageBuilder
+cd $CC3D_BUILD_SCRIPTS_GIT_DIR/build_scripts/linux/DebianPackageBuilder
 
 # remove old deb packages
 rm -rf ${install_path}_deb/*
