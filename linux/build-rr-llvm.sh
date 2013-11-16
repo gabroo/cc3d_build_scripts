@@ -21,9 +21,12 @@ function run_and_watch_status {
 
 export BUILD_ROOT=~/install_projects_RR_LLVM/build
 export SOURCE_ROOT=~/RR_LLVM_GIT
+export RR_LLVM_THIRDPARTY_GIT_DIR=~/RR_LLVM_THIRDPARTY_GIT
 export INSTALL_ROOT=~/install_projects_RR_LLVM
 export DEPENDENCIES_ROOT=${INSTALL_ROOT}/depend
 export INSTALL_PREFIX=${INSTALL_ROOT}/RR_LLVM
+
+
 
 
 export BUILD_RR=NO
@@ -103,7 +106,7 @@ eval INSTALL_PREFIX=$INSTALL_PREFIX
 eval BUILD_ROOT=$BUILD_ROOT
 eval SOURCE_ROOT=$SOURCE_ROOT
 eval DEPENDENCIES_ROOT=$DEPENDENCIES_ROOT
-
+eval RR_LLVM_THIRDPARTY_GIT_DIR=$RR_LLVM_THIRDPARTY_GIT_DIR
 
 BUILD_ROOT=${INSTALL_ROOT}/build
 DEPENDENCIES_ROOT=${INSTALL_ROOT}/depend
@@ -144,11 +147,20 @@ then
       # # since you cannot pass cmake options that have spaces to cmake command line the alternatice is to prepare initial CmakeCache.txt file and put those options there...
       # echo 'CMAKE_C_FLAGS_RELEASE:STRING=-O0 -DNDEBUG'>>CMakeCache.txt
   # fi  
-  
+  run_and_watch_status THIRD_PARTY_CMAKE_CONFIG cmake -G "Unix Makefiles"  -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX} -DCMAKE_BUILD_TYPE:STRING=Release $RR_LLVM_THIRDPARTY_GIT_DIR
+  run_and_watch_status THIRD_PARTY_COMPILE_AND_INSTALL make $MAKE_MULTICORE_OPTION VERBOSE=1 && make install  
 
-  run_and_watch_status THIRD_PARTY_CMAKE_CONFIG cmake -G "Unix Makefiles"  -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX} -DCMAKE_BUILD_TYPE:STRING=Release $SOURCE_ROOT/third_party
-  run_and_watch_status THIRD_PARTY_COMPILE_AND_INSTALL make $MAKE_MULTICORE_OPTION VERBOSE=1 && make install
-  ############# END OF BUILDING CC3D
+  export LLVM_INSTALL_DIR=$BUILD_ROOT/llvm-3.3
+
+  # build llvm - oinly if necessary quite time-consuming
+  if [ ! -d "$LLVM_INSTALL_DIR" ]; then # LLVM_INSTALL_DIR does not exist
+    cp -rf $RR_LLVM_THIRDPARTY_GIT_DIR/llvm-3.3.src $BUILD_ROOT/llvm-3.3.src
+    cd $BUILD_ROOT/llvm-3.3.src
+    run_and_watch_status CONFIGURE_LLVM ./configure --prefix=${LLVM_INSTALL_DIR}
+    run_and_watch_status LLVM_COMPILE_AND_INSTALL make $MAKE_MULTICORE_OPTION && make install
+  
+  fi
+  
 fi
 
 echo "THIS IS BUILD_RR $BUILD_RR"
@@ -160,7 +172,7 @@ then
   cd $BUILD_ROOT/RR	
 
 
-  run_and_watch_status RR_CMAKE_CONFIG cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX} -DBUILD_LLVM:BOOL=ON -DLLVM_CONFIG_EXECUTABLE:PATH=/usr/bin/llvm-config-3.2 -DBUILD_SWIG_PYTHON:BOOL=ON -DTHIRD_PARTY_INSTALL_FOLDER:PATH=${INSTALL_PREFIX}  -DCMAKE_BUILD_TYPE:STRING=Release $SOURCE_ROOT 
+  run_and_watch_status RR_CMAKE_CONFIG cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX} -DBUILD_LLVM:BOOL=ON -DLLVM_CONFIG_EXECUTABLE:PATH=${LLVM_INSTALL_DIR}/bin/llvm-config -DBUILD_SWIG_PYTHON:BOOL=ON -DTHIRD_PARTY_INSTALL_FOLDER:PATH=${INSTALL_PREFIX}  -DCMAKE_BUILD_TYPE:STRING=Release $SOURCE_ROOT 
   run_and_watch_status RR_COMPILE_AND_INSTALL make $MAKE_MULTICORE_OPTION VERBOSE=1 && make install
   ############# END OF BUILDING CC3D
 fi
