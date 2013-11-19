@@ -32,7 +32,6 @@ today=date.today()
 revisionNumber=str(today.year)+str(today.month).zfill(2)+str(today.day).zfill(2)
 version=options.version
 
-
 INSTALLER_NAME=options.installer_name
 
 if INSTALLER_NAME=='':
@@ -96,9 +95,6 @@ installer_path=os.path.dirname(INSTALLER_NAME)
 
 inFile=open('CompuCell3D.nsi.tpl','r')
 nsiFilePath=os.path.join(installer_path,'CompuCell3D_installer.nsi')
-nsiFileDir=os.path.dirname(nsiFilePath)
-if not os.path.exists(nsiFileDir):
-    os.makedirs(nsiFileDir)
 nsiFile=open(nsiFilePath,'w')
 for line in inFile.readlines():
     line=line.rstrip()
