@@ -68,8 +68,8 @@ function start_compilation {
 # start_compilation kubuntu_13_04
 
 
-
-vb_machines=(kubuntu_13_10 kubuntu_13_10_64 kubuntu_13_04 kubuntu_13_04_64 kubuntu_12_10 kubuntu_12_10_64 kubuntu_12_04 kubuntu_12_04_64 kubuntu_11_10 kubuntu_11_10_64)
+# vb_machines=(kubuntu_13_04_64 kubuntu_12_10 kubuntu_12_10_64 kubuntu_12_04 kubuntu_12_04_64)
+vb_machines=(kubuntu_13_10 kubuntu_13_10_64 kubuntu_13_04 kubuntu_13_04_64 kubuntu_12_10 kubuntu_12_10_64 kubuntu_12_04 kubuntu_12_04_64 kubuntu_11_10 kubuntu_11_10_64 debian_7_1)
 # vb_machines=(kubuntu_12_10_64)
 
 for machine in ${vb_machines[@]}
