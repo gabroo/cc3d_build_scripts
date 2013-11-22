@@ -168,7 +168,7 @@ print 'size of debian package=',out
 replaceTemplate(os.path.join(installer_working_dir_pkg_placeholder,'usr/share/applications/compucell3d.desktop.tpl'),{'<VERSION>':version})
 replaceTemplate(os.path.join(installer_working_dir_pkg_placeholder,'usr/share/applications/twedit++.desktop.tpl'),{'<VERSION>':version})
 replaceTemplate(os.path.join(installer_working_dir_pkg_placeholder,'usr/share/applications/celldraw.desktop.tpl'),{'<VERSION>':version})
-replaceTemplate(os.path.join(installer_working_dir_pkg_placeholder,'DEBIAN/control.tpl'),{'<VERSION>':version,'<INSTALLED_SIZE>':str(package_size),'<ARCHITECTURE>':dpkg_architecture,'<EXTRA_DEPS>':',llvm-3.2'})    
+replaceTemplate(os.path.join(installer_working_dir_pkg_placeholder,'DEBIAN/control.tpl'),{'<VERSION>':version,'<INSTALLED_SIZE>':str(package_size),'<ARCHITECTURE>':dpkg_architecture,'<EXTRA_DEPS>':''})    
 
 
 #modifying run scripts
