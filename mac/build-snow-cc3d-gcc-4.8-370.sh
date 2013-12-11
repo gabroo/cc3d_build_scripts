@@ -18,6 +18,8 @@ function run_and_watch_status {
 
 }
 
+current_directory=$(pwd)
+
 export MAJOR_VERSION=3
 export MINOR_VERSION=7
 export BUILD_VERSION=0
@@ -362,6 +364,10 @@ run_and_watch_status ZIPPING_BINARY ditto -c -k --keepParent -rsrcFork $INSTALL_
 
 ################### END OF BUILDING ZIP-BASED INSTALLER
 
+# at the end of the build we switch to master
+cd $SOURCE_ROOT
+git checkout master
+cd ${current_directory}
 
 
 # DATE_FORMAT= eval date +"%Y%m%d"

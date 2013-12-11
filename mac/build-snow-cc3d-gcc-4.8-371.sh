@@ -17,6 +17,7 @@ function run_and_watch_status {
     return $status    
 
 }
+current_directory=$(pwd)
 
 export MAJOR_VERSION=3
 export MINOR_VERSION=7
