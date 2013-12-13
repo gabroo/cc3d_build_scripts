@@ -6,12 +6,21 @@
 # extension='.so'
 
 
-rootDir='./CC3D_3.7.1/player/PyQt4'
+# rootDir='./CC3D_3.7.1/player/PyQt4'
+rootDir='./player/PyQt4' # this has to be changed to match relative path of the library location
 
 fileMatchExpr='*.so'
 
 # fromPathReStr='/Users/Shared/CC3Ddev/Qt-4.8.3/[*]+/Versions/4/'
-fromPathReStr='/Users/Shared/CC3Ddev/Qt-4.8.3/'
+# fromPathReStr='/Users/Shared/CC3Ddev/Qt-4.8.3/'
+
+# fromPathReStr='/Users/Shared/CC3Ddev/Qt-4.8.3/'
+# regexPartialMatchString='/User/'
+
+fromPathReStr='/usr/local/lib/'# this has to be changed to match begining of the file path for the original libraries i.e. where they are installed 
+regexPartialMatchString='/usr/'# this has to be changed to match begining of the file path for the original libraries i.e. where they are installed 
+
+
 
 import fnmatch
 import os
@@ -49,7 +58,7 @@ for libname in matches:
 	for lineLib in outLines:
 		# print 'will try to to match on ',line		
 		# pathRegex=re.compile('([\S]*)([\s\S]*)(\(comp[\s\s*])')
-		pathRegex=re.compile('([\s]*/Users/[\s\S]*)(\()')
+		pathRegex=re.compile('([\s]*'+regexPartialMatchString+'[\s\S]*)(\()')
 		pathGroups=pathRegex.search(lineLib)
 		if pathGroups: 
 			# print lineLib
