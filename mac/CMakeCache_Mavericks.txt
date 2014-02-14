@@ -1,0 +1,10 @@
+PYTHON_MINOR_VERSION:STRING=7
+CMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.9
+PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2.7
+PYTHON_INCLUDE_DIR:PATH=/System/Library/Frameworks/Python.framework/Versions/2.7/Headers
+PYTHON_LIBRARY:FILEPATH=/usr/lib/libpython2.7.dylib
+CMAKE_C_COMPILER:FILEPATH=/usr/local/Cellar/gcc48/4.8.2/bin/gcc
+CMAKE_CXX_COMPILER:FILEPATH=/usr/local/Cellar/gcc48/4.8.2/bin/g++ 
+VTK_DIR:PATH=/Users/Shared/vtk-5.10.1/lib/vtk-5.10 
+CMAKE_CXX_FLAGS="-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64"
+CMAKE_C_FLAGS="-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64" 
