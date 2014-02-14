@@ -1,5 +1,5 @@
 # example command:
-# python .\win_cc3d_builder_371.py  -p D:/install_projects/3.7.1 -s D:/CC3D_GIT  -i D:/CC3D_FILES_SVN/binaries/3.7.1/windows -v 3.7.1.0
+# python .\win_cc3d_builder_372.py  -p D:/install_projects/3.7.2 -s D:/CC3D_GIT  -i D:/CC3D_FILES_SVN/binaries/3.7.2/windows -v 3.7.2.0
 
 
 import os,sys
@@ -46,16 +46,16 @@ CMAKE_PATH=os.path.abspath('C:/Program Files (x86)/CMake 2.8/bin/cmake.exe')
 
 CMAKE_GENERATOR_NAME='NMake Makefiles'
 
-# version has to have format 3.7.1.0 - four numbers otherwise NSIS crashes, strange...
+# version has to have format 3.7.2.0 - four numbers otherwise NSIS crashes, strange...
 
 # -------------- parsing command line
 from optparse import OptionParser
 parser = OptionParser()
-parser.add_option("-p", "--prefix", dest="prefix",action="store", type="string",default='D:/install_projects/3.7.1', help="CC3D installation directory")
+parser.add_option("-p", "--prefix", dest="prefix",action="store", type="string",default='D:/install_projects/3.7.2', help="CC3D installation directory")
 parser.add_option("-s", "--source-root", dest="source_root",action="store", type="string",default='D:/CC3D_GIT', help="CC3D git repository")
 parser.add_option("-c", "--cores", dest="cores",action="store", type="int",default=1,help="Number of compilation threads for make")
 parser.add_option('-i' , '--installer-dir', dest='installer_dir', action='store',type='string',default='',help='Location of the place where to store installer')
-parser.add_option("-v", "--version", dest="version",action="store", type="string", default='3.7.1.0',help='version of installer')
+parser.add_option("-v", "--version", dest="version",action="store", type="string", default='3.7.2.0',help='version of installer')
 
 parser.add_option("--cc3d",  action="store_true", default=False, dest="cc3d",help='this option picks CompuCell3D to be compiled. Using it will require all other project files to be set individually')
 parser.add_option("--bionet",  action="store_true", default=False, dest="bionet",help='this option picks BionetSolver to be compiled. Using it will require all other project files to be set individually')
@@ -95,8 +95,8 @@ DEPENDENCIES_ROOT=os.path.abspath(INSTALL_PREFIX+'_depend')
 WIN_DEPENDENCIES_ROOT=os.path.abspath('D:/CC3D_FILES_SVN/dependencies/windows/VS2010/dependencies_qt_4.8.5_pyqt_4.10.3_vtk_5.10.1_python27')
 LIBSBML_INSTALL_DIR=os.path.abspath('D:/CC3D_FILES_SVN/dependencies/windows/VS2010/BionetSolver/sbml-xml2') # used by bionet solver on windows
 SUNDIALS_INSTALL_DIR=os.path.abspath('D:/CC3D_FILES_SVN/dependencies/windows/VS2010/BionetSolver/sundials') # used by bionet solver on windows
-RR_BINARIES_DIR=os.path.abspath('D:/CC3D_FILES_SVN/dependencies/windows/VS2010/roadrunner/')
-WIN_INSTALLER_CREATOR='win_cc3d_installer_creator_371.py'
+RR_BINARIES_DIR=os.path.abspath('D:/CC3D_FILES_SVN/dependencies/windows/VS2010/roadrunner_1.0.1/')
+WIN_INSTALLER_CREATOR='win_cc3d_installer_creator_372.py'
 
 BUILD_CC3D=False
 BUILD_BIONET=False
