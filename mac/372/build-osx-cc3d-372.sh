@@ -41,7 +41,7 @@ export MAC_DEPS=/Users/Shared/CC3Ddev/Dependencies/
 
 export OUTPUT_BINARY_NAME=CC3D_${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}_MacOSX_10.8
 
-export RR_INSTALL_PATH=/Users/Shared/RR_LLVM_install
+export RR_INSTALL_PATH=/Users/Shared/RR_LLVM_install_1.0.1
 
 export BUILD_CC3D=NO
 export BUILD_BIONET=NO
