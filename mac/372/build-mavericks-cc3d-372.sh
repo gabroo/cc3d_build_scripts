@@ -191,7 +191,7 @@ mkdir -p $DEPENDENCIES_ROOT
 
 # updating git and switching to appropriate branch
 cd $SOURCE_ROOT
-git checkout $VERSION
+# # # git checkout $VERSION
 git pull
 
 # removing old verion
