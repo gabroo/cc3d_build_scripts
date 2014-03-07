@@ -50,7 +50,7 @@ cd $CC3D_BUILD_SCRIPTS_GIT_DIR/linux/372
 
 time run_and_watch_status BUILDING_CC3D_372_COMPILER_FARM_SCRIPT  ./build-debian-cc3d-372.sh -s=$CC3D_GIT_DIR -p=$install_path -c=$number_of_cpus
 
-cd $CC3D_BUILD_SCRIPTS_GIT_DIR/linux/DebianPackageBuilder
+cd $CC3D_BUILD_SCRIPTS_GIT_DIR/linux/3.7.2/DebianPackageBuilder
 
 # remove old deb packages
 rm -rf ${install_path}_deb/*
