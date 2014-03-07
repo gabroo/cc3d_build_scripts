@@ -29,7 +29,9 @@ git pull
 
 cd $RR_LLVM_GIT_DIR
 git pull
-git checkout develop
+# git checkout develop
+git checkout master
+git pull
 
 cd $CC3D_BUILD_SCRIPTS_GIT_DIR/linux
 pwd
