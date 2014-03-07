@@ -39,5 +39,5 @@ git pull
 time run_and_watch_status BUILDING_RR_LLVM  ${CC3D_BUILD_SCRIPTS_GIT_DIR}/compiler_farm_scripts/sharedVM/scripts/build-rr-llvm-compiler-farm.sh 
 time run_and_watch_status BUILDING_CC3D_371 ${CC3D_BUILD_SCRIPTS_GIT_DIR}/compiler_farm_scripts/sharedVM/scripts/build-cc3d-372-compiler-farm.sh
 
-# /sbin/poweroff
+/sbin/poweroff
 
