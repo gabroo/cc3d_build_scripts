@@ -42,6 +42,7 @@ git checkout master
 git pull
 
 cd $CC3D_GIT_DIR
+git pull
 git checkout $VERSION
 git pull
 
