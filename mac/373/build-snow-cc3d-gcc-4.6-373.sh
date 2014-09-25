@@ -194,6 +194,7 @@ mkdir -p $DEPENDENCIES_ROOT
 
 # updating git and switching to appropriate branch
 cd $SOURCE_ROOT
+git fetch
 git checkout $VERSION
 git pull
 
