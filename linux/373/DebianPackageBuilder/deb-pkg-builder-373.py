@@ -176,6 +176,7 @@ modifyRunScripts(os.path.join(installer_working_dir_pkg_placeholder,location_on_
 modifyRunScripts(os.path.join(installer_working_dir_pkg_placeholder,location_on_target_system+'/celldraw.sh'),location_on_target_system)
 modifyRunScripts(os.path.join(installer_working_dir_pkg_placeholder,location_on_target_system+'/runScript.sh'),location_on_target_system)
 modifyRunScripts(os.path.join(installer_working_dir_pkg_placeholder,location_on_target_system+'/twedit++.sh'),location_on_target_system)
+modifyRunScripts(os.path.join(installer_working_dir_pkg_placeholder,location_on_target_system+'/paramScan.sh'),location_on_target_system)
 
 print 'WILL BUILD DEB PACKAGE NOW'
 subprocess.call(['fakeroot','dpkg-deb','--build',installer_working_dir_pkg_placeholder])
