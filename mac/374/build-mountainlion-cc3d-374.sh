@@ -1,4 +1,4 @@
-# example command ./build-osx-cc3d-374.sh -s=~/CC3D_GIT -p=~/install_projects/CC3D_3.7.4 -r=~/RR_OSX -d=/Users/Shared/CC3Ddev/Dependencies -b=CC3D_3.7.4_MacOSX_10.8 -c=4
+# example command ./build-mountainlion-cc3d-374.sh -s=~/CC3D_GIT -p=~/install_projects/CC3D_3.7.4 -r=~/RR_OSX -d=/Users/Shared/CC3Ddev/Dependencies -b=CC3D_3.7.4_MacOSX_10.8 -c=4
 #command line parsing
 
 function run_and_watch_status {
