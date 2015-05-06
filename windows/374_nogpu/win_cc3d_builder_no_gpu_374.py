@@ -61,7 +61,7 @@ parser.add_option("-p", "--prefix", dest="prefix",action="store", type="string",
 parser.add_option("-s", "--source-root", dest="source_root",action="store", type="string",default='D:/CC3D_GIT', help="CC3D git repository")
 parser.add_option("-c", "--cores", dest="cores",action="store", type="int",default=1,help="Number of compilation threads for make")
 parser.add_option('-i' , '--installer-dir', dest='installer_dir', action='store',type='string',default='',help='Location of the place where to store installer')
-parser.add_option("-v", "--version", dest="version",action="store", type="string", default=+version_string+'.0',help='version of installer')
+parser.add_option("-v", "--version", dest="version",action="store", type="string", default=version_string+'.0',help='version of installer')
 
 parser.add_option("--cc3d",  action="store_true", default=False, dest="cc3d",help='this option picks CompuCell3D to be compiled. Using it will require all other project files to be set individually')
 parser.add_option("--bionet",  action="store_true", default=False, dest="bionet",help='this option picks BionetSolver to be compiled. Using it will require all other project files to be set individually')
