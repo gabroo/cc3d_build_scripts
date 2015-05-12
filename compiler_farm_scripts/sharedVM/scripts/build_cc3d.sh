@@ -40,7 +40,10 @@ git pull
 
 # time run_and_watch_status BUILDING_RR_LLVM  ${CC3D_BUILD_SCRIPTS_GIT_DIR}/compiler_farm_scripts/sharedVM/scripts/build-rr-llvm-compiler-farm.sh 
 # time run_and_watch_status BUILDING_CC3D_372 ${CC3D_BUILD_SCRIPTS_GIT_DIR}/compiler_farm_scripts/sharedVM/scripts/build-cc3d-372-compiler-farm.sh
-time run_and_watch_status BUILDING_CC3D_373 ${CC3D_BUILD_SCRIPTS_GIT_DIR}/compiler_farm_scripts/sharedVM/scripts/build-cc3d-373-compiler-farm.sh
+# time run_and_watch_status CLEANING_OLD_PROJECTS ${CC3D_BUILD_SCRIPTS_GIT_DIR}/compiler_farm_scripts/sharedVM/scripts/cleanup_build_cc3d_files.sh
+time run_and_watch_status CLEANING_OLD_PROJECTS /media/sf_sharedVM/scripts/cleanup_build_cc3d_files.sh
+
+time run_and_watch_status BUILDING_CC3D_374 ${CC3D_BUILD_SCRIPTS_GIT_DIR}/compiler_farm_scripts/sharedVM/scripts/build-cc3d-374-compiler-farm.sh
 
 /sbin/poweroff
 
