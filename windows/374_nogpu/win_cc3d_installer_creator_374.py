@@ -2,19 +2,20 @@ import os,sys
 import re
 
 # example command:
-# python .\win_cc3d_installer_creator.py -d 'D:\install_projects\3.7.3' -v 3.7.3.0
+# python .\win_cc3d_installer_creator.py -d 'D:\install_projects\3.7.4' -v 3.7.4.0
 
 # this is the path to the NSIS instaler executable
 NSIS_EXE_PATH='C:\Program Files (x86)\NSIS\makensis.exe '
 
 # version has to have format 3.7.3.0 - four numbers otherwise NSIS crashes, strange...
+INSTALLER_TEMPLATE_NAME='CompuCell3D_374.nsi.tpl'
 
 # -------------- parsing command line
 from optparse import OptionParser
 parser = OptionParser()
 parser.add_option("-d", "--directory", dest="dirname",action="store", type="string",help="CC3D installation directory")
 parser.add_option("-i", "--installer-name", dest="installer_name",action="store", default='', type="string",help="full installer name")
-parser.add_option("-v", "--version", dest="version",action="store", type="string",help="CC3D version", default='3.7.3.0')
+parser.add_option("-v", "--version", dest="version",action="store", type="string",help="CC3D version", default='3.7.4.0')
 
 (options, args) = parser.parse_args()
 
@@ -33,7 +34,7 @@ revisionNumber=str(today.year)+str(today.month).zfill(2)+str(today.day).zfill(2)
 version=options.version
 
 
-INSTALLER_TEMPLATE_NAME='CompuCell3D_373.nsi.tpl'
+
 
 INSTALLER_NAME=options.installer_name
 
