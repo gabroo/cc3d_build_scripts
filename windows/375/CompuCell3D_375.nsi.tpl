@@ -4,7 +4,7 @@
 #              by Vlasis K. Barkas aka Red Wine red_wine@freemail.gr Sep 2006               
 ############################################################################################
 
-!define APP_NAME "CompuCell3D"
+!define APP_NAME "CompuCell3D-x64"
 !define COMP_NAME "Biocomplexity Institute"
 !define WEB_SITE "http://www.compucell3d.org"
 !define VERSION "<VERSION>"
@@ -130,47 +130,47 @@ Section -Uninstaller
 SectionEnd
 
 
-Section -PythonDependencies
-    DetailPrint "Checking for Python 2.5"
-    call CheckPython27
+; Section -PythonDependencies
+    ; DetailPrint "Checking for Python 2.5"
+    ; call CheckPython27
     
-    SetOutPath $INSTDIR\Prerequisites
-        File "${INSTALLATION_SOURCE_DIR}\Prerequisites\numpy-1.5.1-win32-superpack-python2.7.exe"               
-        ExecWait '$PYTHON_PATH27python -c "import numpy"' $numpyErrorCode
-        strcmp $numpyErrorCode "0" "" numpyNotInstalled
+    ; SetOutPath $INSTDIR\Prerequisites
+        ; File "${INSTALLATION_SOURCE_DIR}\Prerequisites\numpy-1.5.1-win32-superpack-python2.7.exe"               
+        ; ExecWait '$PYTHON_PATH27python -c "import numpy"' $numpyErrorCode
+        ; strcmp $numpyErrorCode "0" "" numpyNotInstalled
         
-        goto numpyInstalled
-        numpyNotInstalled:
-            MessageBox MB_OK "  NUMPY  IS NOT INSTALLED. Starting numpy installer..."
-            ExecWait "$INSTDIR\Prerequisites\numpy-1.5.1-win32-superpack-python2.7.exe"
+        ; goto numpyInstalled
+        ; numpyNotInstalled:
+            ; MessageBox MB_OK "  NUMPY  IS NOT INSTALLED. Starting numpy installer..."
+            ; ExecWait "$INSTDIR\Prerequisites\numpy-1.5.1-win32-superpack-python2.7.exe"
+            ; ; goto finishSection
+        
+        ; numpyInstalled:
+
+    ; SetOutPath $INSTDIR\Prerequisites
+        ; File "${INSTALLATION_SOURCE_DIR}\Prerequisites\pywin32-216.win32-py2.7.exe"               
+        ; ExecWait '$PYTHON_PATH27python -c "import win32gui"' $win32guiErrorCode
+        ; strcmp $win32guiErrorCode "0" "" pywin32NotInstalled
+        
+        ; goto pywin32Installed
+        ; pywin32NotInstalled:
+            ; MessageBox MB_OK "  PyWin32  IS NOT INSTALLED. Starting pywin32 installer..."
+            ; ExecWait "$INSTDIR\Prerequisites\pywin32-216.win32-py2.7.exe"
             ; goto finishSection
         
-        numpyInstalled:
-
-    SetOutPath $INSTDIR\Prerequisites
-        File "${INSTALLATION_SOURCE_DIR}\Prerequisites\pywin32-216.win32-py2.7.exe"               
-        ExecWait '$PYTHON_PATH27python -c "import win32gui"' $win32guiErrorCode
-        strcmp $win32guiErrorCode "0" "" pywin32NotInstalled
+        ; pywin32Installed:
         
-        goto pywin32Installed
-        pywin32NotInstalled:
-            MessageBox MB_OK "  PyWin32  IS NOT INSTALLED. Starting pywin32 installer..."
-            ExecWait "$INSTDIR\Prerequisites\pywin32-216.win32-py2.7.exe"
-            goto finishSection
-        
-        pywin32Installed:
-        
-        finishSection: 
+        ; finishSection: 
     
-SectionEnd
+; SectionEnd
 
 Section -Prerequisites
 
   SetOutPath $INSTDIR\Prerequisites
-    File "${INSTALLATION_SOURCE_DIR}\Prerequisites\vcredist_x86.exe"
+    File "${INSTALLATION_SOURCE_DIR}\Prerequisites\vc_redist_2015.x64.exe"
     ; ExecWait "$INSTDIR\Prerequisites\vcredist_x86.exe /q:a /c:$\"VCREDI~1.EXE /q:a /c:$\"$\"msiexec /i vcredist.msi /qb!$\"$\" $\""           
-    ExecWait "$INSTDIR\Prerequisites\vcredist_x86.exe /q /norestart"
-    
+    ExecWait "$INSTDIR\Prerequisites\vcredist_x64.exe /q /norestart"
+    ; ExecWait "$INSTDIR\Prerequisites\vc_redist_2015.x64.exe /norestart"
     
     Goto vs2008Libs
   vs2008Libs:
@@ -192,10 +192,10 @@ SetOverwrite ifnewer
 DetailPrint "Postinstallation ..."
  ExecWait '$PYTHON_PATH27python "$INSTDIR\scriptSetup.py" "$INSTDIR" "$INSTDIR\Python27" '
  #removing unnecessary files
- Delete "$INSTDIR\Prerequisites\vcredist_x86.exe"
- Delete "$INSTDIR\Prerequisites\numpy-1.5.1-win32-superpack-python2.7.exe"
- Delete "$INSTDIR\Prerequisites\pywin32-216.win32-py2.7.exe"
- Delete "$INSTDIR\Prerequisites\python-2.7.1.msi"
+ Delete "$INSTDIR\Prerequisites\vc_redist_2015.x64.exe"
+ ; Delete "$INSTDIR\Prerequisites\numpy-1.5.1-win32-superpack-python2.7.exe"
+ ; Delete "$INSTDIR\Prerequisites\pywin32-216.win32-py2.7.exe"
+ ; Delete "$INSTDIR\Prerequisites\python-2.7.1.msi"
 
   
 ### END OF CUSTOM MODIFICATION 
@@ -287,62 +287,62 @@ SectionEnd
 
 ######################################################################
 ### CUSTOM MODIFICATION
-Function CheckPython27
+; Function CheckPython27
 
-  strcpy $PYTHON_PATH27 ""
-  ReadRegStr $PYTHON_PATH27 HKLM "SOFTWARE\Python\PythonCore\2.7\InstallPath" ""
-  strcmp $PYTHON_PATH27 "" checkLocal found
+  ; strcpy $PYTHON_PATH27 ""
+  ; ReadRegStr $PYTHON_PATH27 HKLM "SOFTWARE\Python\PythonCore\2.7\InstallPath" ""
+  ; strcmp $PYTHON_PATH27 "" checkLocal found
   
 
-checkLocal:
-  strcpy $PYTHON_PATH27 ""
-  ReadRegStr $PYTHON_PATH27 HKCU "SOFTWARE\Python\PythonCore\2.7\InstallPath" ""
-  strcmp $PYTHON_PATH27 "" notFound found
+; checkLocal:
+  ; strcpy $PYTHON_PATH27 ""
+  ; ReadRegStr $PYTHON_PATH27 HKCU "SOFTWARE\Python\PythonCore\2.7\InstallPath" ""
+  ; strcmp $PYTHON_PATH27 "" notFound found
 
-found:
-  ClearErrors  
-  goto exit
+; found:
+  ; ClearErrors  
+  ; goto exit
 
     
-notfound:
-  #python probably not installed
+; notfound:
+  ; #python probably not installed
     
     
-    SetOutPath $INSTDIR\Prerequisites
-        File "${INSTALLATION_SOURCE_DIR}\Prerequisites\python-2.7.1.msi"                   
-        MessageBox MB_OK "  Python27  IS NOT INSTALLED. Starting the installer..."
-        ; ExecWait "$INSTDIR\Prerequisites\python-2.7.1.msi"
-        ExecWait '"msiexec" /i "$INSTDIR\Prerequisites\python-2.7.1.msi"'
+    ; SetOutPath $INSTDIR\Prerequisites
+        ; File "${INSTALLATION_SOURCE_DIR}\Prerequisites\python-2.7.1.msi"                   
+        ; MessageBox MB_OK "  Python27  IS NOT INSTALLED. Starting the installer..."
+        ; ; ExecWait "$INSTDIR\Prerequisites\python-2.7.1.msi"
+        ; ExecWait '"msiexec" /i "$INSTDIR\Prerequisites\python-2.7.1.msi"'
 
-        goto recheckPython27
+        ; goto recheckPython27
     
-  ; MessageBox MB_OK "Python 2.7 is required for CC3D but not present."
+  ; ; MessageBox MB_OK "Python 2.7 is required for CC3D but not present."
+  ; ; Abort
+; recheckPython27:
+  ; strcpy $PYTHON_PATH27 ""
+  ; ReadRegStr $PYTHON_PATH27 HKLM "SOFTWARE\Python\PythonCore\2.7\InstallPath" ""
+  ; strcmp $PYTHON_PATH27 "" checkLocalInstalled foundInstalled
+  
+
+; checkLocalInstalled:
+  ; strcpy $PYTHON_PATH27 ""
+  ; ReadRegStr $PYTHON_PATH27 HKCU "SOFTWARE\Python\PythonCore\2.7\InstallPath" ""
+  ; strcmp $PYTHON_PATH27 "" notFoundInstalled foundInstalled
+
+; foundInstalled:
+  ; ClearErrors
+  ; goto exit
+  
+; notfoundInstalled:
+  ; #python probably not installed
+
+    
+  ; MessageBox MB_OK "Python 2.7 still cannot be found. PLease install Python2.7 manuall and restart CC3D installer."
   ; Abort
-recheckPython27:
-  strcpy $PYTHON_PATH27 ""
-  ReadRegStr $PYTHON_PATH27 HKLM "SOFTWARE\Python\PythonCore\2.7\InstallPath" ""
-  strcmp $PYTHON_PATH27 "" checkLocalInstalled foundInstalled
-  
-
-checkLocalInstalled:
-  strcpy $PYTHON_PATH27 ""
-  ReadRegStr $PYTHON_PATH27 HKCU "SOFTWARE\Python\PythonCore\2.7\InstallPath" ""
-  strcmp $PYTHON_PATH27 "" notFoundInstalled foundInstalled
-
-foundInstalled:
-  ClearErrors
-  goto exit
-  
-notfoundInstalled:
-  #python probably not installed
-
-    
-  MessageBox MB_OK "Python 2.7 still cannot be found. PLease install Python2.7 manuall and restart CC3D installer."
-  Abort
   
   
-  strcpy $PYTHON_PATH27 ""
-exit:
+  ; strcpy $PYTHON_PATH27 ""
+; exit:
 
-FunctionEnd
-### END OF CUSTOM MODIFICATION
+; FunctionEnd
+; ### END OF CUSTOM MODIFICATION

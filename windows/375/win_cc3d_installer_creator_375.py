@@ -2,7 +2,7 @@ import os,sys
 import re
 
 # example command:
-# python .\win_cc3d_installer_creator.py -d 'D:\install_projects\3.7.5' -v 3.7.5.0
+# python .\win_cc3d_installer_creator_375.py -d D:\install_projects\3.7.5 -v 3.7.5.0
 
 # this is the path to the NSIS instaler executable
 NSIS_EXE_PATH='C:\Program Files (x86)\NSIS\makensis.exe '
@@ -26,7 +26,6 @@ parser.add_option("-v", "--version", dest="version",action="store", type="string
 cc3d_install_dir=options.dirname
 cc3d_install_dir=os.path.abspath(cc3d_install_dir)
 
-
 cwd=os.path.abspath(os.getcwd())
 
 #revision number 
@@ -41,7 +40,8 @@ version=options.version
 INSTALLER_NAME=options.installer_name
 
 if INSTALLER_NAME=='':
-    INSTALLER_NAME=os.path.abspath(os.path.join(cwd,'setup-'+version+'v'+revisionNumber+'.exe'))
+    # INSTALLER_NAME=os.path.abspath(os.path.join(cwd,'setup-'+version+'v'+revisionNumber+'.exe'))
+    INSTALLER_NAME=os.path.abspath(os.path.join(cwd,'CompuCell3D-x64-setup-'+version+'v'+revisionNumber+'.exe'))
 else:    
     INSTALLER_NAME=os.path.abspath(INSTALLER_NAME)
     
@@ -53,7 +53,7 @@ DELETE_FILES=[]  # holds lines for delete section of the uninstaller
 
 # ----------creating lines for install section of the installer
 sub=''
-for root, subfolders, files in os.walk(cc3d_install_dir):
+for root, subfolders, files in os.walk(cc3d_install_dir):    
     relpath=os.path.relpath(root,cc3d_install_dir )    
     separator='\\'
     if len(relpath)==1:
