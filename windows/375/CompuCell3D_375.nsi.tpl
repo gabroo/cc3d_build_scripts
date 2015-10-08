@@ -4,7 +4,7 @@
 #              by Vlasis K. Barkas aka Red Wine red_wine@freemail.gr Sep 2006               
 ############################################################################################
 
-!define APP_NAME "CompuCell3D-x64"
+!define APP_NAME "CompuCell3D-64bit"
 !define COMP_NAME "Biocomplexity Institute"
 !define WEB_SITE "http://www.compucell3d.org"
 !define VERSION "<VERSION>"
@@ -42,7 +42,7 @@ Function .onInit
     ; MessageBox MB_OK " Installation dir $R0"
     ; strcpy $SUGGESTED_INSTALL_PATH $R0
     
-    StrCpy $InstDir "$R0\CompuCell3D"
+    StrCpy $InstDir "$R0\CompuCell3D-64bit"
     
 FunctionEnd
 ### END OF CUSTOM MODIFICATION
@@ -67,7 +67,7 @@ OutFile "${INSTALLER_NAME}"
 BrandingText "${APP_NAME}"
 XPStyle on
 InstallDirRegKey "${REG_ROOT}" "${REG_APP_PATH}" ""
-InstallDir "$PROGRAMFILES\CompuCell3D"
+InstallDir "$PROGRAMFILES\CompuCell3D-64bit"
 
 ######################################################################
 
@@ -85,7 +85,7 @@ InstallDir "$PROGRAMFILES\CompuCell3D"
 !insertmacro MUI_PAGE_DIRECTORY
 
 !ifdef REG_START_MENU
-!define MUI_STARTMENUPAGE_DEFAULTFOLDER "CompuCell3D"
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER "CompuCell3D-64bit"
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "${REG_ROOT}"
 !define MUI_STARTMENUPAGE_REGISTRY_KEY "${UNINSTALL_PATH}"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "${REG_START_MENU}"
@@ -114,7 +114,7 @@ Section -Uninstaller
     goto notfoundUninstaller
     foundUninstaller:   
         ;MessageBox MB_OK "Exsisting copy of CompuCell3D will be uninstalled now.$\nPLEASE make sure to backup existing simulation"
-        MessageBox MB_YESNO "Found existing CompuCell3D installation.$\nWould you like unistall it now (recommended)?$\n Before uninstalling PLEASE backup existing simulations" /SD IDYES IDNO NoUninstall
+        MessageBox MB_YESNO "Found existing CompuCell3D-64bit installation.$\nWould you like unistall it now (recommended)?$\n Before uninstalling PLEASE backup existing simulations" /SD IDYES IDNO NoUninstall
         
         ; ExecWait "$CURRENT_UNINSTALLER"
         ExecWait '"$CURRENT_UNINSTALLER" _?=$INSTDIR'
@@ -169,7 +169,7 @@ Section -Prerequisites
   SetOutPath $INSTDIR\Prerequisites
     File "${INSTALLATION_SOURCE_DIR}\Prerequisites\vc_redist_2015.x64.exe"
     ; ExecWait "$INSTDIR\Prerequisites\vcredist_x86.exe /q:a /c:$\"VCREDI~1.EXE /q:a /c:$\"$\"msiexec /i vcredist.msi /qb!$\"$\" $\""           
-    ExecWait "$INSTDIR\Prerequisites\vcredist_x64.exe /q /norestart"
+    ExecWait "$INSTDIR\Prerequisites\vc_redist_2015.x64.exe /q /norestart"
     ; ExecWait "$INSTDIR\Prerequisites\vc_redist_2015.x64.exe /norestart"
     
     Goto vs2008Libs
@@ -190,7 +190,8 @@ SetOverwrite ifnewer
 ### CUSTOM MODIFICATION 
 # MessageBox MB_OK ' THIS IS Python Path  $PYTHON_PATH27python $INSTDIR\scriptSetup.py $INSTDIR'
 DetailPrint "Postinstallation ..."
- ExecWait '$PYTHON_PATH27python "$INSTDIR\scriptSetup.py" "$INSTDIR" "$INSTDIR\Python27" '
+ ; ExecWait '$PYTHON_PATH27python "$INSTDIR\scriptSetup.py" "$INSTDIR" "$INSTDIR\Python27" '
+ ExecWait '"$INSTDIR\Python27\python" "$INSTDIR\scriptSetup.py" "$INSTDIR" "$INSTDIR\Python27" '
  #removing unnecessary files
  Delete "$INSTDIR\Prerequisites\vc_redist_2015.x64.exe"
  ; Delete "$INSTDIR\Prerequisites\numpy-1.5.1-win32-superpack-python2.7.exe"
@@ -215,8 +216,8 @@ WriteUninstaller "$INSTDIR\uninstall-cc3d.exe"
 !ifdef REG_START_MENU
 !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 CreateDirectory "$SMPROGRAMS\$SM_Folder"
-CreateShortCut "$SMPROGRAMS\$SM_Folder\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}" "CompuCell3D Run Script" "$INSTDIR\icons\cc3d_128x128_logo.ico"
-CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}" "CompuCell3D Run Script" "$INSTDIR\icons\cc3d_128x128_logo.ico"
+CreateShortCut "$SMPROGRAMS\$SM_Folder\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}" "CompuCell3D-64bit Run Script" "$INSTDIR\icons\cc3d_128x128_logo.ico"
+CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}" "CompuCell3D-64bit Run Script" "$INSTDIR\icons\cc3d_128x128_logo.ico"
 CreateShortCut "$SMPROGRAMS\$SM_Folder\CellDraw.lnk" "$INSTDIR\${CELLDRAW_EXE}" "Tool to prepare initial cell layout" "$INSTDIR\CellDraw\icons\CellDraw_64x64.ico"
 CreateShortCut "$SMPROGRAMS\$SM_Folder\Twedit++.lnk" "$INSTDIR\${TWEDIT_EXE}" "" "$INSTDIR\Twedit++\icons\twedit-icon.ico"
 CreateShortCut "$SMPROGRAMS\$SM_Folder\Uninstall ${APP_NAME}.lnk" "$INSTDIR\uninstall-cc3d.exe"
