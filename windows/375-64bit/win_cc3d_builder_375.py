@@ -227,7 +227,7 @@ if  BUILD_INSTALLER:
     revisionNumber=str(today.year)+str(today.month).zfill(2)+str(today.day).zfill(2)
     version=options.version
     
-    INSTALLER_NAME=os.path.abspath(os.path.join(INSTALLER_DIR,'CompuCell3D-x64-setup-'+version+'v'+revisionNumber+'.exe'))
+    INSTALLER_NAME=os.path.abspath(os.path.join(INSTALLER_DIR,'CompuCell3D-64bit-setup-'+version+'v'+revisionNumber+'.exe'))
       
     os.chdir(CURRENT_DIR)    
     subprocess.call(['python',WIN_INSTALLER_CREATOR,'-d',INSTALL_PREFIX,'-v',INSTALLER_VERSION,'-i',INSTALLER_NAME])    
