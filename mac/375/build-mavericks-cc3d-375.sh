@@ -1,5 +1,13 @@
-# example command ./build-snow-cc3d-gcc-4.6-375.sh -s=~/CC3D_GIT -p=~/install_projects/CC3D_3.7.5 -r=~/RR_OSX -d=/Users/Shared/Deps -b=CC3D_3.7.5_MacOSX_10.6_64bit -c=4
+# example command ./build-mavericks-cc3d-375.sh -s=~/CC3D_GIT -p=~/install_projects/CC3D_3.7.5 -d=/Users/Shared/CC3Ddev/Dependencies -b=CC3D_3.7.5_MacOSX_10.9 -c=8
 #command line parsing
+
+export MAJOR_VERSION=3
+export MINOR_VERSION=7
+export BUILD_VERSION=5
+export VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}
+echo "THIS IS VERSION ${VERSION} "
+
+export PYTHON_MINOR_VERSION=7
 
 function run_and_watch_status {
     # first argument is a task descriptor and is mandatory
@@ -12,21 +20,15 @@ function run_and_watch_status {
     echo "STATUS=$status"
     if [ $status -ne 0 ]; then
         echo "error with $1"
-        exit $status
+        exit
     fi
     return $status    
 
 }
+
 current_directory=$(pwd)
 
-export MAJOR_VERSION=3
-export MINOR_VERSION=7
-export BUILD_VERSION=5
 
-export PYTHON_MINOR_VERSION=7
-
-export VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}
-echo "THIS IS VERSION ${VERSION} "
 
 
 export BUILD_ROOT=
@@ -35,14 +37,15 @@ export DEPENDENCIES_ROOT=
 export INSTALL_PREFIX=~/install_projects/CC3D_3.7.5
 export RR_SOURCE_ROOT=~/RR_OSX
 #mac variables
-# export GCC_DIR=/usr/local/Cellar/gcc48/4.8.1/
-export GCC_DIR=/usr/local/Cellar/gcc46/4.6.4/
-export VTK_BIN_AND_BUILD_DIR=/Users/Shared/installs/vtk-5.10
-export MAC_DEPS=/Users/Shared/Deps                 
-export OUTPUT_BINARY_NAME=CC3D_${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}_MacOSX_10.6
+export GCC_DIR=/usr/local/Cellar/gcc48/4.8.2/
+export VTK_BIN_AND_BUILD_DIR=/Users/Shared/vtk-5.10.1
+export MAC_DEPS=/Users/Shared/CC3Ddev/Dependencies/
+# export OUTPUT_BINARY_NAME=CC3D_3.7.4_MacOSX_10.8
 
+export OUTPUT_BINARY_NAME=CC3D_${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}_MacOSX_10.9
 
-export RR_INSTALL_PATH=/Users/Shared/RR_LLVM_install_1.0.1
+# export RR_INSTALL_PATH=/Users/Shared/RR_LLVM_install
+export RR_INSTALL_PATH=/Users/Shared/roadrunner-1.4.2
 
 export BUILD_CC3D=NO
 export BUILD_BIONET=NO
@@ -52,7 +55,6 @@ export BUILD_RR=NO
 export BUILD_RR_DEPEND=NO
 export BUILD_ALL=YES
 export MAKE_MULTICORE=1
-
 
 
 
@@ -169,13 +171,6 @@ eval SOURCE_ROOT=$SOURCE_ROOT
 eval DEPENDENCIES_ROOT=$DEPENDENCIES_ROOT
 
 
-eval GCC_DIR=${GCC_DIR}
-eval VTK_BIN_AND_BUILD_DIR=${VTK_BIN_AND_BUILD_DIR}
-eval MAC_DEPS=${MAC_DEPS}                 
-
-
-
-
 BUILD_ROOT=${INSTALL_PREFIX}_build
 DEPENDENCIES_ROOT=${INSTALL_PREFIX}_depend
 
@@ -191,6 +186,7 @@ MAKE_MULTICORE_OPTION=-j$MAKE_MULTICORE
 echo OPTION=$MAKE_MULTICORE_OPTION
 
 
+
 mkdir -p $BUILD_ROOT
 mkdir -p $DEPENDENCIES_ROOT
 
@@ -200,17 +196,19 @@ git fetch
 git checkout $VERSION
 git pull
 
+
+
+# removing old verion
+rm $SOURCE_ROOT/CompuCell3D/core/pythonSetupScripts/Version.py
+
 if [ "$BUILD_CC3D" == YES ]
 then
   ############# BUILDING CC3D
   mkdir -p $BUILD_ROOT/CompuCell3D
   cd $BUILD_ROOT/CompuCell3D
 
-
- 
-
-  run_and_watch_status COMPUCELL3D_CMAKE_CONFIG cmake -G "Unix Makefiles" -DPYTHON_MINOR_VERSION:STRING=${PYTHON_MINOR_VERSION} -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_PREFIX -DCOMPUCELL3D_A_MAJOR_VERSION:STRING=$MAJOR_VERSION -DCOMPUCELL3D_B_MINOR_VERSION:STRING=$MINOR_VERSION -DCOMPUCELL3D_C_BUILD_VERSION:STRING=$BUILD_VERSION -DNO_OPENCL:BOOL=ON -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.6 -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2.${PYTHON_MINOR_VERSION} -DPYTHON_INCLUDE_DIR:PATH=/System/Library/Frameworks/Python.framework/Versions/2.${PYTHON_MINOR_VERSION}/Headers -DPYTHON_LIBRARY:FILEPATH=/usr/lib/libpython2.${PYTHON_MINOR_VERSION}.dylib -DEIGEN3_INCLUDE_DIR=${SOURCE_ROOT}/CompuCell3D/core/Eigen -DCMAKE_C_COMPILER:FILEPATH=${GCC_DIR}/bin/gcc -DCMAKE_CXX_COMPILER:FILEPATH=${GCC_DIR}/bin/g++ PATH=$INSTALL_PREFIX  -DVTK_DIR:PATH=${VTK_BIN_AND_BUILD_DIR}/lib/vtk-5.10 -DCMAKE_CXX_FLAGS:STRING="-mmacosx-version-min=10.6 -O3 -g " -DCMAKE_C_FLAGS:STRING="-mmacosx-version-min=10.6 -O3 -g " $SOURCE_ROOT/CompuCell3D
-  run_and_watch_status COMPUCELL3D_COMPILE_AND_INSTALL make $MAKE_MULTICORE_OPTION  VERBOSE=1 && make install
+  run_and_watch_status COMPUCELL3D_CMAKE_CONFIG cmake -G "Unix Makefiles" -DPYTHON_MINOR_VERSION:STRING=${PYTHON_MINOR_VERSION} -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_PREFIX -DCOMPUCELL3D_A_MAJOR_VERSION:STRING=$MAJOR_VERSION -DCOMPUCELL3D_B_MINOR_VERSION:STRING=$MINOR_VERSION -DCOMPUCELL3D_C_BUILD_VERSION:STRING=${BUILD_VERSION} -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.9 -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2.${PYTHON_MINOR_VERSION} -DPYTHON_INCLUDE_DIR:PATH=/System/Library/Frameworks/Python.framework/Versions/2.${PYTHON_MINOR_VERSION}/Headers -DEIGEN3_INCLUDE_DIR=${SOURCE_ROOT}/CompuCell3D/core/Eigen -DPYTHON_LIBRARY:FILEPATH=/usr/lib/libpython2.${PYTHON_MINOR_VERSION}.dylib -DCMAKE_C_COMPILER:FILEPATH=${GCC_DIR}/bin/gcc -DCMAKE_CXX_COMPILER:FILEPATH=${GCC_DIR}/bin/g++ PATH=$INSTALL_PREFIX  -DVTK_DIR:PATH=${VTK_BIN_AND_BUILD_DIR}/lib/vtk-5.10 -DCMAKE_CXX_FLAGS="-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64" -DCMAKE_C_FLAGS="-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64" $SOURCE_ROOT/CompuCell3D
+  run_and_watch_status COMPUCELL3D_COMPILE_AND_INSTALL make $MAKE_MULTICORE_OPTION  && make install
   
   ############# END OF BUILDING CC3D
 fi
@@ -220,20 +218,15 @@ fi
 
 cp -a ${MAC_DEPS}/* ${INSTALL_PREFIX}
 
-
-################## END OF INSTALLING DEPENDENCIES
-
+################### END OF INSTALLING DEPENDENCIES
 
 
 if [ "$BUILD_BIONET_DEPEND" == YES ]
 then
   ############# BUILDING SBML AND SUNDIALS BIONET DEPENDENCIES
-
-  # bionet solver deps are built using standard OSX gcc compilers
-  export CXXFLAGS="-fPIC -arch x86_64 -arch i386"
-  export CFLAGS="-fPIC -arch x86_64 -arch i386"
-  export LDFLAGS="-arch x86_64 -arch i386" 
-
+  export CXXFLAGS="-fPIC -arch x86_64"
+  export CFLAGS="-fPIC -arch x86_64"
+  export LDFLAGS="-arch x86_64" 
 
   SBML_BUILD_DIR=$BUILD_ROOT/libsbml-3.4.1
   SBML_INSTALL_DIR=$DEPENDENCIES_ROOT/libsbml-3.4.1
@@ -273,11 +266,8 @@ then
   CXXFLAGS=
   CFLAGS= 
   LDFLAGS=
-
   ############# END OF BUILDING SBML AND SUNDIALS BIONET DEPENDENCIES
 fi
-
-
 
 if [ "$BUILD_BIONET_DEPEND" == YES ]
 then
@@ -289,7 +279,7 @@ then
   cd $BUILD_ROOT/BionetSolver
 
 
-  run_and_watch_status BIONET_CMAKE_CONFIG cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_PREFIX -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.6 -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2.${PYTHON_MINOR_VERSION} -DPYTHON_INCLUDE_DIR:PATH=/System/Library/Frameworks/Python.framework/Versions/2.${PYTHON_MINOR_VERSION}/Headers -DPYTHON_LIBRARY:FILEPATH=/usr/lib/libpython2.${PYTHON_MINOR_VERSION}.dylib -DCMAKE_C_COMPILER:FILEPATH=${GCC_DIR}/bin/gcc -DCMAKE_CXX_COMPILER:FILEPATH=${GCC_DIR}/bin/g++ PATH=$INSTALL_PREFIX   -DCMAKE_CXX_FLAGS="-mmacosx-version-min=10.6 -O3 -g" -DCMAKE_C_FLAGS="-mmacosx-version-min=10.6 -O3 -g" -DLIBSBML_INSTALL_DIR:PATH=$DEPENDENCIES_ROOT/libsbml-3.4.1 -DSUNDIALS_INSTALL_DIR:PATH=$DEPENDENCIES_ROOT/sundials-2.3.0 DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_PREFIX $BIONET_SOURCE
+  run_and_watch_status BIONET_CMAKE_CONFIG cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_PREFIX -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.6 -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2.${PYTHON_MINOR_VERSION} -DPYTHON_INCLUDE_DIR:PATH=/System/Library/Frameworks/Python.framework/Versions/2.${PYTHON_MINOR_VERSION}/Headers -DEIGEN3_INCLUDE_DIR=${SOURCE_ROOT}/CompuCell3D/core/Eigen -DPYTHON_LIBRARY:FILEPATH=/usr/lib/libpython2.${PYTHON_MINOR_VERSION}.dylib -DCMAKE_C_COMPILER:FILEPATH=${GCC_DIR}/bin/gcc -DCMAKE_CXX_COMPILER:FILEPATH=${GCC_DIR}/bin/g++ PATH=$INSTALL_PREFIX  -DVTK_DIR:PATH=${VTK_BIN_AND_BUILD_DIR}/lib/vtk-5.8 -DCMAKE_CXX_FLAGS="-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64" -DCMAKE_C_FLAGS="-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64" -DLIBSBML_INSTALL_DIR:PATH=$DEPENDENCIES_ROOT/libsbml-3.4.1 -DSUNDIALS_INSTALL_DIR:PATH=$DEPENDENCIES_ROOT/sundials-2.3.0 DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_PREFIX $BIONET_SOURCE
   # -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_PREFIX -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.6 -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2.6 -DPYTHON_INCLUDE_DIR:PATH=/System/Library/Frameworks/Python.framework/Versions/2.6/Headers -DEIGEN3_INCLUDE_DIR=${SOURCE_ROOT}/CompuCell3D/core/Eigen -DPYTHON_LIBRARY:FILEPATH=/usr/lib/libpython2.6.dylib -DCMAKE_C_COMPILER:FILEPATH=${GCC_DIR}/bin/gcc -DCMAKE_CXX_COMPILER:FILEPATH=${GCC_DIR}/bin/g++ PATH=$INSTALL_PREFIX  -DVTK_DIR:PATH=${VTK_BIN_AND_BUILD_DIR}/lib/vtk-5.8 -DCMAKE_CXX_FLAGS="-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64" -DCMAKE_C_FLAGS="-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64"
   run_and_watch_status BIONET_COMPILE_AND_INSTALL make $MAKE_MULTICORE_OPTION && make install
 
@@ -311,8 +301,6 @@ then
 fi
 
 
-
-
 if [ "$BUILD_RR" == YES ]
 then
   ############# COPYING PREBUILT RR_LLVM 
@@ -321,8 +309,8 @@ then
   ############# COPYING PREBUILT RR_LLVM 
 fi
 
-################### BUILDING ZIP-BASED INSTALLER
 
+################### BUILDING ZIP-BASED INSTALLER
 
 
 cd $INSTALL_PREFIX
@@ -339,6 +327,12 @@ rm -f ${CC3D_ARCHIVE}
 run_and_watch_status ZIPPING_BINARY ditto -c -k --keepParent -rsrcFork $INSTALL_PREFIX ${CC3D_ARCHIVE}
 
 ################### END OF BUILDING ZIP-BASED INSTALLER
+
+# at the end of the build we switch to master
+cd $SOURCE_ROOT
+git checkout master
+cd ${current_directory}
+
 
 
 
