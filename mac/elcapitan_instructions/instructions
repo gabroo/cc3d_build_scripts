@@ -1,0 +1,71 @@
+Install brew on el capitan
+
+To install qt type :
+
+brew install qt 
+
+to install pyqt type:
+
+brew install pyqt
+
+for vtk type
+
+brew install vtk
+
+Interestingly even though vtk will be compiled with default apple-provided compiler it will link to cc3d compiled with gcc-5.3
+
+You may try various compilers provided by brew but it turned out they all had old openMP bug so instead go to 
+
+http://hpc.sourceforge.net and get modern gcc
+
+To install gcc simply unpack gcc-5.3 to folder of your choice and then when using cmake make sure to point cmake to use this compiler instead of the default one. In cmae gui 
+you have an option to specify compilers
+
+
+
+
+copy dependencied into /Users/m/Deps
+
+copy rpathModifier scripts into /Users/m/Deps
+
+run rpathModifier scripts using python interpreter
+
+e.g. 
+
+python rpathPodifierPyQt4.py
+
+it will create rpathizerPyQt4.sh shell sceipt
+
+change permissions for this script to xecutable nd execute the script
+
+depending on the librry you may need to execute this script as sudo (especially if you see errors after non-sudo run)
+
+sudo ./rpathizerPyQt4.sh
+
+At this point you will have PyQt libraries converted to use @rpath
+
+You will need to do so for Qt libraries and any other libraries that you will be copying to the Deps folder and distributing with your application
+
+Note that if you run cc3d (or any other software) and get complained that a library cannot be found see which library is giving this error 
+
+and run
+
+otoool -L library_with_missing_link_error
+
+
+Python executable 
+
+cp /System/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python ./cc3d_python
+
+--------------- OLD
+create python virtual environment by typing
+
+virtualenv my_python
+
+this will create virtual environment
+
+copy python frmo my_python/bin/python to Deps folder and rename it to cc3d_python
+----------------- END OF OLD
+
+
+
