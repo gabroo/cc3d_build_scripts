@@ -1,4 +1,4 @@
-# example command ./build-mountainlion-cc3d-375.sh -s=~/CC3D_GIT -p=~/install_projects/CC3D_3.7.5_new -r=~/RR_OSX -d=/Users/Shared/CC3Ddev/Dependencies -b=CC3D_3.7.5_MacOSX_10.8 -c=16
+# example command ./build-mountainlion-cc3d-375.sh -s=~/CC3D_GIT -p=~/install_projects/CC3D_3.7.5 -r=~/RR_OSX -d=/Users/Shared/CC3Ddev/Dependencies -b=CC3D_3.7.5_MacOSX_10.8 -c=16
 #command line parsing
 
 export MAJOR_VERSION=3
@@ -46,7 +46,8 @@ export MAC_DEPS=/Users/Shared/CC3Ddev/Dependencies/
 export OUTPUT_BINARY_NAME=CC3D_${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}_MacOSX_10.8
 
 # export RR_INSTALL_PATH=/Users/Shared/RR_LLVM_install_1.0.1
-export RR_INSTALL_PATH=/Users/Shared/Deps_cc3d/rr-llvm-3.3
+#export RR_INSTALL_PATH=/Users/Shared/Deps_cc3d/rr-llvm-3.3
+export RR_INSTALL_PATH=/Users/Shared/Deps_cc3d/rr-llvm-3.5.2-1.5
 
 export BUILD_CC3D=NO
 export BUILD_BIONET=NO
