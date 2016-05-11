@@ -39,15 +39,14 @@ export INSTALL_PREFIX=~/install_projects/CC3D_3.7.5
 export RR_SOURCE_ROOT=~/RR_OSX
 #mac variables
 export GCC_DIR=/Users/Shared/CC3Ddev/gcc_4.7.1
-export VTK_BIN_AND_BUILD_DIR=/Users/Shared/CC3Ddev/VTK-6.3.0-install
+export VTK_BIN_AND_BUILD_DIR=/Users/Shared/CC3Ddev/VTK_5.8.0_bin_and_build
 export MAC_DEPS=/Users/Shared/CC3Ddev/Dependencies/
 # export OUTPUT_BINARY_NAME=CC3D_3.7.3_MacOSX_10.8
 
 export OUTPUT_BINARY_NAME=CC3D_${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD_VERSION}_MacOSX_10.8
 
 # export RR_INSTALL_PATH=/Users/Shared/RR_LLVM_install_1.0.1
-#export RR_INSTALL_PATH=/Users/Shared/Deps_cc3d/rr-llvm-3.3
-export RR_INSTALL_PATH=/Users/Shared/Deps_cc3d/rr-llvm-3.5.2-1.5
+export RR_INSTALL_PATH=/Users/Shared/Deps_cc3d/rr-llvm-3.3
 
 export BUILD_CC3D=NO
 export BUILD_BIONET=NO
@@ -205,7 +204,7 @@ then
   mkdir -p $BUILD_ROOT/CompuCell3D
   cd $BUILD_ROOT/CompuCell3D
 
-  run_and_watch_status COMPUCELL3D_CMAKE_CONFIG cmake -G "Unix Makefiles" -DPYTHON_MINOR_VERSION:STRING=${PYTHON_MINOR_VERSION} -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_PREFIX -DCOMPUCELL3D_A_MAJOR_VERSION:STRING=$MAJOR_VERSION -DCOMPUCELL3D_B_MINOR_VERSION:STRING=$MINOR_VERSION -DCOMPUCELL3D_C_BUILD_VERSION:STRING=$BUILD_VERSION -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.6 -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2.${PYTHON_MINOR_VERSION} -DPYTHON_INCLUDE_DIR:PATH=/System/Library/Frameworks/Python.framework/Versions/2.${PYTHON_MINOR_VERSION}/Headers -DEIGEN3_INCLUDE_DIR=${SOURCE_ROOT}/CompuCell3D/core/Eigen -DPYTHON_LIBRARY:FILEPATH=/usr/lib/libpython2.${PYTHON_MINOR_VERSION}.dylib -DCMAKE_C_COMPILER:FILEPATH=${GCC_DIR}/bin/gcc -DCMAKE_CXX_COMPILER:FILEPATH=${GCC_DIR}/bin/g++ PATH=$INSTALL_PREFIX  -DVTK_DIR:PATH=${VTK_BIN_AND_BUILD_DIR}/lib/cmake/vtk-6.3 -DCMAKE_CXX_FLAGS="-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64" -DCMAKE_C_FLAGS="-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64" $SOURCE_ROOT/CompuCell3D
+  run_and_watch_status COMPUCELL3D_CMAKE_CONFIG cmake -G "Unix Makefiles" -DPYTHON_MINOR_VERSION:STRING=${PYTHON_MINOR_VERSION} -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_PREFIX -DCOMPUCELL3D_A_MAJOR_VERSION:STRING=$MAJOR_VERSION -DCOMPUCELL3D_B_MINOR_VERSION:STRING=$MINOR_VERSION -DCOMPUCELL3D_C_BUILD_VERSION:STRING=$BUILD_VERSION -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.6 -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2.${PYTHON_MINOR_VERSION} -DPYTHON_INCLUDE_DIR:PATH=/System/Library/Frameworks/Python.framework/Versions/2.${PYTHON_MINOR_VERSION}/Headers -DEIGEN3_INCLUDE_DIR=${SOURCE_ROOT}/CompuCell3D/core/Eigen -DPYTHON_LIBRARY:FILEPATH=/usr/lib/libpython2.${PYTHON_MINOR_VERSION}.dylib -DCMAKE_C_COMPILER:FILEPATH=${GCC_DIR}/bin/gcc -DCMAKE_CXX_COMPILER:FILEPATH=${GCC_DIR}/bin/g++ PATH=$INSTALL_PREFIX  -DVTK_DIR:PATH=${VTK_BIN_AND_BUILD_DIR}/lib/vtk-5.8 -DCMAKE_CXX_FLAGS="-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64" -DCMAKE_C_FLAGS="-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64" $SOURCE_ROOT/CompuCell3D
   run_and_watch_status COMPUCELL3D_COMPILE_AND_INSTALL make $MAKE_MULTICORE_OPTION  && make install
   
   ############# END OF BUILDING CC3D
@@ -298,14 +297,14 @@ then
   ############# END OF  CELLDRAW 
 fi
 
-# roadrunner is bundled with dependencies now
-# if [ "$BUILD_RR" == YES ]
-# then
-#   ############# COPYING PREBUILT RR_LLVM
-#   run_and_watch_status COPY_ROAD_RUNNER cp -r ${RR_INSTALL_PATH}/site-packages/roadrunner ${INSTALL_PREFIX}/lib/python
-#
-#   ############# COPYING PREBUILT RR_LLVM
-# fi
+
+if [ "$BUILD_RR" == YES ]
+then
+  ############# COPYING PREBUILT RR_LLVM 
+  run_and_watch_status COPY_ROAD_RUNNER cp -r ${RR_INSTALL_PATH}/site-packages/roadrunner ${INSTALL_PREFIX}/lib/python  
+
+  ############# COPYING PREBUILT RR_LLVM 
+fi
 
 
 ################### BUILDING ZIP-BASED INSTALLER
