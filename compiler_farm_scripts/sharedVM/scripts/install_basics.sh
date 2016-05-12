@@ -15,7 +15,9 @@
 # prior to enabling shared folders one has to install guest additions on guest system (in guest system Vbox window click  Devices->Install Guest Additions ...). If gues system is linux you must have dkms module installed before attempting to install guest additions
 sudo apt-get install mc build-essential dkms linux-headers-generic
 sudo useradd -G vboxsf m
-sudo apt-get install libvtk5-qt4-dev g++ swig libqwt5-qt4-dev python-qt4 python-qscintilla2 cmake-gui python-qt4-gl python-vtk python-qwt5-qt4 python-dev libxml2-dev build-essential git
+sudo apt-get install libvtk5-qt4-dev g++ swig libqwt5-qt4-dev python-qt4\
+python-qscintilla2 cmake-gui python-qt4-gl python-vtk python-qwt5-qt4 python-dev\
+libbz2-dev libxml2-dev build-essential git
 
 # llvm-3.2-dev
 
