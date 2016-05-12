@@ -15,7 +15,7 @@
 # prior to enabling shared folders one has to install guest additions on guest system (in guest system Vbox window click  Devices->Install Guest Additions ...). If gues system is linux you must have dkms module installed before attempting to install guest additions
 sudo apt-get install mc build-essential dkms linux-headers-generic
 sudo useradd -G vboxsf m
-sudo apt-get install libvtk5-qt4-dev g++ swig libqwt5-qt4-dev python-qt4 python-qscintilla2 cmake-gui python-qt4-gl python-vtk python-qwt5-qt4 python-dev libxml2-dev build-essential git 
+sudo apt-get install libvtk5-qt4-dev g++ swig libqwt5-qt4-dev python-qt4 python-qscintilla2 cmake-gui python-qt4-gl python-vtk python-qwt5-qt4 python-dev libxml2-dev build-essential git
 
 # llvm-3.2-dev
 
@@ -30,13 +30,15 @@ export RR_LLVM_GIT_DIR=~/RR_LLVM_GIT
 
 mkdir $RR_LLVM_GIT_DIR
 cd $RR_LLVM_GIT_DIR
-git clone https://github.com/AndySomogyi/roadrunner.git .
+git clone https://github.com/sys-bio/roadrunner.git .
+# git clone https://github.com/AndySomogyi/roadrunner.git .
 
 export RR_LLVM_THIRDPARTY_GIT_DIR=~/RR_LLVM_THIRDPARTY_GIT
 
 mkdir $RR_LLVM_THIRDPARTY_GIT_DIR
 cd $RR_LLVM_THIRDPARTY_GIT_DIR
-git clone https://github.com/AndySomogyi/roadrunner_thirdparty.git .
+git clone https://github.com/sys-bio/libroadrunner-deps.git .
+# git clone https://github.com/AndySomogyi/roadrunner_thirdparty.git .
 
 
 export CC3D_BUILD_SCRIPTS_GIT_DIR=~/CC3D_BUILD_SCRIPTS_GIT
@@ -67,4 +69,3 @@ mkdir -p ~/.config/autostart
 
 cp ~/scripts/konsole.desktop ~/.config/autostart
 # cp /media/sf_sharedVM/scripts/konsole.desktop ~/.config/autostart
-
