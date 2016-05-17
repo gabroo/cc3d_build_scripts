@@ -2,7 +2,7 @@ Install brew on el capitan
 
 To install qt type :
 
-brew install qt 
+brew install qt
 
 to install pyqt type:
 
@@ -10,15 +10,33 @@ brew install pyqt
 
 for vtk type
 
+-------------------- obsolete kept just to keep track of changes--------------------
 brew install vtk
 
 Interestingly even though vtk will be compiled with default apple-provided compiler it will link to cc3d compiled with gcc-5.3
+-------------------- end of obsolete kept just to keep track of changes--------------------
 
-You may try various compilers provided by brew but it turned out they all had old openMP bug so instead go to 
+IMPORTANT: ACTUALLY IT IS BEST NOT TO install vtk using bre but build it using standard apple compilers. those vtk libs will lnk to
+other libs compiled using gcc-5.3
+
+If you installed vtk fusing brew and want to keep it, you need to rename the following
+/usr/local/Cellar/vtk -> /usr/local/Cellar/vtk-old
+/usr/local/Cellar/jpeg - > /usr/local/Cellar/jpeg-old
+/usr/local/Cellar/libpng - > /usr/local/Cellar/libpng
+/usr/local/Cellar/libtiff - > /usr/local/Cellar/libtiff-old
+
+prior to compiling vtk  so that those libraries are not picked up by the vtk cmake configure script.
+It is best to use defaul OSX provided libraries to make distribution of packages easier
+
+Also those changes need to be in place when compiling CC3D
+
+
+
+You may try various compilers provided by brew but it turned out they all had old openMP bug so instead go to
 
 http://hpc.sourceforge.net and get modern gcc
 
-To install gcc simply unpack gcc-5.3 to folder of your choice and then when using cmake make sure to point cmake to use this compiler instead of the default one. In cmae gui 
+To install gcc simply unpack gcc-5.3 to folder of your choice and then when using cmake make sure to point cmake to use this compiler instead of the default one. In cmae gui
 you have an option to specify compilers
 
 
@@ -30,7 +48,7 @@ copy rpathModifier scripts into /Users/m/Deps
 
 run rpathModifier scripts using python interpreter
 
-e.g. 
+e.g.
 
 python rpathPodifierPyQt4.py
 
@@ -46,14 +64,14 @@ At this point you will have PyQt libraries converted to use @rpath
 
 You will need to do so for Qt libraries and any other libraries that you will be copying to the Deps folder and distributing with your application
 
-Note that if you run cc3d (or any other software) and get complained that a library cannot be found see which library is giving this error 
+Note that if you run cc3d (or any other software) and get complained that a library cannot be found see which library is giving this error
 
 and run
 
 otoool -L library_with_missing_link_error
 
 
-Python executable 
+Python executable
 
 cp /System/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python ./cc3d_python
 
@@ -66,6 +84,3 @@ this will create virtual environment
 
 copy python frmo my_python/bin/python to Deps folder and rename it to cc3d_python
 ----------------- END OF OLD
-
-
-
