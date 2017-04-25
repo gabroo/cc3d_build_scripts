@@ -61,14 +61,20 @@ The output might look as follows::
             qt:         5.6.2-0
             sip:        4.18-py27_0
 
-See https://conda.io/docs/using/pkgs.html for full documentation on conda
+For more information on how to manage conda packages please see https://conda.io/docs/using/pkgs.html.
 
-- compile qscintilla in the cc3d_2017 conda environment
-To compile qscintilla we download qscintilla from riverbank.com website (https://www.riverbankcomputing.com/software/qscintilla/download)
-unpack it and follow 
+- QScintilla2
+Our next task is to compile qscintilla2 in the cc3d_2017 conda environment
+To compile qscintilla we download qscintilla2 from riverbank.com website (https://www.riverbankcomputing.com/software/qscintilla/download)
+unpack it and follow the installation instructions on http://pyqt.sourceforge.net/Docs/QScintilla2/
 
+At this point we are done with conda packages + QScintilla and the only thin left is installaiton of VTK. the installation of VTK is pretty straightforward - we are building VTK version 6.3.0 (http://www.vtk.org/download/) and the only thing we need to make sure is that Python executable, library and header files ( we specify those in CMake configuration dialog) come from the same python distribution i.e. our conda's cc3d_2017 environment. It is very common for CMake to mix and match header filesm python library and executable from different distribution and if you do not get it right you may get some cryptic errors. At this point I assume that  VTK was succesfully installed into */Users/m/VTK-6.3.0-install* directory
+
+Now we are ready to to build CC3D fro source using our newly installed python in the form of conda's cc3d_2017 python environment. The installation of CC3D. While we will not present full instructions to compile CC3D using CMake the instructions can be found on http://www.compucell3d.org/SrcBin/LinuxCompileRedHat6 - just make sure you skip introductory section pertaining to conda (we covered it here and there are slight, but important, differences in the way  we treat dependent libraries on linux and on OSX). Also you have to be aware that standard Apple compiler does not include properly functioning OpenCL therefore when compiling CC3D on OSX Mavericks we are using gcc 4.8 from homebrew repository. The compiler will have to be set separately in the CMake configuration dialog to make sure you get functiing package at the end of the compilation. 
+
+At this point we would like 
 5) change rpath in the qscintilla's Qsci.so shared library
- a) when you build and install qscintilla in the cc3d_2017 conda environment the Qsci.so library is places in the
+ a) when you build and install qscintilla in the cc3d_2017 conda environment the Qsci.so library it places in the
  <PATH_TO_CONDA_CC3D_2017_ENV>/lib/python2.7/site-packages/PyQt5
 
  when you try running e.g. twedit++ after you move to another machine or simply temporarily rename path to your miniconda dir
