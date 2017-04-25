@@ -9,18 +9,41 @@ is bit verbose but it covers in details various gotchas that might not be so obv
 
 First let's do some preliminary work
 
-1) install miniconda
-2) create conda environment for cc3d :
+- install miniconda (go to https://conda.io/miniconda.html) and download install script for Python 2.7 for OSX. In my case I downloaded the followng script::
 
- conda create -n cc3d_2017 python
+        Miniconda2-latest-MacOSX-x86_64.sh
 
-3) install dependencies using the following conda command:
+go to the directory where you downloaded Miniconda2-latest-MacOSX-x86_64.sh and change the permission to executable by typing::
 
- conda install numpy pyqt
+        chmod +x Miniconda2-latest-MacOSX-x86_64.sh
+
+Run the installer::
+
+        ./Miniconda2-latest-MacOSX-x86_64.sh
+	
+At the end when it asks you whether you want to add path to miniconda to system path , answer "yes" (if you answer "no" - wchih is also OK) you will need to by typing full path to conda's commands such as "activate" etc... ::
+
+        Do you wish the installer to prepend the Miniconda2 install location
+        to PATH in your /Users/m/.bash_profile ? [yes|no]
+        [yes] >>> yes
+
+
+- create conda environment for cc3d::
+
+        conda create -n cc3d_2017 python
+After you create the environment you have to activate it by typing::
+
+        source activate cc3d_2017
+
+- install dependencies using the following conda command::
+
+        conda install numpy pyqt
 
 See https://conda.io/docs/using/pkgs.html for full documentation on conda
 
-4) compile qscintilla in the cc3d_2017 conda environment
+- compile qscintilla in the cc3d_2017 conda environment
+To compile qscintilla we download qscintilla from riverbank.com website (https://www.riverbankcomputing.com/software/qscintilla/download)
+unpack it and follow 
 
 5) change rpath in the qscintilla's Qsci.so shared library
  a) when you build and install qscintilla in the cc3d_2017 conda environment the Qsci.so library is places in the
