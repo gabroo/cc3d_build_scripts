@@ -185,12 +185,30 @@ conda install pyqt
 
 command.
 
-The reason for the error is quite simple (not simple to locate though ;) ) The problem lies in the content qt.conf
-configuration file of Qt. The full path t this file in our CC3D dir is:
+The reason for the error is quite simple (not simple to locate though ;) ) The problem is in the content qt.conf
+configuration file of Qt.
 
-/Users/m/new_install_projects/CC3D/python27/bin/qt.conf
+When we open this file /Users/m/new_install_projects/CC3D/python27/bin/qt.conf (originally it was located in /Users/m/miniconda/envs/cc3d_2017/bin/qt.conf)
+we will see its content to be::
 
-The content is:
+        [Paths]
+        Prefix = /Users/m/miniconda/envs/cc3d_2017
+        Binaries = /Users/m/miniconda/envs/cc3d_2017/bin
+        Libraries = /Users/m/miniconda/envs/cc3d_2017/lib
+        Headers = /Users/m/miniconda/envs/cc3d_2017/include/qt
+
+This is not what we want. Our Python installation has been moved and /Users/m/miniconda/envs/cc3d_2017 might not exist on target machine on which we will be distributing CC3D.
+Clearly *Prefix* points to the folder into python interpreter has been originally installed so all we have to do is to
+replace it with the new installation::
+
+        [Paths]
+        Prefix = /Users/m/new_install_projects/CC3D/python27/
+
+This would work but, again it is another hardcoded path so a better solution is to use relative path::
+
+        [Paths]
+        Prefix = ../
 
 
+You can easily see that one directory up from the location of qt.conf is a directory of the Python installation. Exactly what we want
 
