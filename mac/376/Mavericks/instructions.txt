@@ -104,6 +104,8 @@ second argument specifies the path to the dependent library we want to replace 3
 the dependent library -  this time using @rpath and the 4th argument is the name of the library whose entries we want to
 alter.
 
+Typically one writes appropriate scripts that modify hardcoded paths in the libraries but at least with this installation of conda
+Qsci is the only library requiring such modification therefore we present full procedure along with explanation.
 
 As a side note , if you are interested which libraries are loaded during execution of the program on OSX all you have to do is to set
 
