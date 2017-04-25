@@ -1,5 +1,5 @@
 # example command:
-# c:\miniconda32\python .\win_cc3d_builder_no_gpu_375.py  -p D:/install_projects/3.7.5-nogpu-32bit -s D:/CC3D_GIT  -i D:/CC3D_FILES_SVN/binaries/3.7.5/windows -v 3.7.5.0
+# c:\miniconda32\python .\win_cc3d_builder_gpu_375.py  -p D:/install_projects/3.7.5-gpu-32bit -s D:/CC3D_GIT  -i D:/CC3D_FILES_SVN/binaries/3.7.5/windows -v 3.7.5.0
 
 
 import os,sys
@@ -48,7 +48,8 @@ t1 = time.time()
 
 # this is the path to the NSIS instaler executable
 NSIS_EXE_PATH='C:\Program Files (x86)\NSIS\makensis.exe '
-CMAKE_PATH=os.path.abspath('C:/Program Files (x86)/CMake-3.3.2/bin/cmake.exe')
+# CMAKE_PATH=os.path.abspath('C:/Program Files (x86)/CMake-3.3.2/bin/cmake.exe')
+CMAKE_PATH=os.path.abspath('C:/Program Files (x86)/CMake/bin/cmake.exe')
 
 
 CMAKE_GENERATOR_NAME='NMake Makefiles'
@@ -58,7 +59,7 @@ CMAKE_GENERATOR_NAME='NMake Makefiles'
 # -------------- parsing command line
 from optparse import OptionParser
 parser = OptionParser()
-parser.add_option("-p", "--prefix", dest="prefix",action="store", type="string",default='D:/install_projects/'+version_string+'_no_gpu', help="CC3D installation directory")
+parser.add_option("-p", "--prefix", dest="prefix",action="store", type="string",default='D:/install_projects/'+version_string+'-gpu', help="CC3D installation directory")
 parser.add_option("-s", "--source-root", dest="source_root",action="store", type="string",default='D:/CC3D_GIT', help="CC3D git repository")
 parser.add_option("-c", "--cores", dest="cores",action="store", type="int",default=1,help="Number of compilation threads for make")
 parser.add_option('-i' , '--installer-dir', dest='installer_dir', action='store',type='string',default='',help='Location of the place where to store installer')
@@ -104,8 +105,10 @@ WIN_DEPENDENCIES_ROOT = os.path.abspath('d:/prerequisites/32bit')
 PYTHON_EXECUTABLE = os.path.abspath('C:/Miniconda32/envs/cc3d_2015/python.exe')
 PYTHON_INCLUDE_DIR = os.path.abspath('C:/Miniconda32/envs/cc3d_2015/include')
 PYTHON_LIBRARY = os.path.abspath('C:/Miniconda32/envs/cc3d_2015/libs/python27.lib')
-VTK_DIR = os.path.abspath('D:/CC3D_LIBS/VTK-6.3.0-x86-install/lib/cmake/vtk-6.3') 
-OPENCL_LIBRARIES = os.path.abspath('C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v5.5/lib/Win32/OpenCL.lib') 
+# VTK_DIR = os.path.abspath('D:/CC3D_LIBS/VTK-6.3.0-x86-install/lib/cmake/vtk-6.3')
+VTK_DIR = os.path.abspath('D:/zipy/VTK-6.3.0-x86-install/lib/cmake/vtk-6.3')
+# OPENCL_LIBRARIES = os.path.abspath('C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v5.5/lib/Win32/OpenCL.lib')
+OPENCL_LIBRARIES = os.path.abspath('c:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v8.0/lib/Win32/OpenCL.lib')
 
 # LIBSBML_INSTALL_DIR=os.path.abspath('D:/CC3D_FILES_SVN/dependencies/windows/VS2010/BionetSolver/sbml-xml2') # used by bionet solver on windows
 # SUNDIALS_INSTALL_DIR=os.path.abspath('D:/CC3D_FILES_SVN/dependencies/windows/VS2010/BionetSolver/sundials') # used by bionet solver on windows
@@ -166,11 +169,11 @@ if BUILD_CC3D:
     os. chdir(CC3D_BUILD_PATH)  
     
     
-    subprocess.call([CMAKE_PATH,'-G', CMAKE_GENERATOR_NAME,'-DNO_OPENCL:BOOLEAN=ON','-DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo','-DCMAKE_INSTALL_PREFIX:PATH='+INSTALL_PREFIX,\
+    subprocess.call([CMAKE_PATH,'-G', CMAKE_GENERATOR_NAME,'-DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo','-DCMAKE_INSTALL_PREFIX:PATH='+INSTALL_PREFIX,\
     '-DCOMPUCELL3D_A_MAJOR_VERSION:STRING='+str(MAJOR_VERSION),'-DCOMPUCELL3D_B_MINOR_VERSION:STRING='+str(MINOR_VERSION),\
     '-DCOMPUCELL3D_C_BUILD_VERSION:STRING='+str(BUILD_VERSION),\
     '-DPYTHON_EXECUTABLE='+PYTHON_EXECUTABLE,'-DPYTHON_INCLUDE_DIR='+PYTHON_INCLUDE_DIR,'-DPYTHON_LIBRARY='+PYTHON_LIBRARY,\
-    '-DVTK_DIR='+VTK_DIR,\
+    '-DVTK_DIR='+VTK_DIR,'-DOPENCL_LIBRARIES='+OPENCL_LIBRARIES,\
     '-DWINDOWS_DEPENDENCIES:PATH='+WIN_DEPENDENCIES_ROOT, CC3D_SOURCE_PATH ])
     
     # subprocess.call(['nmake'])
@@ -212,13 +215,7 @@ if  BUILD_CELLDRAW:
 
   ############# END OF  CELLDRAW 
 
-# if BUILD_RR:
 
-    # ############# BUILDING RR - actually in this case we are copying prebuilt binaries
-    # destinationDir=os.path.join(INSTALL_PREFIX,'lib/python/roadrunner')
-    # if os.path.exists(destinationDir):
-        # shutil.rmtree(destinationDir)
-    # shutil.copytree(RR_BINARIES_DIR,destinationDir)
   
 if  BUILD_INSTALLER:    
     #revision number 
@@ -227,7 +224,7 @@ if  BUILD_INSTALLER:
     revisionNumber=str(today.year)+str(today.month).zfill(2)+str(today.day).zfill(2)
     version=options.version
     
-    INSTALLER_NAME=os.path.abspath(os.path.join(INSTALLER_DIR,'CompuCell3D-32bit-nogpu-setup-'+version+'v'+revisionNumber+'.exe'))
+    INSTALLER_NAME=os.path.abspath(os.path.join(INSTALLER_DIR,'CompuCell3D-32bit-gpu-setup-'+version+'v'+revisionNumber+'.exe'))
       
     os.chdir(CURRENT_DIR)    
     subprocess.call(['python',WIN_INSTALLER_CREATOR,'-d',INSTALL_PREFIX,'-v',INSTALLER_VERSION,'-i',INSTALLER_NAME])    

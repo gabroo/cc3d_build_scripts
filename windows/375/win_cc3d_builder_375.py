@@ -1,5 +1,5 @@
 # example command:
-# python .\win_cc3d_builder_375.py  -p D:/install_projects/3.7.5 -s D:/CC3D_GIT  -i D:/CC3D_FILES_SVN/binaries/3.7.5/windows -v 3.7.5.0
+# python .\win_cc3d_builder_gpu_375.py  -p D:/install_projects/3.7.5 -s D:/CC3D_GIT  -i D:/CC3D_FILES_SVN/binaries/3.7.5/windows -v 3.7.5.0
 
 
 import os,sys

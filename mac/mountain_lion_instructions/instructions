@@ -1,0 +1,9 @@
+To compile llvm 3.5 and higher on osx mountain lion you may need to enable 
+LLVM_ENABLE_CXX
+
+if you get an error about missing libstdc++4.7
+
+also since we are using python 2.6 for this osx version you need to switch python version in cmake for llvm
+
+When building RR dependencies and RR make sure to set 
+CMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG -std=c++11 -stdlib=libc++

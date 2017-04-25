@@ -1,4 +1,4 @@
-# example command ./build-debian-cc3d-374.sh -s=~/CC3D_GIT -p=~/install_projects/3.7.4 -c=4
+# example command ./build-debian-cc3d-375.sh -s=~/CC3D_GIT -p=~/install_projects/3.7.5 -c=4
 #command line parsing
 
 function run_and_watch_status {
@@ -23,6 +23,7 @@ export BUILD_ROOT=~/BuildCC3D
 export SOURCE_ROOT=~/CODE_TGIT_NEW
 export DEPENDENCIES_ROOT=~/install_projects
 export INSTALL_PREFIX=~/install_projects/cc3d
+# export RR_INSTALL_PATH=~/install_projects_RR_LLVM/RR_LLVM
 export RR_INSTALL_PATH=~/install_projects_RR_LLVM/RR_LLVM
 
 export BUILD_CC3D=NO
@@ -163,7 +164,7 @@ then
   cd $BUILD_ROOT/CompuCell3D
 
   run_and_watch_status COMPUCELL3D_CMAKE_CONFIG cmake -G "Unix Makefiles"\
-  -DCOMPUCELL3D_A_MAJOR_VERSION:STRING=3 -DCOMPUCELL3D_B_MINOR_VERSION:STRING=7 -DCOMPUCELL3D_C_BUILD_VERSION:STRING=4\
+  -DCOMPUCELL3D_A_MAJOR_VERSION:STRING=3 -DCOMPUCELL3D_B_MINOR_VERSION:STRING=7 -DCOMPUCELL3D_C_BUILD_VERSION:STRING=5\
   -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_PREFIX $SOURCE_ROOT/CompuCell3D
 
   run_and_watch_status COMPUCELL3D_COMPILE_AND_INSTALL make $MAKE_MULTICORE_OPTION && make install
