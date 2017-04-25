@@ -1,0 +1,113 @@
+Dependencies:
+
+1) install miniconda
+2) create conda environment for cc3d :
+
+ conda create -n cc3d_2017 python
+
+3) install dependencies using the following conda command:
+
+ conda install numpy pyqt
+
+See https://conda.io/docs/using/pkgs.html for full documentation on conda
+
+4) compile qscintilla in the cc3d_2017 conda environment
+
+5) change rpath in the qscintilla's Qsci.so shared library
+ a) when you build and install qscintilla in the cc3d_2017 conda environment the Qsci.so library is places in the
+ <PATH_TO_CONDA_CC3D_2017_ENV>/lib/python2.7/site-packages/PyQt5
+
+ when you try running e.g. twedit++ after you move to another machine or simply temporarily rename path to your miniconda dir
+ you will most likely get the following error:
+
+Traceback (most recent call last):
+  File "/Users/m/new_install_projects/CC3D/Twedit++/twedit_plus_plus_cc3d.py", line 28, in <module>
+    from utils.global_imports import *
+  File "/Users/m/new_install_projects/CC3D/Twedit++/utils/global_imports.py", line 5, in <module>
+    from PyQt5.Qsci import *
+ImportError: dlopen(/Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5/Qsci.so, 2):
+Library not loaded: /Users/m/miniconda/envs/pyqt5vtk/lib/libqscintilla2.12.dylib
+  Referenced from: /Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5/Qsci.so
+  Reason: image not found
+
+  The reason is that Qsci.so hard-codes the location of the one of its dependency : libqscintilla2.12.dylib
+
+  How do we know this? Simply by using
+otool -L /Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5/Qsci.so
+
+the output we get is this (of course in your case the directories might be somewhat different but the general them holds)
+
+/Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5/Qsci.so:
+	/Users/m/miniconda/envs/pyqt5vtk/lib/python2.7/site-packages/PyQt5/Qsci.so (compatibility version 0.0.0, current version 0.0.0)
+	/Users/m/miniconda/envs/pyqt5vtk/lib/libqscintilla2.12.dylib (compatibility version 12.0.0, current version 12.0.2)
+	@rpath/libQt5PrintSupport.5.dylib (compatibility version 5.6.0, current version 5.6.2)
+	/System/Library/Frameworks/DiskArbitration.framework/Versions/A/DiskArbitration (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)
+	@rpath/libQt5Widgets.5.dylib (compatibility version 5.6.0, current version 5.6.2)
+	@rpath/libQt5MacExtras.5.dylib (compatibility version 5.6.0, current version 5.6.2)
+	@rpath/libQt5Gui.5.dylib (compatibility version 5.6.0, current version 5.6.2)
+	@rpath/libQt5Core.5.dylib (compatibility version 5.6.0, current version 5.6.2)
+	/System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/Frameworks/AGL.framework/Versions/A/AGL (compatibility version 1.0.0, current version 1.0.0)
+	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 120.0.0)
+	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1213.0.0)
+
+The problem is in the third line of the output:
+
+/Users/m/miniconda/envs/pyqt5vtk/lib/libqscintilla2.12.dylib (compatibility version 12.0.0, current version 12.0.2)
+
+this means that during loading of the library the loader searches for libqscintilla2.12.dylib that it expects to find in
+/Users/m/miniconda/envs/pyqt5vtk/lib/. Since we are aiming to distribute packages to other users we cannot expect that they will have
+/Users/m/miniconda/envs/pyqt5vtk/lib/ on their machines.
+
+the trick is to set run-path (aka @rpath) instead of hardcoded path. @rpath mechanism is designed to tell loader to look for
+ dependent libraries in certain directories specified using relative w.r.t to the main program that we are loading. But
+ what is this main program and how do we determine the path w.r.t which we are supposed to specify path to libqscintilla2.12.dylib.
+
+ The program we are running is actually python interpreter that will be located in the cc3d distribution directory.
+
+ if we go the the python folder that contains "python" program (in my case it will be
+ /Users/m/new_install_projects/CC3D/python27/bin) we can type
+
+ otool -l python and we will get the following output (showing only relevant part here):
+
+ Load command 16
+          cmd LC_RPATH
+      cmdsize 40
+         path @loader_path/../lib/ (offset 12)
+
+This means that when we specify @rpath we will use as a reference point (for relative paths) the path given by
+@loader_path/../lib/. In our case this translates to lib directory located one directory up from the
+/Users/m/new_install_projects/CC3D/python27/bin/python program which happens to be
+
+/Users/m/new_install_projects/CC3D/python27/lib .
+
+Therefore all the paths we use in the @rpath specifications will be w.r.t  /Users/m/new_install_projects/CC3D/python27/lib.
+
+The libqscintilla2.12.dylib is located in the /Users/m/new_install_projects/CC3D/python27/lib therefore all we have to do is
+to change /Users/m/miniconda/envs/pyqt5vtk/lib/libqscintilla2.12.dylib entry in the Qsci.so to @rpath/libqscintilla2.12.dylib
+
+A rule of thumb is to mentally replace @rpath with the path segment that corresponds to the @loader_path/../lib/ of python program
+As we have shown this resolves to /Users/m/new_install_projects/CC3D/python27/lib . Therfore since
+full path to libqscintilla2.12.dylib is
+
+/Users/m/new_install_projects/CC3D/python27/lib/libqscintilla2.12.dylib
+
+we replace /Users/m/new_install_projects/CC3D/python27/lib with @rpath and hence @rpath/libqscintilla2.12.dylib
+
+How do we modify hardcoded library paths? Using install_name_tool utility. Simply lets go to the location of
+Qsci.so (i.e. /Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5) and execute the following command:
+
+install_name_tool -change /Users/m/miniconda/envs/pyqt5vtk/lib/libqscintilla2.12.dylib @rpath/libqscintilla2.12.dylib QSci.so
+
+second argument specifies the path to the dependent library we want to replace 3rd argument specifies new path to
+the dependent library -  this time using @rpath and the 4th argument is the name of the library whose entries we want to
+alter.
+
+
+As a side note , if you are interested which libraries are loaded during execution of the program on OSX all you have to do is to set
+
+DYLD_PRINT_LIBRARIES environment variable to 1 either in the terminal or in the bash script that you are running:
+
+export DYLD_PRINT_LIBRARIES=1
+
