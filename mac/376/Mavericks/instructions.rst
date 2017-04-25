@@ -1,4 +1,13 @@
-Dependencies:
+This document describes basic procedure to prepare distribution of CC3D on OSX Mavericks
+
+We assume that we will be using miniconda python distribution (see https://conda.io/miniconda.html). We will install
+several CC3D python dependencies using conda installer while others (e.g. VTK) will be installed separately.
+The general procedure is that we will first build CC3D from source (which we are not covering in this writeup) and then
+move miniconda's python interpreter to CC3D installation subfolder (python27) for self-contained packaging. It turns out
+that moving Python intepretter on OSX causes some problems and we are explaining here how to resolve those. This writeup
+is bit verbose but it covers in details various gotchas that might not be so obvious.
+
+First let's do some preliminary work
 
 1) install miniconda
 2) create conda environment for cc3d :
@@ -112,4 +121,25 @@ As a side note , if you are interested which libraries are loaded during executi
 DYLD_PRINT_LIBRARIES environment variable to 1 either in the terminal or in the bash script that you are running:
 
 export DYLD_PRINT_LIBRARIES=1
+
+6) Dealing with Qt "This application failed to start because it could not find or load the Qt platform plugin "cocoa" "
+error
+
+The above mentioned error can occur when we move conda installation  with pyqt installed to another directory - in our case
+when we are prepping CC3D installation in /Users/m/new_install_projects/CC3D with python interpreter dir placed in
+/Users/m/new_install_projects/CC3D/python27 we obviously are moving entire qt installion that was put in place by
+conda installer when we issued
+
+conda install pyqt
+
+command.
+
+The reason for the error is quite simple (not simple to locate though ;) ) The problem lies in the content qt.conf
+configuration file of Qt. The full path t this file in our CC3D dir is:
+
+/Users/m/new_install_projects/CC3D/python27/bin/qt.conf
+
+The content is:
+
+
 
