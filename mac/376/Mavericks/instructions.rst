@@ -34,10 +34,32 @@ At the end when it asks you whether you want to add path to miniconda to system 
 After you create the environment you have to activate it by typing::
 
         source activate cc3d_2017
+	
+Now we are ready to install some of the CC3D dependencies. Let's start with numpy. By default numpy comes with MKL library which should make it run faster compared to the defaul numpy install but in reality we CC3D does not really take advantake of numpy that much Therefore we will settkle for the non-MKL version of numpy and this will make save us about 500 MB of binaries - quite importantwhen distribution package over the internet. Here is how we do it::
 
-- install dependencies using the following conda command::
+        conda install nomkl numpy
 
-        conda install numpy pyqt
+Next, we install pyqt and jinja2 and pyqtgraph dependencies using the following command::
+
+        conda install pyqt jinja2 pyqtgraph
+
+The output might look as follows::
+
+        conda install pyqt jinja2 pyqtgraph
+        Fetching package metadata .........
+        Solving package specifications: .
+
+        Package plan for installation in environment /Users/m/miniconda2/envs/cc3d_2017:
+
+        The following NEW packages will be INSTALLED:
+
+            icu:        54.1-0
+            jinja2:     2.9.6-py27_0
+            markupsafe: 0.23-py27_2
+            pyqt:       5.6.0-py27_2
+            pyqtgraph:  0.10.0-py27_0
+            qt:         5.6.2-0
+            sip:        4.18-py27_0
 
 See https://conda.io/docs/using/pkgs.html for full documentation on conda
 
