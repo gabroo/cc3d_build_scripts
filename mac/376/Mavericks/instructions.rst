@@ -70,98 +70,101 @@ unpack it and follow the installation instructions on http://pyqt.sourceforge.ne
 
 At this point we are done with conda packages + QScintilla and the only thin left is installaiton of VTK. the installation of VTK is pretty straightforward - we are building VTK version 6.3.0 (http://www.vtk.org/download/) and the only thing we need to make sure is that Python executable, library and header files ( we specify those in CMake configuration dialog) come from the same python distribution i.e. our conda's cc3d_2017 environment. It is very common for CMake to mix and match header filesm python library and executable from different distribution and if you do not get it right you may get some cryptic errors. At this point I assume that  VTK was succesfully installed into */Users/m/VTK-6.3.0-install* directory
 
-Now we are ready to to build CC3D fro source using our newly installed python in the form of conda's cc3d_2017 python environment. The installation of CC3D. While we will not present full instructions to compile CC3D using CMake the instructions can be found on http://www.compucell3d.org/SrcBin/LinuxCompileRedHat6 - just make sure you skip introductory section pertaining to conda (we covered it here and there are slight, but important, differences in the way  we treat dependent libraries on linux and on OSX). Also you have to be aware that standard Apple compiler does not include properly functioning OpenCL therefore when compiling CC3D on OSX Mavericks we are using gcc 4.8 from homebrew repository. The compiler will have to be set separately in the CMake configuration dialog to make sure you get functiing package at the end of the compilation. 
+Now we are ready to to build CC3D fro source using our newly installed python in the form of conda's cc3d_2017 python environment. 
+The installation of CC3D. While we will not present full instructions to compile CC3D using CMake the instructions can be found on http://www.compucell3d.org/SrcBin/LinuxCompileRedHat6 - just make sure you skip introductory section pertaining to conda (we covered it here and there are slight, but important, differences in the way  we treat dependent libraries on linux and on OSX). Also you have to be aware that standard Apple compiler does not include properly functioning OpenCL therefore when compiling CC3D on OSX Mavericks we are using gcc 4.8 from homebrew repository. The compiler will have to be set separately in the CMake configuration dialog to make sure you get functiing package at the end of the compilation. 
 
-At this point we would like 
-5) change rpath in the qscintilla's Qsci.so shared library
+Once we've built CC3D we have to make sure it can run from any directory on any machine. With current versions of libraries
+Qsci.so library (part of qscintilla2) can give us problems associated with hardcoded paths to its dependencies. Here's how we fix it:
+
+ 
+- Changing rpath in the qscintilla's Qsci.so shared library
+
  a) when you build and install qscintilla in the cc3d_2017 conda environment the Qsci.so library it places in the
- <PATH_TO_CONDA_CC3D_2017_ENV>/lib/python2.7/site-packages/PyQt5
+*<PATH_TO_CONDA_CC3D_2017_ENV>/lib/python2.7/site-packages/PyQt5*
 
- when you try running e.g. twedit++ after you move to another machine or simply temporarily rename path to your miniconda dir
- you will most likely get the following error:
+ when you try running e.g. Twedit++ after you move cc3d installation directory to another machine or e.g. temporarily rename path to your miniconda directory
+ you will most likely get the following error::
 
-Traceback (most recent call last):
-  File "/Users/m/new_install_projects/CC3D/Twedit++/twedit_plus_plus_cc3d.py", line 28, in <module>
-    from utils.global_imports import *
-  File "/Users/m/new_install_projects/CC3D/Twedit++/utils/global_imports.py", line 5, in <module>
-    from PyQt5.Qsci import *
-ImportError: dlopen(/Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5/Qsci.so, 2):
-Library not loaded: /Users/m/miniconda/envs/pyqt5vtk/lib/libqscintilla2.12.dylib
-  Referenced from: /Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5/Qsci.so
-  Reason: image not found
+        Traceback (most recent call last):
+          File "/Users/m/new_install_projects/CC3D/Twedit++/twedit_plus_plus_cc3d.py", line 28, in <module>
+            from utils.global_imports import *
+          File "/Users/m/new_install_projects/CC3D/Twedit++/utils/global_imports.py", line 5, in <module>
+            from PyQt5.Qsci import *
+        ImportError: dlopen(/Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5/Qsci.so, 2):
+        Library not loaded: /Users/m/miniconda/envs/cc3d_2017/lib/libqscintilla2.12.dylib
+          Referenced from: /Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5/Qsci.so
+          Reason: image not found
 
-  The reason is that Qsci.so hard-codes the location of the one of its dependency : libqscintilla2.12.dylib
 
-  How do we know this? Simply by using
-otool -L /Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5/Qsci.so
+  The reason is that *Qsci.so* hard-codes the location of the one of its dependency : *libqscintilla2.12.dylib*
 
-the output we get is this (of course in your case the directories might be somewhat different but the general them holds)
+How do we know this? OSX's *otool* command is of help here::
 
-/Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5/Qsci.so:
-	/Users/m/miniconda/envs/pyqt5vtk/lib/python2.7/site-packages/PyQt5/Qsci.so (compatibility version 0.0.0, current version 0.0.0)
-	/Users/m/miniconda/envs/pyqt5vtk/lib/libqscintilla2.12.dylib (compatibility version 12.0.0, current version 12.0.2)
-	@rpath/libQt5PrintSupport.5.dylib (compatibility version 5.6.0, current version 5.6.2)
-	/System/Library/Frameworks/DiskArbitration.framework/Versions/A/DiskArbitration (compatibility version 1.0.0, current version 1.0.0)
-	/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)
-	@rpath/libQt5Widgets.5.dylib (compatibility version 5.6.0, current version 5.6.2)
-	@rpath/libQt5MacExtras.5.dylib (compatibility version 5.6.0, current version 5.6.2)
-	@rpath/libQt5Gui.5.dylib (compatibility version 5.6.0, current version 5.6.2)
-	@rpath/libQt5Core.5.dylib (compatibility version 5.6.0, current version 5.6.2)
-	/System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL (compatibility version 1.0.0, current version 1.0.0)
-	/System/Library/Frameworks/AGL.framework/Versions/A/AGL (compatibility version 1.0.0, current version 1.0.0)
-	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 120.0.0)
-	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1213.0.0)
+        otool -L /Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5/Qsci.so
 
-The problem is in the third line of the output:
+the output we get is this (of course in your case the directories might be somewhat different but the general scheme holds)::
 
-/Users/m/miniconda/envs/pyqt5vtk/lib/libqscintilla2.12.dylib (compatibility version 12.0.0, current version 12.0.2)
+        /Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5/Qsci.so:
+            /Users/m/miniconda/envs/cc3d_2017/lib/python2.7/site-packages/PyQt5/Qsci.so (compatibility version 0.0.0, current version 0.0.0)
+            /Users/m/miniconda/envs/cc3d_2017/lib/libqscintilla2.12.dylib (compatibility version 12.0.0, current version 12.0.2)
+            @rpath/libQt5PrintSupport.5.dylib (compatibility version 5.6.0, current version 5.6.2)
+            /System/Library/Frameworks/DiskArbitration.framework/Versions/A/DiskArbitration (compatibility version 1.0.0, current version 1.0.0)
+            /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)
+            @rpath/libQt5Widgets.5.dylib (compatibility version 5.6.0, current version 5.6.2)
+            @rpath/libQt5MacExtras.5.dylib (compatibility version 5.6.0, current version 5.6.2)
+            @rpath/libQt5Gui.5.dylib (compatibility version 5.6.0, current version 5.6.2)
+            @rpath/libQt5Core.5.dylib (compatibility version 5.6.0, current version 5.6.2)
+            /System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL (compatibility version 1.0.0, current version 1.0.0)
+            /System/Library/Frameworks/AGL.framework/Versions/A/AGL (compatibility version 1.0.0, current version 1.0.0)
+            /usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 120.0.0)
+            /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1213.0.0)
 
-this means that during loading of the library the loader searches for libqscintilla2.12.dylib that it expects to find in
-/Users/m/miniconda/envs/pyqt5vtk/lib/. Since we are aiming to distribute packages to other users we cannot expect that they will have
-/Users/m/miniconda/envs/pyqt5vtk/lib/ on their machines.
+The problem is in the third line of the output::
 
-the trick is to set run-path (aka @rpath) instead of hardcoded path. @rpath mechanism is designed to tell loader to look for
- dependent libraries in certain directories specified using relative w.r.t to the main program that we are loading. But
- what is this main program and how do we determine the path w.r.t which we are supposed to specify path to libqscintilla2.12.dylib.
+        /Users/m/miniconda/envs/cc3d_2017/lib/libqscintilla2.12.dylib (compatibility version 12.0.0, current version 12.0.2)
+
+this means that during loading of the library the loader searches for *libqscintilla2.12.dylib* that it expects to find in
+*/Users/m/miniconda/envs/cc3d_2017/lib/*. Since we are aiming to distribute packages to other users we cannot expect that they will have
+*/Users/m/miniconda/envs/cc3d_2017/lib/* on their machines.
+
+The trick is to set run-path (aka @rpath) instead of hardcoded path. @rpath mechanism is designed to tell loader to look for
+dependent libraries in certain directories specified using relative w.r.t to the main program that we are loading. But
+what is this main program and how do we determine the path w.r.t which we are supposed to specify path to *libqscintilla2.12.dylib.*
 
  The program we are running is actually python interpreter that will be located in the cc3d distribution directory.
 
- if we go the the python folder that contains "python" program (in my case it will be
- /Users/m/new_install_projects/CC3D/python27/bin) we can type
+ if we go the the python folder that contains **python** program (in my case it will be
+ */Users/m/new_install_projects/CC3D/python27/bin*) we can type::
+        
+        otool -l python and we will get the following output (showing only relevant part here):
+        
+        Load command 16
+              cmd LC_RPATH
+          cmdsize 40
+             path @loader_path/../lib/ (offset 12)
+        
+This means that when we specify *@rpath* we will use as a reference point (for relative paths) the path given by
+*@loader_path/../lib/*. In our case this translates to lib directory located one directory up from the
+*/Users/m/new_install_projects/CC3D/python27/bin/python* program which happens to be */Users/m/new_install_projects/CC3D/python27/lib* .
 
- otool -l python and we will get the following output (showing only relevant part here):
+Therefore all the paths we use in the *@rpath* specifications will be w.r.t */Users/m/new_install_projects/CC3D/python27/lib*.
 
- Load command 16
-          cmd LC_RPATH
-      cmdsize 40
-         path @loader_path/../lib/ (offset 12)
+The *libqscintilla2.12.dylib* is located in the */Users/m/new_install_projects/CC3D/python27/lib* therefore all we have to do is
+to change */Users/m/miniconda/envs/cc3d_2017/lib/libqscintilla2.12.dylib* entry in the *Qsci.so* to *@rpath/libqscintilla2.12.dylib*
 
-This means that when we specify @rpath we will use as a reference point (for relative paths) the path given by
-@loader_path/../lib/. In our case this translates to lib directory located one directory up from the
-/Users/m/new_install_projects/CC3D/python27/bin/python program which happens to be
+A rule of thumb is to mentally replace @rpath with the path segment that corresponds to the *@loader_path/../lib/* of python program
+As we have shown this resolves to */Users/m/new_install_projects/CC3D/python27/lib*. Therfore since
+full path to *libqscintilla2.12.dylib* is */Users/m/new_install_projects/CC3D/python27/lib/libqscintilla2.12.dylib*
 
-/Users/m/new_install_projects/CC3D/python27/lib .
-
-Therefore all the paths we use in the @rpath specifications will be w.r.t  /Users/m/new_install_projects/CC3D/python27/lib.
-
-The libqscintilla2.12.dylib is located in the /Users/m/new_install_projects/CC3D/python27/lib therefore all we have to do is
-to change /Users/m/miniconda/envs/pyqt5vtk/lib/libqscintilla2.12.dylib entry in the Qsci.so to @rpath/libqscintilla2.12.dylib
-
-A rule of thumb is to mentally replace @rpath with the path segment that corresponds to the @loader_path/../lib/ of python program
-As we have shown this resolves to /Users/m/new_install_projects/CC3D/python27/lib . Therfore since
-full path to libqscintilla2.12.dylib is
-
-/Users/m/new_install_projects/CC3D/python27/lib/libqscintilla2.12.dylib
-
-we replace /Users/m/new_install_projects/CC3D/python27/lib with @rpath and hence @rpath/libqscintilla2.12.dylib
+we replace */Users/m/new_install_projects/CC3D/python27/lib* with *@rpath* and hence *@rpath/libqscintilla2.12.dylib*
 
 How do we modify hardcoded library paths? Using install_name_tool utility. Simply lets go to the location of
-Qsci.so (i.e. /Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5) and execute the following command:
+*Qsci.so* (i.e. */Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5*) and execute the following command::
 
-install_name_tool -change /Users/m/miniconda/envs/pyqt5vtk/lib/libqscintilla2.12.dylib @rpath/libqscintilla2.12.dylib QSci.so
+        install_name_tool -change /Users/m/miniconda/envs/cc3d_2017/lib/libqscintilla2.12.dylib @rpath/libqscintilla2.12.dylib QSci.so
 
 second argument specifies the path to the dependent library we want to replace 3rd argument specifies new path to
-the dependent library -  this time using @rpath and the 4th argument is the name of the library whose entries we want to
+the dependent library -  this time using *@rpath* and the 4th argument is the name of the library whose entries we want to
 alter.
 
 Typically one writes appropriate scripts that modify hardcoded paths in the libraries but at least with this installation of conda
@@ -169,26 +172,26 @@ Qsci is the only library requiring such modification therefore we present full p
 
 As a side note , if you are interested which libraries are loaded during execution of the program on OSX all you have to do is to set
 
-DYLD_PRINT_LIBRARIES environment variable to 1 either in the terminal or in the bash script that you are running:
+**DYLD_PRINT_LIBRARIES** environment variable to 1 either in the terminal or in the bash script that you are running::
 
-export DYLD_PRINT_LIBRARIES=1
+        export DYLD_PRINT_LIBRARIES=1
 
-6) Dealing with Qt "This application failed to start because it could not find or load the Qt platform plugin "cocoa" "
+- Dealing with Qt **"This application failed to start because it could not find or load the Qt platform plugin "cocoa"** "
 error
 
 The above mentioned error can occur when we move conda installation  with pyqt installed to another directory - in our case
-when we are prepping CC3D installation in /Users/m/new_install_projects/CC3D with python interpreter dir placed in
-/Users/m/new_install_projects/CC3D/python27 we obviously are moving entire qt installion that was put in place by
-conda installer when we issued
+when we are prepping CC3D installation in */Users/m/new_install_projects/CC3D* with python interpreter dir placed in
+*/Users/m/new_install_projects/CC3D/python27* we obviously are moving entire qt installion that was put in place by
+conda installer when we issued::
 
-conda install pyqt
+        conda install pyqt
 
 command.
 
 The reason for the error is quite simple (not simple to locate though ;) ) The problem is in the content qt.conf
 configuration file of Qt.
 
-When we open this file /Users/m/new_install_projects/CC3D/python27/bin/qt.conf (originally it was located in /Users/m/miniconda/envs/cc3d_2017/bin/qt.conf)
+When we open this file */Users/m/new_install_projects/CC3D/python27/bin/qt.conf* (originally it was located in */Users/m/miniconda/envs/cc3d_2017/bin/qt.conf*)
 we will see its content to be::
 
         [Paths]
