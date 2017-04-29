@@ -61,6 +61,10 @@ The output might look as follows::
             qt:         5.6.2-0
             sip:        4.18-py27_0
 
+We also install **webcolors** package by typing::
+
+        pip install webcolors
+
 For more information on how to manage conda packages please see https://conda.io/docs/using/pkgs.html.
 
 - QScintilla2
