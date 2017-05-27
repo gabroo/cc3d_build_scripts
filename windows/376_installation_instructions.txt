@@ -1,0 +1,132 @@
+conda create -n cc3d_2017 python
+conda install numpy
+conda install jinja2 
+pip install webcolors
+
+pip install cma
+
+VTK needs to be installed separately 
+
+
+
+We need to compile sip, PyQt5 and QScintilla manually  - conda comes with packages compiled with VS2008. Before we can do it we need to install precompiled binaries of Qt from qt.io - 
+make sure to select those compiled with VS2015 (and get appropriate version 32bit or 64 bit depending which configuration you are building)
+
+
+
+First make sure you are in the VS2015 shell and also make sure you have already activated appropriate conda environment 
+
+
+Compiling sip:
+unpack sipXXX.zip directory and go the the folder into which you unpacked it
+run:
+	
+	python configure.py
+	
+	nmake
+	nmake install
+	
+
+
+At this point you need to make sure that the qt is in your path inside VS2015 shell:
+
+SET PATH=<PATH_TO_QT_BIN_DIR>;%PATH%
+
+Unpack PyQt5 and go to the "unpacked" folder and run:
+
+python confiugure.py
+nmake
+
+If you get the following error:
+
+   Creating library release\QtNfc.lib and object release\QtNfc.exp
+release\QtNfc.dll : fatal error LNK1169: one or more multiply defined symbols fo
+und
+NMAKE : fatal error U1077: '"C:\Program Files (x86)\Microsoft Visual Studio 14.0
+\VC\BIN\link.EXE"' : return code '0x491'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files (x86)\Microsoft Visual Studio 14.0
+\VC\BIN\nmake.exe"' : return code '0x2'
+Stop.
+NMAKE : fatal error U1077: 'cd' : return code '0x2'
+Stop.
+
+you will need to reconfigure PyQt5 to exclude offending modules (in our case QtNfc - CC3D does not use it at all)
+
+This is how you do it
+
+python confiugure.py --disable=QtNfc
+
+and we run nmake again:
+
+nmake
+
+nmake install
+
+
+Compile QScintilla
+you may also check instructions here: http://pyqt.sourceforge.net/Docs/QScintilla2/
+
+Unpack QScintilla package and to to the "unpacked" folder and from there type:
+
+cd Qt4Qt5
+qmake qscintilla.pro
+nmake
+
+nmake install
+
+after this step you need to manually copy 
+<QTDIR>\lib\qscintilla2.dll -> <QTDIR>\bin
+
+Now let's compile Python bindings for QScintilla. From Qt4Qt5 dir we type:
+
+cd ..\Python
+
+python configure.py --pyqt=PyQt5
+nmake
+nmake install
+
+
+
+Now we need to copy from Qt5.x installation directory the following libraries 
+Qt5Core.dll, Qt5Svg.dll, Qt5PrintSupport.dll, Qt5OpenGL.dll, Qt5Widgets.dll, Qt5Gui.dll, Qt5Network.dll, Qt5Xml.dll
+
+to <prerequicites_folder/>Python27/Library/bin
+
+We also copy there qscintilla2_qt5.dll library
+
+we create <prerequisites_folder>/bin/platrofms and copy there qwindows.dll from Qt5.x installation (e.g. c:\Qt-32bit\Qt5.8.0\5.8\msvc2015\plugins\platforms\qwindows.dll)
+
+
+
+
+
+
+
+
+pyqygraph needs to be installed separately
+
+We need to patch installation of pyqtgraph
+
+by commenting out the wollowing lines in <prerequisites_folder>\Python27\Lib\site-packages\pyqtgraph\widgets\GraphicsView.py :
+
+        # from .. import _connectCleanup
+        # _connectCleanup()
+
+		
+
+
+
+NExt we need to download and compile QScintilla 2.9.3 (later versions will not work with pyqt installation distributes with conda - v 5.6.0 - I am sure this will change in the future though and we will be able to use latest QScintilla)
+
+we also chang ethe content of qt.conf inside /home/m/miniconda2/envs/cc3d_2017/bin to:
+.[Paths]
+Prefix = ../
+Binaries = ../bin
+Libraries = ../lib
+Headers = ../include/qt
+
+After this we can copy entire python environment to cc3d installartion directory : 
+
+/home/m/miniconda2/envs/cc3d_2017 -> <CC3D_install_DIR>/Python27
+

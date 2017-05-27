@@ -4,6 +4,7 @@ conda install pyqt vtk
 conda install jinja2 
 pip install webcolors
 conda install pyqtgraph
+pip install cma
 
 to allow compilation of FieldExtractor from pyinterface using conda's vtk we need to make a link 
 
@@ -20,7 +21,7 @@ we also need to copy include all qt include directories from /home/m/miniconda2/
 
 NExt we need to download and compile QScintilla 2.9.3 (later versions will not work with pyqt installation distributes with conda - v 5.6.0 - I am sure this will change in the future though and we will be able to use latest QScintilla)
 
-we also chang ethe content of qt.conf inside /home/m/miniconda2/envs/cc3d_2017/bin to:
+we also change the content of qt.conf inside /home/m/miniconda2/envs/cc3d_2017/bin to:
 .[Paths]
 Prefix = ../
 Binaries = ../bin
