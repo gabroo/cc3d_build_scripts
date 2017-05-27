@@ -32,3 +32,10 @@ After this we can copy entire python environment to cc3d installartion directory
 
 /home/m/miniconda2/envs/cc3d_2017 -> <CC3D_install_DIR>/Python27
 
+
+
+we need to fix pyqtgraph 
+We need to patch installation of pyqtgraph by commenting out the wollowing lines in <prerequisites_folder>\Python27\Lib\site-packages\pyqtgraph\widgets\GraphicsView.py :
+
+        # from .. import _connectCleanup
+        # _connectCleanup()
