@@ -41,3 +41,7 @@ We need to patch installation of pyqtgraph by commenting out the wollowing lines
         # from .. import _connectCleanup
         # _connectCleanup()
 
+
+FWhen using system python on e.g. kubuntu 16.04 or any other modern linux all you have to do is to install dependencies as follows:
+
+sudo apt-get install g++ swig cmake-gui python-numpy python-pyqt5 python-pyqt5.qsci python-pyqt5.qtopengl libvtk6-dev python-vtk6 python-dev libxml2-dev build-essential git
