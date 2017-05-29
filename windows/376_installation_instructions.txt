@@ -2,6 +2,7 @@ conda create -n cc3d_2017 python
 conda install numpy
 conda install jinja2 
 pip install webcolors
+conda install pyzmq
 
 pip install cma
 
