@@ -193,11 +193,9 @@ mkdir -p $DEPENDENCIES_ROOT
 # updating git and switching to appropriate branch
 cd $SOURCE_ROOT
 git fetch
-# git checkout $VERSION
-git checkout twedit_fix
+git checkout $VERSION
+#git checkout twedit_fix
 git pull
-
-
 
 # removing old verion
 rm $SOURCE_ROOT/CompuCell3D/core/pythonSetupScripts/Version.py
