@@ -7,7 +7,7 @@ import subprocess
 
 conda_env = 'cc3d_test_11'
 conda_dependency_channel = 'compucell3d'
-conda_dependencies = 'qscintilla2 pyqtgraph webcolors jinja2 scipy vtk'
+conda_dependencies = 'qscintilla2 pyqtgraph webcolors jinja2 scipy vtk=6.3.0'
 install_prefix = '/home/m/376_demo'
 CC3D_SOURCE_PATH = '/home/m/CC3D_GIT/CompuCell3D'
 CC3D_BUILD_PATH = '/home/m/install_projects/demo'
@@ -63,19 +63,19 @@ cmake_path = abspath(output.strip())
 
 output, err, ret_code = rc('conda create -n {conda_env} python'.format(conda_env=conda_env))
 
-# command = 'conda install -n {conda_env} -c {conda_channel} {dependencies} '.format(dependencies=conda_dependencies,
-#                                                                              conda_channel=conda_dependency_channel,
-#                                                                              conda_env=conda_env)
-#
-# output, err, ret_code = rc(
-#     'conda install -n {conda_env} -c {conda_channel} {dependencies} '.format(dependencies=conda_dependencies,
-#                                                                              conda_channel=conda_dependency_channel,
-#                                                                              conda_env=conda_env))
+command = 'conda install -n {conda_env} -c {conda_channel} {dependencies} '.format(dependencies=conda_dependencies,
+                                                                             conda_channel=conda_dependency_channel,
+                                                                             conda_env=conda_env)
+
+output, err, ret_code = rc(
+    'conda install -n {conda_env} -c {conda_channel} {dependencies} '.format(dependencies=conda_dependencies,
+                                                                             conda_channel=conda_dependency_channel,
+                                                                             conda_env=conda_env))
 
 PYTHON_EXECUTABLE = join(conda_path,'envs',conda_env,'bin','python')
 PYTHON_INCLUDE_DIR = join(conda_path,'envs',conda_env,'include/python2.7')
 PYTHON_LIBRARY = join(conda_path,'envs',conda_env,'lib/libpython2.7.so')
-VTK_DIR = join(conda_path,'envs',conda_env,'lib/cmake/vtk-7.1')
+VTK_DIR = join(conda_path,'envs',conda_env,'lib/cmake/vtk-6.3')
 
 PYQT_VERSION = 5
 
