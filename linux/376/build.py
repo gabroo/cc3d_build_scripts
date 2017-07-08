@@ -4,6 +4,16 @@ import os
 from os.path import *
 from subprocess import Popen, PIPE
 import subprocess
+import argparse
+
+cml_parser = argparse.ArgumentParser()
+
+cml_parser.add_argument("-p", "--prefix",  action="store", help="CC3D installation directory")
+cml_parser.add_argument("-s", "--source-root", action="store", help="CC3D GIT Repository")
+cml_parser.add_argument("-v", "--version", action="store", help="version string", default='3.7.6')
+cml_parser.add_argument("-c", "--cores", action="store", help="number of cpu cores")
+cml_args = cml_parser.parse()
+
 
 conda_env = 'cc3d_test_11'
 conda_dependency_channel = 'compucell3d'
