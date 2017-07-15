@@ -75,9 +75,9 @@ if __name__ == '__main__':
     conda_env = cml_args.conda_env_name
     conda_dependency_channel = cml_args.dependency_channel
     conda_dependencies = 'qscintilla2 pyqtgraph webcolors jinja2 scipy vtk=6.3.0 pyzmq cmake swig'
-    install_prefix = cml_args.prefix
-    CC3D_SOURCE_PATH = join(cml_args.source_root, 'CompuCell3D')
-    CC3D_BUILD_PATH = cml_args.build_dir
+    install_prefix = expanduser(cml_args.prefix)
+    CC3D_SOURCE_PATH = join(expanduser(cml_args.source_root), 'CompuCell3D')
+    CC3D_BUILD_PATH = expanduser(cml_args.build_dir)
 
     # CC3D_SOURCE_PATH = '/home/m/CC3D_GIT/CompuCell3D'
     # CC3D_BUILD_PATH = '/home/m/install_projects/demo'
