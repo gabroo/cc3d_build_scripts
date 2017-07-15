@@ -1,3 +1,23 @@
+"""
+This script runs on linux and builds cc3d .
+
+Requirements:
+1. conda must be installed -  use Miniconda installer for Python 2.7 for 64-bit linux
+    https://conda.io/miniconda.html
+2. swig
+3.  gcc/g++ compiler
+4. git
+
+
+example command:
+
+    python build.py --prefix=/home/m/376_auto --source-root=/home/m/CC3D_GIT --build-dir=/home/m/376_auto_build --version=3.7.6 --cores=2
+
+For help on command line options type:
+
+    oython build.py --help
+
+"""
 import argparse
 import sys
 import os
