@@ -11,7 +11,7 @@ Requirements:
 
 example command:
 
-    python build.py --prefix=/home/m/376_auto --source-root=/home/m/CC3D_GIT --build-dir=/home/m/376_auto_build --version=3.7.6 --cores=2
+    python build.py --prefix=/home/m/376_auto --source-root=/home/m/CC3D_GIT --build-dir=/home/m/376_auto_build --version=3.7.6 --cores=2 --conda-env-name=cc3d_test_12
 
 For help on command line options type:
 
@@ -104,7 +104,7 @@ if __name__ == '__main__':
         sys.exit(1)
     cmake_path = abspath(output.strip())
 
-    output, err, ret_code = rc('conda create -n {conda_env} python'.format(conda_env=conda_env))
+    output, err, ret_code = rc('conda create -y -n {conda_env} python'.format(conda_env=conda_env))
 
     command = 'conda install -n {conda_env} -c {conda_channel} {dependencies} '.format(dependencies=conda_dependencies,
                                                                                        conda_channel=conda_dependency_channel,
