@@ -9,14 +9,27 @@ Requirements:
 4. git
 
 
-example command:
+example commands:
 
     python build.py --prefix=/Users/m/376_auto --source-root=/Users/m/CC3D_GIT --build-dir=/Users/m/376_auto_build --version=3.7.6 --cores=2 --conda-env-name=cc3d_test_12 --c-compiler=/usr/local/Cellar/gcc48/4.8.2/bin/gcc --cpp-compiler=/usr/local/Cellar/gcc48/4.8.2/bin/g++
 
+    or
+
+    python build.py --prefix=/Users/m/376_auto --source-root=/Users/m/CC3D_GIT --build-dir=/Users/m/376_auto_build --version=3.7.6 --cores=2 --conda-env-name=cc3d_test_12 --c-compiler=/usr/local/bin/gcc --cpp-compiler=/usr/local/bin/g++
+
+}}}
+
+
 For help on command line options type:
 
-    oython build.py --help
+    python build.py --help
 
+
+IMPORTANT: on some OSX configurations you may have more than one qt distribution. If you are using homebrew
+ you may want to check check the content of ~/.local/lib/python2.7/site-packages/homebrew.pth to see if
+ this might give you some clues as far as qt conflicts.
+
+ You may need to override it
 """
 # TODO add code that automatically sets deployment target based on OSX version
 # TODO handle properly bundling of Python - add option to either install Python or opt for non-bundled Python
@@ -43,6 +56,9 @@ def run_command(command_input, check_command_status=True):
         command_str_list = command_input
     if check_command_status:
         subprocess.call(command_str_list)
+        # subprocess.check_output(command_str_list)
+        # print 'Executing command ', ''.join(command_input)
+        # os.system(''.join(command_input))
         return None, None, None
 
     else:
@@ -105,11 +121,6 @@ if __name__ == '__main__':
     conda_exec = abspath(output.strip())
     conda_path = dirname(dirname(conda_exec))
 
-    output, err, ret_code = rc_check_status('which cmake')
-    if not output:
-        print 'Could not locate conda. Make sure it is in your path'
-        sys.exit(1)
-    cmake_path = abspath(output.strip())
 
     c_compiler = cml_args.c_compiler
     cpp_compiler = cml_args.cpp_compiler
@@ -137,6 +148,27 @@ if __name__ == '__main__':
                                                                                     conda_channel=conda_dependency_channel,
                                                                                     conda_env=conda_env))
 
+    output, err, ret_code = rc_check_status('which cmake')
+    if not output:
+
+        print ('. Could not find system-wide installation of CMake. ' \
+              'Will search in just-installed conda environment: %s' % conda_env)
+        conda_cmake_path = join(conda_path,'envs/%s'%conda_env,'bin','cmake')
+        if isfile(conda_cmake_path):
+            cmake_path = conda_cmake_path
+        else:
+            print ('Could not locate cmake. Make sure it is in your path')
+
+            sys.exit(1)
+
+        print ('Located CMake at: %s' % cmake_path)
+    else:
+        cmake_path = abspath(output.strip())
+
+    # cmake_path = '/Applications/CMake.app/Contents/bin/cmake'
+
+
+
     PYTHON_EXECUTABLE = join(conda_path, 'envs', conda_env, 'bin', 'python')
     PYTHON_INCLUDE_DIR = join(conda_path, 'envs', conda_env, 'include/python2.7')
     PYTHON_LIBRARY = join(conda_path, 'envs', conda_env, 'lib/libpython2.7.dylib')
@@ -154,9 +186,9 @@ if __name__ == '__main__':
                             '-DCOMPUCELL3D_C_BUILD_VERSION:STRING=' + str(BUILD_VERSION),
                             '-DPYTHON_EXECUTABLE=' + PYTHON_EXECUTABLE, '-DPYTHON_INCLUDE_DIR=' + PYTHON_INCLUDE_DIR,
                             '-DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.9',
-                            '-DCMAKE_OSX_SYSROOT:STRING=macosx10.9',
+                            # '-DCMAKE_OSX_SYSROOT:STRING=macosx10.9',
                             '-DCMAKE_CXX_FLAGS=-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64',
-                            '-DCMAKE_C_FLAGS=-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64',
+                            # '-DCMAKE_C_FLAGS=-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64',
                             '-DPYTHON_LIBRARY=' + PYTHON_LIBRARY,
                             '-DVTK_DIR=' + VTK_DIR,
                             '-DPYQT_VERSION:STRING=' + str(PYQT_VERSION),
@@ -171,8 +203,9 @@ if __name__ == '__main__':
             pass
 
     os.chdir(CC3D_BUILD_PATH)
-
+    print ('will run cmake command:',cmake_config_command)
     rc(cmake_config_command)
+    print ('cmake command successful')
     rc(['make', '-j', '{num_cpus}'.format(num_cpus=num_cpus), 'install'])
 
 
