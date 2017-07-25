@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
     output, err, ret_code = rc_check_status('which cmake')
     if not output:
-        print 'Could not locate conda. Make sure it is in your path'
+        print 'Could not locate CMake. Make sure it is in your path'
         sys.exit(1)
     cmake_path = abspath(output.strip())
 
