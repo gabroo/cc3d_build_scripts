@@ -45,7 +45,7 @@ Next, we install pyqt and jinja2 and pyqtgraph dependencies using the following 
 
 The output might look as follows::
 
-        conda install pyqt jinja2 pyqtgraph
+        conda install pyqt jinja2 pyqtgraph python.app
         Fetching package metadata .........
         Solving package specifications: .
 
@@ -66,6 +66,23 @@ We also install **webcolors** package by typing::
         pip install webcolors
 
 For more information on how to manage conda packages please see https://conda.io/docs/using/pkgs.html.
+- python.app
+After installing python.app we need to set it up in such a way that will facilitate deployment. All we need to do
+is to to make sure that in <path_to_conda_env>/python.app/Contents/MacOS we create a soft link to
+../../../plugins/platforms:
+
+        cd <path_to_conda_env>/python.app/Contents/MacOS
+        ln -s ../../../plugins/platforms platforms
+
+Next we create compucell3d.app and twedit++.app by copying content of the python.app
+to compucell3d.app and twedit++.app directories and editing the <app folder>Contents/Info.plist. The only edit that is
+actually required is to replace <string>python</string> with <string>CompuCel3D</string> and <string>Twedit++</string>
+respectively.
+
+Note, CC3D and Twedit run scripts require that compucell3d.app and twedit++.app are placed in
+<CC3D_install>/python27 folder. For convenience (of installer builders) we should copy those .app folders
+to python27 folder of the prerequisite directory.
+
 
 - QScintilla2
 Our next task is to compile qscintilla2 in the cc3d_2017 conda environment
