@@ -45,7 +45,7 @@ Next, we install pyqt and jinja2 and pyqtgraph dependencies using the following 
 
 The output might look as follows::
 
-        conda install pyqt jinja2 pyqtgraph
+        conda install pyqt jinja2 pyqtgraph python.app
         Fetching package metadata .........
         Solving package specifications: .
 
@@ -66,6 +66,23 @@ We also install **webcolors** package by typing::
         pip install webcolors
 
 For more information on how to manage conda packages please see https://conda.io/docs/using/pkgs.html.
+- python.app
+After installing python.app we need to set it up in such a way that will facilitate deployment. All we need to do
+is to to make sure that in <path_to_conda_env>/python.app/Contents/MacOS we create a soft link to
+../../../plugins/platforms::
+
+        cd <path_to_conda_env>/python.app/Contents/MacOS
+        ln -s ../../../plugins/platforms platforms
+
+Next we create compucell3d.app and twedit++.app by copying content of the python.app
+to compucell3d.app and twedit++.app directories and editing the <app folder>Contents/Info.plist. The only edit that is
+actually required is to replace <string>python</string> with <string>CompuCel3D</string> and <string>Twedit++</string>
+respectively.
+
+Note, CC3D and Twedit run scripts require that compucell3d.app and twedit++.app are placed in
+<CC3D_install>/python27 folder. For convenience (of installer builders) we should copy those .app folders
+to python27 folder of the prerequisite directory.
+
 
 - QScintilla2
 Our next task is to compile qscintilla2 in the cc3d_2017 conda environment
@@ -80,14 +97,13 @@ The installation of CC3D. While we will not present full instructions to compile
 Once we've built CC3D we have to make sure it can run from any directory on any machine. With current versions of libraries
 Qsci.so library (part of qscintilla2) can give us problems associated with hardcoded paths to its dependencies. Here's how we fix it:
 
- 
 - Changing rpath in the qscintilla's Qsci.so shared library
 
- a) when you build and install qscintilla in the cc3d_2017 conda environment the Qsci.so library it places in the
-*<PATH_TO_CONDA_CC3D_2017_ENV>/lib/python2.7/site-packages/PyQt5*
+a) when you build and install qscintilla in the cc3d_2017 conda environment the Qsci.so library it places in the::
 
- when you try running e.g. Twedit++ after you move cc3d installation directory to another machine or e.g. temporarily rename path to your miniconda directory
- you will most likely get the following error::
+        *<PATH_TO_CONDA_CC3D_2017_ENV>/lib/python2.7/site-packages/PyQt5*
+
+when you try running e.g. Twedit++ after you move cc3d installation directory to another machine or e.g. temporarily rename path to your miniconda directory you will most likely get the following error::
 
         Traceback (most recent call last):
           File "/Users/m/new_install_projects/CC3D/Twedit++/twedit_plus_plus_cc3d.py", line 28, in <module>
@@ -147,20 +163,50 @@ what is this main program and how do we determine the path w.r.t which we are su
           cmdsize 40
              path @loader_path/../lib/ (offset 12)
         
-This means that when we specify *@rpath* we will use as a reference point (for relative paths) the path given by
-*@loader_path/../lib/*. In our case this translates to lib directory located one directory up from the
-*/Users/m/new_install_projects/CC3D/python27/bin/python* program which happens to be */Users/m/new_install_projects/CC3D/python27/lib* .
+This means that when we specify *@rpath* we will use as a reference point (for relative paths) the path given by::
 
-Therefore all the paths we use in the *@rpath* specifications will be w.r.t */Users/m/new_install_projects/CC3D/python27/lib*.
+        *@loader_path/../lib/*. 
+In our case this translates to lib directory located one directory up from the::
 
-The *libqscintilla2.12.dylib* is located in the */Users/m/new_install_projects/CC3D/python27/lib* therefore all we have to do is
-to change */Users/m/miniconda/envs/cc3d_2017/lib/libqscintilla2.12.dylib* entry in the *Qsci.so* to *@rpath/libqscintilla2.12.dylib*
+        */Users/m/new_install_projects/CC3D/python27/bin/python* 
+	
+program which happens to be::
 
-A rule of thumb is to mentally replace @rpath with the path segment that corresponds to the *@loader_path/../lib/* of python program
-As we have shown this resolves to */Users/m/new_install_projects/CC3D/python27/lib*. Therfore since
-full path to *libqscintilla2.12.dylib* is */Users/m/new_install_projects/CC3D/python27/lib/libqscintilla2.12.dylib*
+	*/Users/m/new_install_projects/CC3D/python27/lib* .
 
-we replace */Users/m/new_install_projects/CC3D/python27/lib* with *@rpath* and hence *@rpath/libqscintilla2.12.dylib*
+Therefore all the paths we use in the *@rpath* specifications will be w.r.t::
+
+        */Users/m/new_install_projects/CC3D/python27/lib*.
+
+The *libqscintilla2.12.dylib* is located in the::
+
+        */Users/m/new_install_projects/CC3D/python27/lib*
+
+therefore all we have to do is to change::
+        */Users/m/miniconda/envs/cc3d_2017/lib/libqscintilla2.12.dylib* 
+entry in the *Qsci.so* to::
+
+        *@rpath/libqscintilla2.12.dylib*
+
+A rule of thumb is to mentally replace @rpath with the path segment that corresponds to the::
+        
+	*@loader_path/../lib/*
+	
+of python program. As we have shown this resolves to::
+
+        */Users/m/new_install_projects/CC3D/python27/lib*.
+
+Therfore since full path to *libqscintilla2.12.dylib* is::
+
+        */Users/m/new_install_projects/CC3D/python27/lib/libqscintilla2.12.dylib*
+
+we replace::
+
+        */Users/m/new_install_projects/CC3D/python27/lib*
+	
+with *@rpath* and hence::
+
+        *@rpath/libqscintilla2.12.dylib*
 
 How do we modify hardcoded library paths? Using install_name_tool utility. Simply lets go to the location of
 *Qsci.so* (i.e. */Users/m/new_install_projects/CC3D/python27/lib/python2.7/site-packages/PyQt5*) and execute the following command::

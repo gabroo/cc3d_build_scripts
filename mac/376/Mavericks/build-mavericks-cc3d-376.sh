@@ -1,4 +1,4 @@
-# example command ./build-mavericks-cc3d-376.sh -s=~/CC3D_GIT_MERGE -p=~/install_projects/CC3D_3.7.6 -d=/Users/m/prerequisites/3.7.6 -b=CC3D_3.7.6_MacOSX_10.9 -c=8
+# example command ./build-mavericks-cc3d-376.sh -s=~/CC3D_GIT p=~/install_projects/CC3D_3.7.6 -d=/Users/m/prerequisites/3.7.6 -b=CC3D_3.7.6_MacOSX_10.9 -c=8
 #command line parsing
 
 export MAJOR_VERSION=3
@@ -32,8 +32,8 @@ current_directory=$(pwd)
 
 
 export BUILD_ROOT=
-# export SOURCE_ROOT=~/CC3D_GIT
-export SOURCE_ROOT=~/CC3D_GIT_MERGE
+export SOURCE_ROOT=~/CC3D_GIT
+# export SOURCE_ROOT=~/CC3D_GIT_MERGE
 export DEPENDENCIES_ROOT=
 export INSTALL_PREFIX=~/install_projects/CC3D_3.7.6
 export RR_SOURCE_ROOT=~/RR_OSX
@@ -194,8 +194,10 @@ mkdir -p $DEPENDENCIES_ROOT
 cd $SOURCE_ROOT
 git fetch
 git checkout $VERSION
-#git checkout twedit_fix
+# git checkout twedit_fix
 git pull
+
+
 
 # removing old verion
 rm $SOURCE_ROOT/CompuCell3D/core/pythonSetupScripts/Version.py
