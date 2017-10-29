@@ -29,10 +29,7 @@ c:\miniconda64\python .\win_cc3d_builder.py  -p D:/install_projects/3.7.7-32bit 
 
 c:\miniconda64\python .\win_cc3d_builder.py  -p D:/install_projects/3.7.7-32bit-gpu -s D:/CC3D_GIT  -i D:/CC3D_FILES_SVN/binaries/3.7.7/windows -v 3.7.7.0 --config=config_32bit.json --gpu
 
-
 """
-# example command:
-# c:\miniconda64\python .\win_cc3d_builder_377.py  -p D:/install_projects/3.7.7-64bit -s D:/CC3D_GIT  -i D:/CC3D_FILES_SVN/binaries/3.7.7/windows -v 3.7.7.0 --config=config_64bit.json
 
 import subprocess
 from argparse import ArgumentParser
@@ -46,24 +43,26 @@ t1 = time.time()
 
 # -------------- parsing command line
 parser = ArgumentParser()
-parser.add_argument("-p", "--prefix", dest="prefix", action="store", type=str, help="CC3D installation directory", required=True)
+parser.add_argument("-p", "--prefix", dest="prefix", action="store", type=str, help="CC3D installation directory",
+                    required=True)
 parser.add_argument("-s", "--source-root", dest="source_root", action="store", type=str, default='D:/CC3D_GIT',
-                  help="CC3D git repository")
+                    help="CC3D git repository")
 
 parser.add_argument('-i', '--installer-dir', dest='installer_dir', action='store', type=str, default='',
-                  help='Folder where the installer will be stored', required=True)
-parser.add_argument("-v", "--version", dest="version", action="store", type=str, help='version of installer', required=True)
+                    help='Folder where the installer will be stored', required=True)
+parser.add_argument("-v", "--version", dest="version", action="store", type=str, help='version of installer',
+                    required=True)
 
 # parser.add_argument("--32bit", dest="arch_32bit", action="store_true", default=False, help='enables 32-bit build architecture')
 
-parser.add_argument("--gpu", dest="arch_gpu", action="store_true", default=False, help='enables generation of gpu modules')
+parser.add_argument("--gpu", dest="arch_gpu", action="store_true", default=False,
+                    help='enables generation of gpu modules')
 
 parser.add_argument("-c", "--cores", dest="cores", action="store", type=int, default=1,
-                  help="Number of compilation threads for make")
+                    help="Number of compilation threads for make")
 
-parser.add_argument("--config-file", dest="config_file", action="store", type=str, default='',required=True,
-                  help="configuration file in json format specifying paths of prigams needed to compile CC3D")
-
+parser.add_argument("--config-file", dest="config_file", action="store", type=str, default='', required=True,
+                    help="configuration file in json format specifying paths of prigams needed to compile CC3D")
 
 args = parser.parse_args()
 # -------------- end of parsing command line
@@ -71,13 +70,12 @@ CFG = Configs(json_fname=args.config_file)
 
 MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION, INSTALLER_BUILD = version_str_to_tuple(args.version)
 
-
 version_str = version_tuple_to_str(version_component_sequence=(MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION),
-                                      number_of_version_components=3)
+                                   number_of_version_components=3)
 
-installer_version_str = version_tuple_to_str(version_component_sequence=(MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION, INSTALLER_BUILD),
-                                      number_of_version_components=3)
-
+installer_version_str = version_tuple_to_str(
+    version_component_sequence=(MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION, INSTALLER_BUILD),
+    number_of_version_components=3)
 
 CURRENT_DIR = os.getcwd()
 
@@ -94,7 +92,6 @@ INSTALL_PREFIX = os.path.abspath(args.prefix)
 BUILD_ROOT = os.path.abspath(INSTALL_PREFIX + '_build')
 DEPENDENCIES_ROOT = os.path.abspath(INSTALL_PREFIX + '_depend')
 
-
 BUILD_CC3D = False
 MAKE_MULTICORE = 1
 
@@ -110,25 +107,21 @@ if not os.path.isdir(CC3D_BUILD_PATH):
     os.makedirs(CC3D_BUILD_PATH)
 os.chdir(CC3D_BUILD_PATH)
 
-
-
 cmake_args = [CFG.CMAKE_PATH, '-G', CFG.CMAKE_GENERATOR_NAME, '-DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo',
-                 '-DCMAKE_INSTALL_PREFIX:PATH=' + INSTALL_PREFIX,
-                 '-DCOMPUCELL3D_A_MAJOR_VERSION:STRING=' + str(MAJOR_VERSION),
-                 '-DCOMPUCELL3D_B_MINOR_VERSION:STRING=' + str(MINOR_VERSION),
-                 '-DCOMPUCELL3D_C_BUILD_VERSION:STRING=' + str(BUILD_VERSION),
-                 '-DPYTHON_EXECUTABLE=' + CFG.PYTHON_EXECUTABLE, '-DPYTHON_INCLUDE_DIR=' + CFG.PYTHON_INCLUDE_DIR,
-                 '-DPYTHON_LIBRARY=' + CFG.PYTHON_LIBRARY,
-                 '-DVTK_DIR=' + CFG.VTK_DIR,
-                 '-DPYQT_VERSION:STRING=' + str(CFG.PYQT_VERSION),
-                 '-DWINDOWS_DEPENDENCIES:PATH=' + CFG.WIN_DEPENDENCIES_ROOT, CC3D_SOURCE_PATH]
-
-
+              '-DCMAKE_INSTALL_PREFIX:PATH=' + INSTALL_PREFIX,
+              '-DCOMPUCELL3D_A_MAJOR_VERSION:STRING=' + str(MAJOR_VERSION),
+              '-DCOMPUCELL3D_B_MINOR_VERSION:STRING=' + str(MINOR_VERSION),
+              '-DCOMPUCELL3D_C_BUILD_VERSION:STRING=' + str(BUILD_VERSION),
+              '-DPYTHON_EXECUTABLE=' + CFG.PYTHON_EXECUTABLE, '-DPYTHON_INCLUDE_DIR=' + CFG.PYTHON_INCLUDE_DIR,
+              '-DPYTHON_LIBRARY=' + CFG.PYTHON_LIBRARY,
+              '-DVTK_DIR=' + CFG.VTK_DIR,
+              '-DPYQT_VERSION:STRING=' + str(CFG.PYQT_VERSION),
+              '-DWINDOWS_DEPENDENCIES:PATH=' + CFG.WIN_DEPENDENCIES_ROOT, CC3D_SOURCE_PATH]
 
 if args.arch_gpu:
-    cmake_args += ['-DNO_OPENCL:BOOLEAN=OFF',] # enable open_cl - note the option is NO_OPENCL
+    cmake_args += ['-DNO_OPENCL:BOOLEAN=OFF', ]  # enable open_cl - note the option is NO_OPENCL
 else:
-    cmake_args += ['-DNO_OPENCL:BOOLEAN=ON', ] # disable open_cl note the option is NO_OPENCL
+    cmake_args += ['-DNO_OPENCL:BOOLEAN=ON', ]  # disable open_cl note the option is NO_OPENCL
 
 subprocess.call(cmake_args)
 
@@ -136,7 +129,6 @@ subprocess.call(['nmake', 'install'])
 ############ End of building CompuCell3D
 
 if BUILD_INSTALLER:
-
     revision_number = timestamp_revision_number()
     INSTALLER_NAME = os.path.abspath(
         os.path.join(INSTALLER_DIR, 'CompuCell3D-64bit-setup-' + version_str + 'v' + revision_number + '.exe'))
