@@ -19,7 +19,7 @@ class ConfigsBase(object):
         :return: None
         """
         attr_dict = {key: value for key, value in self.__dict__.items() if
-                     not key.startswith("__") and isinstance(value, str)}
+                     not key.startswith("__") and isinstance(value, str) and key != 'json_fname'}
 
         with open(json_fname) as data_file:
             jn = json.load(data_file)
@@ -72,6 +72,33 @@ class ConfigsWindows(ConfigsBase):
         self.PYTHON_LIBRARY = ''
         self.VTK_DIR = ''
         self.OPENCL_LIBRARIES = ''
+
+        self.initialize()
+
+
+class ConfigsOSX(ConfigsBase):
+    def __init__(self, json_fname=None):
+        """
+        Constructor - takes config json file and initializes paths
+        :param json_fname:{str} path to json file containing path definitions
+        """
+        ConfigsBase.__init__(self, json_fname)
+
+        self.PYTHON_MINOR_VERSION = ''
+        self.CMAKE_PATH = ''
+        self.CMAKE_GENERATOR_NAME = ''
+        self.CMAKE_OSX_DEPLOYMENT_TARGET = ''
+        self.PYQT_VERSION = ''
+        self.PREREQUISITES_DIR = ''
+        self.PYTHON_EXECUTABLE = ''
+        self.PYTHON_INCLUDE_DIR = ''
+        self.PYTHON_LIBRARY = ''
+        self.VTK_DIR = ''
+        self.CMAKE_C_COMPILER = ''
+        self.CMAKE_C_FLAGS = ''
+        self.CMAKE_CXX_COMPILER = ''
+        self.CMAKE_CXX_FLAGS = ''
+
 
         self.initialize()
 
