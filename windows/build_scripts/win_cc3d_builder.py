@@ -30,13 +30,15 @@ c:\miniconda64\python .\win_cc3d_builder.py  -p D:/install_projects/3.7.7-32bit 
 c:\miniconda64\python .\win_cc3d_builder.py  -p D:/install_projects/3.7.7-32bit-gpu -s D:/CC3D_GIT  -i D:/CC3D_FILES_SVN/binaries/3.7.7/windows -v 3.7.7.0 --config=config_32bit.json --gpu
 
 """
+import time
 
+import os
 import subprocess
 from argparse import ArgumentParser
-import time
-from utils import *
-from configs import Configs
-import os
+
+from build_utils.build_utils import *
+# from utils import *
+from build_utils.configs import ConfigsWindows
 
 t1 = time.time()
 # version has to have format 3.7.6.0 - four numbers otherwise NSIS crashes, strange...
@@ -66,7 +68,7 @@ parser.add_argument("--config-file", dest="config_file", action="store", type=st
 
 args = parser.parse_args()
 # -------------- end of parsing command line
-CFG = Configs(json_fname=args.config_file)
+CFG = ConfigsWindows(json_fname=args.config_file)
 
 MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION, INSTALLER_BUILD = version_str_to_tuple(args.version)
 
