@@ -21,17 +21,13 @@ python osx_cc3d_builder.py -p /Users/m/install_projects/CC3D_3.7.7_new -s /Users
 import time
 from os.path import *
 import os
+import shutil
 import subprocess
 from argparse import ArgumentParser
 from distutils.dir_util import copy_tree
 import datetime
 from build_utils.build_utils import *
-# from utils import *
 from build_utils.configs import ConfigsOSX
-
-
-
-
 
 t1 = time.time()
 
@@ -70,9 +66,6 @@ version_str = version_tuple_to_str(version_component_sequence=(MAJOR_VERSION, MI
 installer_version_str = version_tuple_to_str(
     version_component_sequence=(MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION, INSTALLER_BUILD),
     number_of_version_components=3)
-
-
-
 
 CURRENT_DIR = os.getcwd()
 
@@ -151,27 +144,31 @@ subprocess.call(cmake_args)
 subprocess.call(['make', '-j ' + str(args.cores)])
 subprocess.call(['make', 'install'])
 
+# copying RR to CC3D install dir:
+shutil.copytree(CFG.RR_INSTALL_PATH, join(INSTALL_PREFIX, 'lib/python/roadrunner'))
 
 # packaging CC3D
-
 # cp -a ${MAC_DEPS}/* ${INSTALL_PREFIX}
-copy_tree(CFG.PREREQUISITES_DIR, INSTALL_PREFIX)
+# -a option does not replace symlinks with files
+# subprocess.call(['cp', '-a', CFG.PREREQUISITES_DIR + '/*', INSTALL_PREFIX])
+
+
+copy_tree(CFG.PREREQUISITES_DIR, INSTALL_PREFIX, preserve_symlinks=1)
 
 INSTALL_PREFIX_UP = dirname(INSTALL_PREFIX)
 
 os.chdir(INSTALL_PREFIX_UP)
 
-
-datestamp =  '{:%Y%m%d}'.format(datetime.datetime.now())
+datestamp = '{:%Y%m%d}'.format(datetime.datetime.now())
 
 cc3d_archive_name = 'CC3D_{installer_version_str}_{datestamp}.zip'.format(installer_version_str=installer_version_str,
-                                                                            datestamp=datestamp)
+                                                                          datestamp=datestamp)
 
 cc3d_archive_abspath = join(INSTALL_PREFIX_UP, cc3d_archive_name)
 if isfile(cc3d_archive_abspath):
     os.remove(cc3d_archive_abspath)
 
-subprocess.call(['ditto', '-c', '-k', '--keepParent', '-rsrcFork', INSTALL_PREFIX,cc3d_archive_name])
+subprocess.call(['ditto', '-c', '-k', '--keepParent', '-rsrcFork', INSTALL_PREFIX, cc3d_archive_name])
 # rm -f ${CC3D_ARCHIVE}
 # run_and_watch_status ZIPPING_BINARY ditto -c -k --keepParent -rsrcFork $INSTALL_PREFIX ${CC3D_ARCHIVE}
 

@@ -98,6 +98,7 @@ class ConfigsOSX(ConfigsBase):
         self.CMAKE_C_FLAGS = ''
         self.CMAKE_CXX_COMPILER = ''
         self.CMAKE_CXX_FLAGS = ''
+        self.RR_INSTALL_PATH = ''
 
 
         self.initialize()

@@ -12,5 +12,6 @@
   "PYTHON_EXECUTABLE": "/Users/m/prerequisites/cc3d_2017/python27/bin/python2.7",
   "PYTHON_INCLUDE_DIR": "/Users/m/prerequisites/cc3d_2017/python27/include/python2.7",
   "PYTHON_LIBRARY": "/Users/m/prerequisites/cc3d_2017/python27/lib/libpython2.7.dylib",
-  "VTK_DIR": "/Users/m/prerequisites/cc3d_2017/vtk/lib/cmake/vtk-6.3"
+  "VTK_DIR": "/Users/m/prerequisites/cc3d_2017/vtk/lib/cmake/vtk-6.3",
+  "RR_INSTALL_PATH":"/Users/Shared/roadrunner-1.5//site-packages/roadrunner"
 }
