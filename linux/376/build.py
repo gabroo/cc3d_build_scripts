@@ -98,11 +98,6 @@ if __name__ == '__main__':
     conda_exec = abspath(output.strip())
     conda_path = dirname(dirname(conda_exec))
 
-    output, err, ret_code = rc_check_status('which cmake')
-    if not output:
-        print 'Could not locate CMake. Make sure it is in your path'
-        sys.exit(1)
-    cmake_path = abspath(output.strip())
 
     output, err, ret_code = rc('conda create -y -n {conda_env} python'.format(conda_env=conda_env))
 
@@ -119,8 +114,10 @@ if __name__ == '__main__':
     PYTHON_INCLUDE_DIR = join(conda_path, 'envs', conda_env, 'include/python2.7')
     PYTHON_LIBRARY = join(conda_path, 'envs', conda_env, 'lib/libpython2.7.so')
     VTK_DIR = join(conda_path, 'envs', conda_env, 'lib/cmake/vtk-6.3')
+    cmake_path = join(conda_path, 'envs', conda_env, 'bin/cmake')
 
     PYQT_VERSION = 5
+
 
     cmake_config_command = [cmake_path, '-G', 'Unix Makefiles', '-DCMAKE_BUILD_TYPE:STRING=Release',
                             '-DNO_OPENCL:BOOLEAN=ON',
