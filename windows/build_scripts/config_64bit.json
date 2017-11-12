@@ -3,6 +3,7 @@
   "CMAKE_PATH": "C:/Program Files (x86)/CMake/bin/cmake.exe",
   "CMAKE_GENERATOR_NAME": "NMake Makefiles",
   "WIN_INSTALLER_CREATOR": "win_cc3d_installer_creator.py",
+  "WIN_INSTALLER_TEMPLATE": "CompuCell3D-64bit.nsi.tpl",
   "PYQT_VERSION": "5",
   "WIN_DEPENDENCIES_ROOT": "d:/prerequisites_2017/64bit",
   "PYTHON_DIR": "d:/prerequisites_2017/64bit/Python27",

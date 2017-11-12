@@ -64,6 +64,7 @@ class ConfigsWindows(ConfigsBase):
         self.CMAKE_PATH = ''
         self.CMAKE_GENERATOR_NAME = ''
         self.WIN_INSTALLER_CREATOR = ''
+        self.WIN_INSTALLER_TEMPLATE = ''
         self.PYQT_VERSION = ''
         self.WIN_DEPENDENCIES_ROOT = ''
         self.PYTHON_DIR = ''

@@ -130,7 +130,7 @@ cmake_args = [CFG.CMAKE_PATH, '-G', CFG.CMAKE_GENERATOR_NAME, '-DCMAKE_BUILD_TYP
               '-DWINDOWS_DEPENDENCIES:PATH=' + CFG.WIN_DEPENDENCIES_ROOT, CC3D_SOURCE_PATH]
 
 if args.arch_gpu:
-    cmake_args += ['-DNO_OPENCL:BOOLEAN=OFF', ]  # enable open_cl - note the option is NO_OPENCL
+    cmake_args += ['-DNO_OPENCL:BOOLEAN=OFF', '-DOPENCL_LIBRARIES=' + CFG.OPENCL_LIBRARIES,]  # enable open_cl - note the option is NO_OPENCL
 else:
     cmake_args += ['-DNO_OPENCL:BOOLEAN=ON', ]  # disable open_cl note the option is NO_OPENCL
 
@@ -139,6 +139,15 @@ subprocess.call(cmake_args)
 subprocess.call(['nmake', 'install'])
 ############ End of building CompuCell3D
 
+# compiling all python code
+import compileall
+dirs_to_python_compile = ['lib','player5','pythonSetupScripts','Twedit++5','optimization','Demos']
+
+for compile_dir in dirs_to_python_compile:
+    dir_full_path = os.path.join(INSTALL_PREFIX, compile_dir)
+    compileall.compile_dir(dir_full_path, force=True)
+
+
 if BUILD_INSTALLER:
     revision_number = timestamp_revision_number()
     INSTALLER_NAME = os.path.abspath(
@@ -146,7 +155,8 @@ if BUILD_INSTALLER:
 
     os.chdir(CURRENT_DIR)
     subprocess.call(
-        ['python', CFG.WIN_INSTALLER_CREATOR, '-d', INSTALL_PREFIX, '-v', installer_version_str, '-i', INSTALLER_NAME])
+        ['python', CFG.WIN_INSTALLER_CREATOR, '-d', INSTALL_PREFIX, '-v', installer_version_str, '-i', INSTALLER_NAME,
+         '-t', CFG.WIN_INSTALLER_TEMPLATE])
 
 t2 = time.time()
 

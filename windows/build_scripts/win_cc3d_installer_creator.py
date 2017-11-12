@@ -2,12 +2,12 @@ import os,sys
 import re
 
 # example command:
-# python .\win_cc3d_installer_creator_377.py -d D:\install_projects\3.7.6 -v 3.7.6.0
+# python .\win_cc3d_installer_creator_377.py -d D:\install_projects\3.7.6 -v 3.7.6.0 -t CompuCell3D.nsi.tpl
 
 # this is the path to the NSIS instaler executable
 NSIS_EXE_PATH='C:\Program Files (x86)\NSIS\makensis.exe '
 
-INSTALLER_TEMPLATE_NAME='CompuCell3D.nsi.tpl'
+
 
 
 # version has to have format 3.7.6.0 - four numbers otherwise NSIS crashes, strange...
@@ -18,8 +18,11 @@ parser = OptionParser()
 parser.add_option("-d", "--directory", dest="dirname",action="store", type="string",help="CC3D installation directory")
 parser.add_option("-i", "--installer-name", dest="installer_name",action="store", default='', type="string",help="full installer name")
 parser.add_option("-v", "--version", dest="version",action="store", type="string",help="CC3D version", default='')
+parser.add_option("-t", "--template", dest="template",action="store", type="string",help="installer template", default='')
 
 (options, args) = parser.parse_args()
+
+INSTALLER_TEMPLATE_NAME = options.template  # 'CompuCell3D.nsi.tpl'
 
 # -------------- end of parsing command line
 
