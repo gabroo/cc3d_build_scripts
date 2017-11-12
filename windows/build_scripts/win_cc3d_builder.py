@@ -59,10 +59,9 @@ parser.add_argument("-s", "--source-root", dest="source_root", action="store", t
 
 parser.add_argument('-i', '--installer-dir', dest='installer_dir', action='store', type=str, default='',
                     help='Folder where the installer will be stored', required=True)
+
 parser.add_argument("-v", "--version", dest="version", action="store", type=str, help='version of installer',
                     required=True)
-
-# parser.add_argument("--32bit", dest="arch_32bit", action="store_true", default=False, help='enables 32-bit build architecture')
 
 parser.add_argument("--gpu", dest="arch_gpu", action="store_true", default=False,
                     help='enables generation of gpu modules')
@@ -150,8 +149,14 @@ for compile_dir in dirs_to_python_compile:
 
 if BUILD_INSTALLER:
     revision_number = timestamp_revision_number()
+
+    gpu_tag = '-'
+    if args.arch_gpu:
+        gpu_tag = '-gpu-'
+
     INSTALLER_NAME = os.path.abspath(
-        os.path.join(INSTALLER_DIR, 'CompuCell3D-64bit-setup-' + version_str + 'v' + revision_number + '.exe'))
+        os.path.join(INSTALLER_DIR, 'CompuCell3D-' + CFG.BUILD_ARCH_TAG + gpu_tag +
+                     'setup-' + version_str + 'v' + revision_number + '.exe'))
 
     os.chdir(CURRENT_DIR)
     subprocess.call(
