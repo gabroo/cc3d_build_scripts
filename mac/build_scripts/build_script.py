@@ -13,7 +13,7 @@ necessary to compile CC3D
 
 example commands:
 
-64bit build - to be run from the top level directory (i.e. from the root of the cc3d_build_scripts):
+64bit build - to be run from the top level directory (i.e. from the root of the cc3d_build_scripts repository):
 
 python mac/build_scripts/build_script.py -p /Users/m/install_projects/CC3D_3.7.7 -s /Users/m/CC3D_GIT   -v 3.7.7.0 --config=mac/build_scripts/config_64bit.json
 

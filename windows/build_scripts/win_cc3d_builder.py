@@ -13,9 +13,13 @@ necessary to compile CC3D
 
 example commands:
 
+IMPORTANT add path to cc3d_build_scripts to PYTHONPATH by running:
+
+@SET PYTHONPATH=d:\CC3D_BUILD_SCRIPTS_GIT
+
 1 . 64bit no open cl modules:
 
-c:\miniconda64\python .\win_cc3d_builder.py  -p D:/install_projects/3.7.7-64bit -s D:/CC3D_GIT  -i D:/CC3D_FILES_SVN/binaries/3.7.7/windows -v 3.7.7.0 --config=config_64bit.json
+c:\miniconda64\python win_cc3d_builder.py  -p D:/install_projects/3.7.7-64bit -s D:/CC3D_GIT  -i D:/CC3D_FILES_SVN/binaries/3.7.7/windows -v 3.7.7.0 --config=config_64bit.json
 
 2. 64bit with open cl modules:
 
@@ -35,6 +39,9 @@ import time
 import os
 import subprocess
 from argparse import ArgumentParser
+import sys
+# print sys.path
+# import build_utils
 
 from build_utils.build_utils import *
 # from utils import *
@@ -75,9 +82,11 @@ MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION, INSTALLER_BUILD = version_str_to_tu
 version_str = version_tuple_to_str(version_component_sequence=(MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION),
                                    number_of_version_components=3)
 
+
 installer_version_str = version_tuple_to_str(
     version_component_sequence=(MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION, INSTALLER_BUILD),
-    number_of_version_components=3)
+    number_of_version_components=4)
+
 
 CURRENT_DIR = os.getcwd()
 
