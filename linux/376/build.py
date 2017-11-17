@@ -110,11 +110,22 @@ if __name__ == '__main__':
                                                                                  conda_channel=conda_dependency_channel,
                                                                                  conda_env=conda_env))
 
-    PYTHON_EXECUTABLE = join(conda_path, 'envs', conda_env, 'bin', 'python')
-    PYTHON_INCLUDE_DIR = join(conda_path, 'envs', conda_env, 'include/python2.7')
-    PYTHON_LIBRARY = join(conda_path, 'envs', conda_env, 'lib/libpython2.7.so')
-    VTK_DIR = join(conda_path, 'envs', conda_env, 'lib/cmake/vtk-6.3')
-    cmake_path = join(conda_path, 'envs', conda_env, 'bin/cmake')
+    
+    
+    
+    getCondaEnvironmentPath = "conda env list | grep -w '{conda_env}'| awk '{{print $2}}'".format(conda_env=conda_env)
+    print getCondaEnvironmentPath
+    output = os.popen(getCondaEnvironmentPath).read()
+    if not output:
+        print 'Could not locate conda. Make sure it is in your path'
+        sys.exit(1)
+    conda_env_path =  output.strip()
+
+    PYTHON_EXECUTABLE = join(conda_env_path, 'bin', 'python')
+    PYTHON_INCLUDE_DIR = join(conda_env_path, 'include/python2.7')
+    PYTHON_LIBRARY = join(conda_env_path, 'lib/libpython2.7.so')
+    VTK_DIR = join(conda_env_path, 'lib/cmake/vtk-6.3')
+    cmake_path = join(conda_env_path, 'bin/cmake')
 
     PYQT_VERSION = 5
 
