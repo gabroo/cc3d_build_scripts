@@ -145,15 +145,26 @@ subprocess.call(['make', '-j ' + str(args.cores)])
 subprocess.call(['make', 'install'])
 
 # copying RR to CC3D install dir:
-shutil.copytree(CFG.RR_INSTALL_PATH, join(INSTALL_PREFIX, 'lib/python/roadrunner'))
-
+try:
+    shutil.copytree(CFG.RR_INSTALL_PATH, join(INSTALL_PREFIX, 'lib/python/roadrunner'))
+except OSError as e:
+    if str(e).find('File exists'):
+        pass
+    else:
+        raise e
 # packaging CC3D
 # cp -a ${MAC_DEPS}/* ${INSTALL_PREFIX}
 # -a option does not replace symlinks with files
 # subprocess.call(['cp', '-a', CFG.PREREQUISITES_DIR + '/*', INSTALL_PREFIX])
 
+try:
+    copy_tree(CFG.PREREQUISITES_DIR, INSTALL_PREFIX, preserve_symlinks=1)
+except OSError as e:
+    if str(e).find('File exists'):
+        pass
+    else:
+        raise e
 
-copy_tree(CFG.PREREQUISITES_DIR, INSTALL_PREFIX, preserve_symlinks=1)
 
 INSTALL_PREFIX_UP = dirname(INSTALL_PREFIX)
 
