@@ -1,0 +1,35 @@
+After you install conda environment that includes numpy youu may want to install libroadrunner
+
+normally you would type
+
+pip install libroadrunner
+
+and libroadrunner will get installed.
+
+if you run python and there type
+
+import roadrunner
+
+you should see that import suceeded.
+
+Sometimes you will get an error compaining about wrong version of numpy :
+
+"""module compiled against API version 0xc but this version of numpy is 0xb"
+
+in tyhis situation you may need to install a different version of libroadrunner
+
+to check available versions of libroadrunner you could use a pip hack:
+
+pip install libroadrunner==
+
+you will get pip error message that will include all available versions of libroadrunner.
+
+then you would uninstall existing libroadrunner (the one that has numpy version conflict):
+
+pip uninstall libroadrunner
+
+and install new version
+
+pip install libroadrunner=1.4.24
+
+This typically should fix your problems
