@@ -10,6 +10,7 @@ export LC_NUMERIC="C.UTF-8"
 export PREFIX_CC3D="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 export PYTHON_EXEC=${PREFIX_CC3D}/Python27/bin/python
+export QT_XKB_CONFIG_ROOT=${PREFIX_CC3D}/Python27/lib
 
 export MAX_NUMBER_OF_CONSECUTIVE_RUNS=50
 
