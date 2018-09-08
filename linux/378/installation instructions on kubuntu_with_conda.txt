@@ -54,4 +54,5 @@ sudo apt-get install g++ swig cmake-gui python-numpy python-pyqt5 python-pyqt5.q
 
 # Swig on ubuntu_18_84
 
-On this version of ubuntu swig struggles finding its core include files. The solution is to remove swig executable from conda environment created and install swig manually from sources.
+On this version of ubuntu swig struggles finding its core include files. The solution is to remove swig executable from conda environment created and install swig manually from sources. You may also need to uninstall any system-wide installation either on
+kubuntu or on RedHat systems
