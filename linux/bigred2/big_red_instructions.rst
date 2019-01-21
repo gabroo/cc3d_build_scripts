@@ -226,6 +226,27 @@ Now that you have CC3D source we run installation script. Here is the full conte
 
 After this step your cc3d installation should be ready.
 
+If you are bundling cc3d i.e. want to include full Python27 distributiuon (which is an exact copy of your cc3d_377 env
+we created earlier)
+
+you also need to change path to python exec env variable in CC3D run scripts
+
+i.e. replace
+
+.. code-block:: console
+
+    export PYTHON_EXEC=/N/u/mswat/BigRed2/.conda_envs/cc3d_377/bin/python
+
+with
+
+.. code-block:: console
+
+    export PYTHON_EXEC=${PREFIX_CC3D}/Python27/bin/python
+
+
+in all .sh scripts in CC3D install folder
+
+
 There is one thing you need to fix manually for now:
 
 Go to player5/GraphicsOffscreen/GenericDrawer.py and comment out the following lines:
