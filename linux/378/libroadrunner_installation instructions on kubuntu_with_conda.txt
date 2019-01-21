@@ -10,7 +10,7 @@ if you run python and there type
 
 import roadrunner
 
-you should see that import suceeded.
+you should see that import succeeded.
 
 Sometimes you will get an error compaining about wrong version of numpy :
 
@@ -30,6 +30,6 @@ pip uninstall libroadrunner
 
 and install new version
 
-pip install libroadrunner=1.4.24
+pip install libroadrunner==1.4.24
 
 This typically should fix your problems

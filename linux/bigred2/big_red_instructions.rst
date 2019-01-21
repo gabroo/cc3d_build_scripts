@@ -268,4 +268,51 @@ Go to player5/GraphicsOffscreen/GenericDrawer.py and comment out the following l
 
 For some reason rendering of axes doe s not work on BigRed2 with VTK-6.3.0
 
+Installing RoadRunner
+=====================
+
+
+After you install conda environment that includes numpy youu may want to install ``libroadrunner`` normally you would type
+
+.. code-block:: console
+
+    pip install libroadrunner
+
+and ``libroadrunner`` will get installed.
+
+if you run python and there type
+
+.. code-block:: python
+
+    import roadrunner
+
+you should see that import succeeded.
+
+Sometimes you will get an error compaining about wrong version of numpy :
+
+"""module compiled against API version 0xc but this version of numpy is 0xb"
+
+in this situation you may need to install a different version of libroadrunner
+
+to check available versions of libroadrunner you could use a pip hack:
+
+.. code-block:: console
+
+    pip install libroadrunner==
+
+you will get pip error message that will include all available versions of libroadrunner.
+
+then you would uninstall existing libroadrunner (the one that has numpy version conflict):
+
+.. code-block:: console
+
+    pip uninstall libroadrunner
+
+and install new version
+
+.. code-block:: console
+
+    pip install libroadrunner==1.4.24
+
+This typically should fix your problems
 
