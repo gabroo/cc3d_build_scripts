@@ -1,0 +1,32 @@
+First thing,switch environments from cray to gcc:
+
+module swap PrgEnv-cray PrgEnv-gnu
+
+second, add mesa module for access to OpenGL:.
+
+module load mesa
+
+
+To Compile VTK you have to have to change Linker Flags in the CMAKE to.
+poinjt to mesa libs location
+-L/N/soft/cle4/mesa/gnu/7.4.1/lib
+
+for Qt you need to edit.
+/N/hd03/mswat/BigRed2/Downloads/qt-everywhere-opensource-src-4.8.5/mkspecs/common/linux.conf
+
+and change.
+
+QMAKE_INCDIR_OPENGL   = /usr/X11R6/include
+QMAKE_LIBDIR_OPENGL   = /usr/X11R6/lib
+
+to.
+
+QMAKE_INCDIR_OPENGL   = /N/soft/cle4/mesa/gnu/7.4.1/include
+QMAKE_LIBDIR_OPENGL   = /N/soft/cle4/mesa/gnu/7.4.1/lib
+
+also adding -opengl to force Qt to build openGL modules helps.
+
+
+For debugging check openGL test directory
+
+/N/hd03/mswat/BigRed2/Downloads/qt-everywhere-opensource-src-4.8.5/config.tests/x11/opengl
