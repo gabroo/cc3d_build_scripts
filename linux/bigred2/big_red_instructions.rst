@@ -16,13 +16,19 @@ The key idea here is manual specification of mesa library on BigRed. Fortunately
 OK.
 
 First thing is to load appropriate modules - some of those commands we will put later in the startup script so that you do not
-need to enter them manually each time you compile or run things on BigRed2
+need to enter them manually each time you compile or run things on BigRed2 (see example ``big_red_environment_setup.sh``
+. You may include it in your .bashrc script on bigred2 to avoid manual loading of the modules)
 
 .. code-block:: console
 
+    export LFLAGS=-L/N/soft/cle4/mesa/gnu/7.4.1/lib
     module unload python
     module load anaconda2/4.2.0
     module load git/2.17.0
+    module load mesa
+
+
+The ``LFLAGS`` setting is necessary to properly link VTK during compilation
 
 
 Keep in mind, that even though anacnoda is installed and it has vtk /pyqt5 they are not functional on BigRed2. You need
