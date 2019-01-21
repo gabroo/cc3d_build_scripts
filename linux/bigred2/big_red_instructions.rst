@@ -288,7 +288,18 @@ if you run python and there type
 
 you should see that import succeeded.
 
-Sometimes you will get an error compaining about wrong version of numpy :
+
+If you ger the following error:
+``SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:661)``
+
+then you have to add additional arguments to ``pip install``:
+
+.. code-block:: console
+
+     pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org libroadrunner
+
+
+Sometimes you will get an error complaining about wrong version of numpy :
 
 """module compiled against API version 0xc but this version of numpy is 0xb"
 
@@ -313,6 +324,12 @@ and install new version
 .. code-block:: console
 
     pip install libroadrunner==1.4.24
+
+or
+
+.. code-block:: console
+
+pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org libroadrunner==1.4.24
 
 This typically should fix your problems
 
