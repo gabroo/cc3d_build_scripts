@@ -36,7 +36,7 @@ However if you install the following packages in your newly created conda enviro
 
 .. code-block:: console
 
-    conda install -c conda-forge vtk=8.1.0 scipy numpy pandas jinja2 pyqt qscintilla2 webcolors pyqtgraph deprecated
+    conda install -c conda-forge vtk=8.1.0 scipy numpy pandas jinja2 pyqt qscintilla2 webcolors pyqtgraph deprecated pywin32
 
 The vkt library you install via conda is also used as a dependency for CC3D c++ modules. However, this conda
 vtk compilation depends on 3rd party library tbb (Intel's thread building blocks library). Unfortunately this
@@ -97,6 +97,32 @@ Now you can try any particular version by typing for example
 .. code-block:: console
 
     pip install libroadrunner==1.5.1
+
+Updating qt.conf
+----------------
+In order for qt installation to functionproperly on any system where we distrivuter Python36 we need to
+update ``<conda_env>/qt.conf`` as follows
+
+.. code-block:: console
+
+    [Paths]
+    Prefix = ./Library
+    Binaries = ./Library/bin
+    Libraries = ./Library/lib
+    Headers = ./Library/include/qt
+
+
+and ``<conda_env>/Library/bin/qt.conf`` :
+
+.. code-block:: console
+
+    [Paths]
+    Prefix = ../
+    Binaries = ../bin
+    Libraries = ../lib
+    Headers = ../include/qt
+
+
 
 Patching pyqtgraph - no longer necessary
 ----------------------------------------
