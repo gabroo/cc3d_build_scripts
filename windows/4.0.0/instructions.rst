@@ -1,3 +1,12 @@
+Preparing Windows Compilation
+=============================
+
+The preparation of windows dependencies can be as simple as downloading a zipped directory from
+our download site - https://sourceforge.net/projects/cc3d/files/compile_dependencies/
+
+However, if you are interested in exact steps that are required to prepare those dependencies we present them in
+details below
+
 Preparing dependencies
 ----------------------
 
@@ -59,6 +68,35 @@ We grab all files (*.lib extensions) from ``lib/intel64/vc12`` and place them in
 
 The procedure for patching 32 bit conda is similar except we would copy all files (*.lib extensions)
 from ``lib/ia32/vc12`` and place them inside ``Library/lib`` subfolder of your respective conda root
+
+Adding libroadrunner
+--------------------
+
+After you activate your conda environment you also need to install libroadrunner
+The best way is to use ``pip`` command by typing
+
+.. code-block:: console
+
+    pip install libroadrunner
+
+If for some reason (usually incompatibility with your installed numpy version) importing roadrunner fails
+
+you may try different versions of roadrunner. To get a list of available versions available via pip, type:
+
+.. code-block:: console
+
+    pip install libroadrunner==
+
+This is a bit of a hack but you will get list of libroadrunner versions in the following form
+
+`` Could not find a version that satisfies the requirement libroadrunner== (from versions: 1.4.18, 1.4.23, 1.4.24, 1.5.1, 1.5.2, 1.5.3)
+No matching distribution found for libroadrunner==``
+
+Now you can try any particular version by typing for example
+
+.. code-block:: console
+
+    pip install libroadrunner==1.5.1
 
 Patching pyqtgraph - no longer necessary
 ----------------------------------------
