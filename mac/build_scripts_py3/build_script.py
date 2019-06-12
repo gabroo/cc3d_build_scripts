@@ -15,7 +15,7 @@ example commands:
 
 64bit build - to be run from the top level directory (i.e. from the root of the cc3d_build_scripts repository):
 
-python mac/build_scripts_py3/build_script.py -p /Users/m/install_projects/CC3D_4.0.0 -s /Users/m/CC3D_GIT   -v 4.0.0.0 --config=mac/build_scripts/config_64bit.json
+python mac/build_scripts_py3/build_script.py -p /Users/m/install_projects/CC3D_4.0.0 -s /Users/m/CC3D_PY3_GIT   -v 4.0.0.0 --config=mac/build_scripts_py3/config_64bit.json
 
 """
 import time
@@ -26,8 +26,10 @@ import subprocess
 from argparse import ArgumentParser
 from distutils.dir_util import copy_tree
 import datetime
-from build_utils.build_utils import *
-from build_utils.configs import ConfigsOSX
+from build_utils_py3.build_utils import *
+from build_utils_py3.configs import ConfigsOSX
+
+
 
 t1 = time.time()
 
@@ -55,6 +57,9 @@ parser.add_argument("--config-file", dest="config_file", action="store", type=st
 args = parser.parse_args()
 # -------------- end of parsing command line
 CFG = ConfigsOSX(json_fname=args.config_file)
+
+print('prerequisites=',CFG.PREREQUISITES_DIR)
+# sys.exit()
 
 MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION, INSTALLER_BUILD = version_str_to_tuple(args.version)
 
@@ -131,18 +136,6 @@ subprocess.call(cmake_args)
 subprocess.call(['make', '-j ' + str(args.cores)])
 subprocess.call(['make', 'install'])
 
-# copying RR to CC3D install dir:
-try:
-    shutil.copytree(CFG.RR_INSTALL_PATH, join(INSTALL_PREFIX, 'lib/python/roadrunner'))
-except OSError as e:
-    if str(e).find('File exists'):
-        pass
-    else:
-        raise e
-# packaging CC3D
-# cp -a ${MAC_DEPS}/* ${INSTALL_PREFIX}
-# -a option does not replace symlinks with files
-# subprocess.call(['cp', '-a', CFG.PREREQUISITES_DIR + '/*', INSTALL_PREFIX])
 
 try:
     copy_tree(CFG.PREREQUISITES_DIR, INSTALL_PREFIX, preserve_symlinks=1)

@@ -1,5 +1,5 @@
 {
-  "CMAKE_PATH": "/usr/bin/cmake",
+  "CMAKE_PATH": "/Applications/CMake.app/Contents/bin/cmake",
   "CMAKE_GENERATOR_NAME": "Unix Makefiles",
   "PYQT_VERSION": "5",
   "PYTHON_MINOR_VERSION": "7",
