@@ -9,7 +9,7 @@ QT_QPA_PLATFORM_PLUGIN_PATH
     export QT_QPA_PLATFORM_PLUGIN_PATH=${PREFIX_CC3D}/python37/plugins
 
 
-or else the following erro rwill show up
+or else the following error will show up
 
 .. code-block: bash
 
