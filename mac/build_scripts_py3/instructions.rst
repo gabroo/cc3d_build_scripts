@@ -17,3 +17,12 @@ or else the following erro rwill show up
     in "".
 
     Reinstalling the application may fix this problem.
+
+VTK + TBB Library
+=================
+
+Because vtk that is provided via conda packages is compiled against TBB libraries we added
+entire tbb include dir to
+
+/Users/m/miniconda3/envs/cc3d_2019/include/vtk-8.1/tbb
+
