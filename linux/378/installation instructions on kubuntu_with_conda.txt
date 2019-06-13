@@ -1,0 +1,58 @@
+conda create -n cc3d_2017 python
+conda install nomkl numpy
+conda install pyqt vtk
+conda install jinja2 
+pip install webcolors
+conda install pyqtgraph
+conda install pyzmq
+pip install cma
+
+to allow compilation of FieldExtractor from pyinterface using conda's vtk we need to make a link 
+
+/usr/lib64 pointing to /home/m/miniconda2/envs/cc3d_2017/bin , simply type
+
+sudo ln -s /home/m/miniconda2/envs/cc3d_2017/bin /usr/lib64
+
+on linux the installation of pyqt5/qt5 is messed up. At least with this current version of conda. 
+
+to fix installation of PyQt5 in miniconda we need to make links inside /home/m/miniconda2/envs/cc3d_2017/bin
+to every single directory in /home/m/miniconda2/envs/cc3d_2017
+
+we also need to copy include all qt include directories from /home/m/miniconda2/envs/cc3d_2017/include/qt to /home/m/miniconda2/envs/cc3d_2017/include
+
+NExt we need to download and compile QScintilla 2.9.3 (later versions will not work with pyqt installation distributes with conda - v 5.6.0 - I am sure this will change in the future though and we will be able to use latest QScintilla)
+
+we also change the content of qt.conf inside /home/m/miniconda2/envs/cc3d_2017/bin to:
+[Paths]
+Prefix = ../
+Binaries = ../bin
+Libraries = ../lib
+Headers = ../include/qt
+
+After this we can copy entire python environment to cc3d installartion directory : 
+
+/home/m/miniconda2/envs/cc3d_2017 -> <CC3D_install_DIR>/Python27
+
+
+
+we need to fix pyqtgraph 
+We need to patch installation of pyqtgraph by commenting out the wollowing lines in <prerequisites_folder>\Python27\Lib\site-packages\pyqtgraph\widgets\GraphicsView.py :
+
+        # from .. import _connectCleanup
+        # _connectCleanup()
+
+or  (better) changing
+        from .. import _connectCleanup
+to
+        from pyqtgraph import _connectCleanup
+
+
+
+FWhen using system python on e.g. kubuntu 16.04 or any other modern linux all you have to do is to install dependencies as follows:
+
+sudo apt-get install g++ swig cmake-gui python-numpy python-pyqt5 python-pyqt5.qsci python-pyqt5.qtopengl libvtk6-dev python-vtk6 python-dev libxml2-dev build-essential git
+
+# Swig on ubuntu_18_84
+
+On this version of ubuntu swig struggles finding its core include files. The solution is to remove swig executable from conda environment created and install swig manually from sources. You may also need to uninstall any system-wide installation either on
+kubuntu or on RedHat systems
