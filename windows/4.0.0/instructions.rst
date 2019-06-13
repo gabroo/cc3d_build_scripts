@@ -69,7 +69,7 @@ We grab all files (*.lib extensions) from ``lib/intel64/vc12`` and place them in
 The procedure for patching 32 bit conda is similar except we would copy all files (*.lib extensions)
 from ``lib/ia32/vc12`` and place them inside ``Library/lib`` subfolder of your respective conda root
 
-**Important** We also need to patch <python_root>/Python36/Library/lib/cmake/vtk-8.1/
+**Important** We also need to patch ``<python_root>/Python36/Library/lib/cmake/vtk-8.1/VTKTargets.cmake``
 
 replace line
 
