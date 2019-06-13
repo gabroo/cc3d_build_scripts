@@ -2,7 +2,7 @@
 @set CURRENT_DIRECTORY=%CD%
 @set PYTHONPATH=D:\CC3D_BUILD_SCRIPTS_GIT
 
-@set version=3.7.7
+@set version=3.7.8
 
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
 
