@@ -36,11 +36,13 @@ However if you install the following packages in your newly created conda enviro
 
 .. code-block:: console
 
-    conda install -c conda-forge vtk=8.1.0 scipy numpy pandas jinja2 pyqt qscintilla2 webcolors pyqtgraph deprecated pywin32
+    conda install -c conda-forge vtk=8.1.0 scipy numpy pandas jinja2 pyqt qscintilla2 webcolors pyqtgraph deprecated pywin32 chardet
 
 The vkt library you install via conda is also used as a dependency for CC3D c++ modules. However, this conda
 vtk compilation depends on 3rd party library tbb (Intel's thread building blocks library). Unfortunately this
 library is not installed along with vtk so we need to do some minor patching as described below
+
+To install dependencies
 
 Adding TBB to conda environment
 -------------------------------
@@ -54,6 +56,7 @@ For our purposes we used this direct link to grab pre-build windows tbb librarie
 https://www.threadingbuildingblocks.org/sites/default/files/software_releases/windows/tbb43_20150611oss_win.zip
 
 Assuming we are building 64-bit application we copy
+**IMPORTANT** for 32-bit conda tbb seems to be included so below instrutions apply to 64-bit only conda
 
 ``include/tbb`` directory of the tbb binaries into ``c:/Miniconda3/envs/cc3d_2020/Library/include`` .
 
@@ -87,7 +90,7 @@ you may try different versions of roadrunner. To get a list of available version
 
     pip install libroadrunner==
 
-This is a bit of a hack but you will get list of libroadrunner versions in the following form
+This  is a bit of a hack but you will get list of libroadrunner versions in the following form
 
 `` Could not find a version that satisfies the requirement libroadrunner== (from versions: 1.4.18, 1.4.23, 1.4.24, 1.5.1, 1.5.2, 1.5.3)
 No matching distribution found for libroadrunner==``
@@ -122,6 +125,13 @@ and ``<conda_env>/Library/bin/qt.conf`` :
     Libraries = ../lib
     Headers = ../include/qt
 
+Updating plugin/platforms - 32bit only
+--------------------------------------
+
+For 32bit prerequisites we also need to make sure that ``<conda_env>/Library/plugins/platforms/qwindows.dll``
+ends up in  ``<cc3d_install_folder>/bin/platrofms``
+so the best way is tro create prerequisites folder ``<prerequisites_folder>/bin/platrofms`` and copy there
+the ``qwindows.dll``
 
 
 Patching pyqtgraph - no longer necessary
