@@ -67,7 +67,7 @@ Assuming we are building 64-bit application we copy
 In your case the exact location of conda environment you are creating mught be different . The important part is to go
 from the root of the environment - in my case ``<conda_root>/envs/cc3d_2020`` to ``Library/include/vtk-8.2``.
 
-Next we copy make a soft link to exising tbb.so.2 library by running
+Next we copy make a soft link to existing tbb.so.2 library by running
 
 .. code-block:: console
 
