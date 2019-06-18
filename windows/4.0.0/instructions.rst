@@ -58,19 +58,40 @@ https://www.threadingbuildingblocks.org/sites/default/files/software_releases/wi
 Assuming we are building 64-bit application we copy
 **IMPORTANT** for 32-bit conda tbb seems to be included so below instrutions apply to 64-bit only conda
 
-``include/tbb`` directory of the tbb binaries into ``c:/Miniconda3/envs/cc3d_2020/Library/include`` .
+``include/tbb`` directory of the tbb binaries into ``c:/Miniconda3/envs/cc3d_2020/Library/include/vtk-8.1`` .
+
 
 In your case the exact location of conda environment you are creating mught be different . The important part is to go
-from the root of the environment - in my case ``c:/Miniconda3/envs/cc3d_2020`` to ``Library/include``.
+from the root of the environment - in my case ``c:/Miniconda3/envs/cc3d_2020`` to ``Library/include/vtk-8.1``.
 
 Next we copy  tbb libraries
 
 We grab all files (*.lib extensions) from ``lib/intel64/vc12`` and place them in
 ``c:/Miniconda3/envs/cc3d_2020/Library/lib``
 
-
 The procedure for patching 32 bit conda is similar except we would copy all files (*.lib extensions)
 from ``lib/ia32/vc12`` and place them inside ``Library/lib`` subfolder of your respective conda root
+
+**Important** We also need to patch ``<python_root>/Python36/Library/lib/cmake/vtk-8.1/VTKTargets.cmake``
+
+replace line
+
+.. code-block:: python
+
+    INTERFACE_LINK_LIBRARIES "\$<\$<NOT:\$<CONFIG:DEBUG>>:C:/Miniconda3/envs/cc3d_2020/Library/lib/tbb.lib>;\$<\$<CONFIG:DEBUG>:C:/Miniconda3/envs/cc3d_2020/Library/lib/tbb.lib>"
+
+with
+
+.. code-block:: python
+
+    INTERFACE_LINK_LIBRARIES "${_IMPORT_PREFIX}/lib/tbb.lib"
+
+This fix is necessary because during installation of vtk on your machine the installing script hard-codes path to
+tbb library which is bad (conda issue)
+
+So here we are replacing hardcoded path with a simple statement based on anchor directory cmake variable ${_IMPORT_PREFIX}
+
+This os much better and is guaranteed to work on any machine
 
 Adding libroadrunner
 --------------------
