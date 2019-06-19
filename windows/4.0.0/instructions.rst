@@ -154,6 +154,11 @@ ends up in  ``<cc3d_install_folder>/bin/platrofms``
 so the best way is tro create prerequisites folder ``<prerequisites_folder>/bin/platrofms`` and copy there
 the ``qwindows.dll``
 
+Copy icons for NSIS
+-------------------
+
+Copy all icons from ``nsis_icons`` to ``c:/Program Files (x86)/NSIS/Contrib/Graphics/Icons/``
+
 
 Patching pyqtgraph - no longer necessary
 ----------------------------------------
@@ -180,3 +185,4 @@ with
         # _connectCleanup()
 
 We are not doing it anymore
+
