@@ -17,6 +17,9 @@ For help on command line options type:
 
     python build.py --help
 
+IMPORTANT:
+ the above command cannot be run from within cc3d_2020 environment
+
 """
 import argparse
 import sys
