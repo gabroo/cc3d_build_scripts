@@ -9,7 +9,7 @@ export LC_NUMERIC="C.UTF-8"
 # export PREFIX_CC3D=@COMPUCELL_INSTALL_DIR@
 export PREFIX_CC3D="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-export PYTHON_EXEC=${PREFIX_CC3D}/Python27/bin/python
+export PYTHON_EXEC=${PREFIX_CC3D}/Python37/bin/python
 
 
 cd $PREFIX_CC3D
