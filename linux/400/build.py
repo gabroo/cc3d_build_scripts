@@ -11,7 +11,7 @@ Requirements:
 
 example command:
 
-    python build.py --prefix=/home/m/300_auto --source-root=/home/m/CC3D_PY3_GIT --build-dir=/home/m/400_auto_build --version=4.0.0 --cores=2 --conda-env-name=cc3d_2020
+    python build.py --prefix=/home/m/400_auto --source-root=/home/m/CC3D_PY3_GIT --build-dir=/home/m/400_auto_build --version=4.0.0 --cores=2 --conda-env-name=cc3d_2020
 
 For help on command line options type:
 

@@ -39,7 +39,7 @@ You may use ``cc3d_2020_env`` to restore exact packages we installed using the f
 
 .. code-block:: console
 
-    conda create --name cc3d_2020 --file cc3d_2020_env
+    conda create --name cc3d_2020 --file cc3d_2020_env.txt
 
 This command is not always guaranteed to succeed because conda dependencies are often removed from servers making
 this method of freezing dependencies unreliable.
