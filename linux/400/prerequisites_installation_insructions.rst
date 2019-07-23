@@ -57,15 +57,14 @@ https://github.com/intel/tbb/blob/master/download.md
 
 For our purposes we used this direct link to grab pre-build windows tbb libraries
 
-https://www.threadingbuildingblocks.org/sites/default/files/software_releases/windows/tbb43_20150611oss_lin.zip
+https://www.threadingbuildingblocks.org/sites/default/files/software_releases/linux/tbb43_20150611oss_lin.tgz
 
 Assuming we are building 64-bit application we copy
 
-``include/tbb`` directory of the tbb binaries into ``<conda_root>/envs/cc3d_2020/Library/include/vtk-8.2`` .
+``include/tbb`` directory of the tbb binaries into ``<conda_root>/envs/cc3d_2020/include/vtk-8.2`` .
 
-
-In your case the exact location of conda environment you are creating mught be different . The important part is to go
-from the root of the environment - in my case ``<conda_root>/envs/cc3d_2020`` to ``Library/include/vtk-8.2``.
+In your case the exact location of conda environment you are creating might be different . The important part is to go
+from the root of the environment - in my case ``<conda_root>/envs/cc3d_2020`` to ``include/vtk-8.2``.
 
 Next we copy make a soft link to existing tbb.so.2 library by running
 
