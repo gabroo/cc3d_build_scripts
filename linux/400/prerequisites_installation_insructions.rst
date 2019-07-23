@@ -72,3 +72,22 @@ Next we copy make a soft link to existing tbb.so.2 library by running
 
     cd <conda_root>/envs/cc3d_2020/lib
     ln -s libtbb.so.2 libtbb.so
+
+Fixing Qt hard-coded paths in qt.conf
+-------------------------------------
+
+To ensure that we can run cc3d on opther systems we need to copy ``qt.conf`` from conda_patches folder into ``<conda_root>/envs/cc3d_2020/bin``
+
+
+Setting FONTCONFIG environment variables
+----------------------------------------
+
+In order to ensure that fonts in the Qt UI are properly handled we need to add to ``compucell3d.sh`` and ``twedit++.sh`` run script the following lines
+
+.. code-block:: bash
+
+    # FONTCONFIG env vars ensure that all the qt fonts are loaded properly
+    export FONTCONFIG_FILE=${PREFIX_CC3D}/Python37/etc/fonts/fonts.conf
+    export FONTCONFIG_PATH=${PREFIX_CC3D}/Python37/etc/fonts/
+
+
