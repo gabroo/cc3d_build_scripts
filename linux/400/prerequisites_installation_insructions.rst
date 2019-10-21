@@ -1,3 +1,5 @@
+You will need gcc/g++ 4.6 or higher to compile new CC3D (versions 4.x.x)
+
 Creating your  new python virtual environment aka conda environment:
 
 .. code-block:: console
@@ -16,7 +18,8 @@ Let's install numpy inside this environment because we will need it for the CC3D
 
 .. code-block:: console
 
-    conda install -c conda-forge numpy scipy pandas jinja2 webcolors vtk=8.2 pyqt pyqtgraph deprecated qscintilla2 jinja2 chardet
+    conda install -c conda-forge numpy scipy pandas jinja2 webcolors vtk=8.2 pyqt pyqtgraph deprecated qscintilla2 jinja2 chardet cmake swig
+
 
 We will use ``pip`` to install ``webcolors`` and ``libroadrunner``
 
