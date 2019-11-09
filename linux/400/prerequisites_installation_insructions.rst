@@ -58,7 +58,7 @@ TBB is s C library so all we need to do is to grab binaries for windows from
 
 https://github.com/intel/tbb/blob/master/download.md
 
-For our purposes we used this direct link to grab pre-build windows tbb libraries
+For our purposes we used this direct link to grab pre-build linux tbb libraries
 
 https://www.threadingbuildingblocks.org/sites/default/files/software_releases/linux/tbb43_20150611oss_lin.tgz
 

@@ -36,7 +36,9 @@ However if you install the following packages in your newly created conda enviro
 
 .. code-block:: console
 
-    conda install -c conda-forge vtk=8.1.0 scipy numpy pandas jinja2 pyqt qscintilla2 webcolors pyqtgraph deprecated pywin32 chardet
+    conda install -c conda-forge vtk=8.2 scipy numpy=1.15 pandas jinja2 pyqt qscintilla2 webcolors pyqtgraph deprecated pywin32 chardet
+
+    conda install -c compucell3d tbb_full_dev
 
 The vkt library you install via conda is also used as a dependency for CC3D c++ modules. However, this conda
 vtk compilation depends on 3rd party library tbb (Intel's thread building blocks library). Unfortunately this

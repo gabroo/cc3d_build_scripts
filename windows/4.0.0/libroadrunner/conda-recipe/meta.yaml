@@ -1,0 +1,32 @@
+# Load data from setup.py so we don't have to repeat ourselves as much
+#{% set setup_data = load_setup_py_data() %}
+
+# Define common build and runtime requirements here
+#{% set deps = setup_data["setup_requires"] %}
+{% set version = "1.5.4" %}
+
+package:
+  name: libroadrunner
+  version: {{ version }}
+
+build:
+  number: 0
+
+requirements:
+  host:
+    - python
+    - numpy
+    - numpy
+  run:
+    - python
+    - numpy
+
+about:
+  home: http://libroadrunner.org
+  license: MIT
+  summary:  A simulation  and analysis library for SBML
+  description: |
+    libRoadRunner: A simulation  and analysis library for SBML
+  dev_url: http://libroadrunner.org
+  doc_url: http://libroadrunner.org
+  doc_source_url: http://libroadrunner.org

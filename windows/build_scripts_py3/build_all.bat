@@ -4,13 +4,13 @@
 
 @set version=4.1.0
 
-call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
+rem call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
 
-c:\Miniconda3\python win_cc3d_builder.py  -p D:/install_projects/%version%-64bit -s D:/CC3D_PY3_GIT  -i D:/CC3D_FILES_SVN/binaries/%version%/windows -v %version%.0 --config=config_64bit.json
+rem c:\Miniconda3\python win_cc3d_builder.py  -p D:/install_projects/%version%-64bit -s D:/CC3D_PY3_GIT  -i D:/CC3D_FILES_SVN/binaries/%version%/windows -v %version%.0 --config=config_64bit.json
 
-call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
+rem call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
 
-c:\miniconda64\python .\win_cc3d_builder.py  -p D:/install_projects/%version%-64bit-gpu -s D:/CC3D_PY3_GIT  -i D:/CC3D_FILES_SVN/binaries/%version%/windows -v %version%.0 --config=config_64bit.json --gpu
+rem c:\miniconda64\python .\win_cc3d_builder.py  -p D:/install_projects/%version%-64bit-gpu -s D:/CC3D_PY3_GIT  -i D:/CC3D_FILES_SVN/binaries/%version%/windows -v %version%.0 --config=config_64bit.json --gpu
 
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86
 
