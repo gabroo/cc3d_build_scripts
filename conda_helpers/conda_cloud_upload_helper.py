@@ -20,7 +20,7 @@ def process_cml() -> argparse.Namespace:
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--conda-env', required=True)
+    parser.add_argument('--conda-env-file', required=True)
 
     parser.add_argument('--work-dir', required=True, type=str)
 
@@ -36,6 +36,8 @@ def process_cml() -> argparse.Namespace:
 def parse_conda_env(conda_env_file: str) -> dict:
     """
     Parses conda env file This file needs to be generated using
+    conda list --explicit > <this file>
+    to create env using this file use:
     conda create --name <env> --file <this file>
     :param conda_env_file:
     :return: dictionary with parsing results for easy postprocessing
