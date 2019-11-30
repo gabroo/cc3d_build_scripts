@@ -1,0 +1,58 @@
+# Load data from setup.py so we don't have to repeat ourselves as much
+#{% set setup_data = load_setup_py_data() %}
+
+# Define common build and runtime requirements here
+#{% set deps = setup_data["setup_requires"] %}
+{% set version = "4.3.1" %}
+
+package:
+  name: tbb_full_dev
+  version: {{ version }}
+
+#source:
+  # git_url: ../
+#  path: ../
+
+build:
+ # noarch: generic
+
+  # If this is a new build for the same version, increment the build
+  # number. If you do not include this key, it defaults to 0.
+  number: 0
+
+  # Specify additional env vars pass through
+  # script_env:
+  #   - ENV_VAR_HERE
+
+#requirements:
+#  build:
+#    - python {{ python }}*
+#    - setuptools
+#    {% for dep in deps %}
+#    - {{ dep }}
+#    {% endfor %}
+
+#  run:
+#    - python {{ python }}*
+#    {% for dep in deps %}
+#    - {{ dep }}
+#    {% endfor %}
+
+
+#test:
+ # imports:
+#    - pipeline_common
+  ## Disabled testing due to issues on Mac.
+  ## See https://github.com/bioconda/bioconda-recipes/issues/13488
+  # source_files:
+  #   - tests
+  # requires:
+  #   {% for dep in setup_data["extras_require"]["all"] %}
+  #   - {{ dep }}
+  #   {% endfor %}
+  # commands:
+  #   - pytest
+
+#about:
+#  home: https://bitbucket.org/inscriptacose/pipeline-common/src/master/
+## summary: {{ setup_data["description"] }}
