@@ -17,3 +17,45 @@ notarization. In our early  tests it happened that if we firss signed code and t
 attempted to replace hard-coded path with @rpath specifications we ran into issues
 
 
+
+
+Step 2 - Signing of the code
+----------------------------
+
+First make sure you have the proper certificate. The right certificate should read:
+
+**macOS Developer ID XXX**
+
+or if you open Keychain Access application look for certificate that reads
+**Developer ID Application: CERTIFICATE_NAME (XXX)**
+
+You may also follow this guide to see if certificate is valid
+https://support.apple.com/guide/keychain-access/determine-if-a-certificate-is-valid-kyca2794/mac
+
+From command line if you want to list code signing identities do the following:
+
+.. code-block:: console
+
+    security find-identity -v -p codesigning
+
+see also:
+https://stackoverflow.com/questions/7747230/determining-codesigning-identities-from-the-command-line
+
+Here are other useful links
+
+https://ohanaware.com/support/index.php?article=how-to-code-sign-dmg-files.html
+https://stackoverflow.com/questions/49748988/how-to-codesign-dmg-and-app-inside-it
+https://osxdaily.com/2016/03/14/verify-code-sign-apps-mac-os-x/
+
+Now lets sign directory with cc3d install
+We assume that CC3D is installed in ``/Users/m/mini_cc3d_install_1``
+
+.. code-block::
+
+    
+
+
+
+
+
+
