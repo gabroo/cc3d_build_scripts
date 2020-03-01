@@ -101,6 +101,8 @@ class ConfigsOSX(ConfigsBase):
         self.CMAKE_CXX_COMPILER = ''
         self.CMAKE_CXX_FLAGS = ''
         self.RR_INSTALL_PATH = ''
+        self.CMAKE_MODULE_LINKER_FLAGS = ''
+        self.CMAKE_SHARED_LINKER_FLAGS = ''
 
 
         self.initialize()
