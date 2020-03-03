@@ -1,0 +1,17 @@
+{
+  "CMAKE_PATH": "/Applications/CMake.app/Contents/bin/cmake",
+  "CMAKE_GENERATOR_NAME": "Unix Makefiles",
+  "PYQT_VERSION": "5",
+  "PYTHON_MINOR_VERSION": "7",
+  "CMAKE_OSX_DEPLOYMENT_TARGET":"10.9",
+  "CMAKE_C_COMPILER":"/usr/local/Cellar/gcc48/4.8.2/bin/gcc",
+  "CMAKE_C_FLAGS":"-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64",
+  "CMAKE_CXX_COMPILER":"/usr/local/Cellar/gcc48/4.8.2/bin/g++",
+  "CMAKE_CXX_FLAGS":"-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64",
+  "PREREQUISITES_DIR": "/Users/m/prerequisites/4.1.0",
+  "PYTHON_EXECUTABLE": "/Users/m/prerequisites/4.1.0/python37/bin/python",
+  "PYTHON_INCLUDE_DIR": "/Users/m/prerequisites/4.1.0/python37/include/python3.7m",
+  "PYTHON_LIBRARY": "/Users/m/prerequisites/4.1.0/python37/lib/libpython3.7m.dylib",
+  "VTK_DIR": "/Users/m/prerequisites/4.1.0/python37/lib/cmake/vtk-8.2"
+
+}

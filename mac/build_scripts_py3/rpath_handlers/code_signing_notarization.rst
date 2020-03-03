@@ -56,6 +56,9 @@ We assume that CC3D is installed in ``/Users/m/mini_cc3d_install_1``
 
 
 
+Note:
+-----
 
+Libraries that are hardcoded are idelly placed in the "deepest library folder"
 
 
