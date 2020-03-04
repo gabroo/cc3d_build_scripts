@@ -56,6 +56,25 @@ We assume that CC3D is installed in ``/Users/m/mini_cc3d_install_1``
 
 
 
+https://www.bountysource.com/issues/63856438-update-macos-to-mojave-then-vim-get-error-with-powerline
+After code-signign importing numpy may result in MemoryError to fix this we need to
+modify ctypes __init__.py
 
+265 def _reset_cache():
+266     _pointer_type_cache.clear()
+267     _c_functype_cache.clear()
+268     if _os.name in ("nt", "ce"):
+269         _win_functype_cache.clear()
+270     # _SimpleCData.c_wchar_p_from_param
+271     POINTER(c_wchar).from_param = c_wchar_p.from_param
+272     # _SimpleCData.c_char_p_from_param
+273     POINTER(c_char).from_param = c_char_p.from_param
+274     _pointer_type_cache[None] = c_void_p
+275     # XXX for whatever reasons, creating the first instance of a callback
+276     # function is needed for the unittests on Win64 to succeed.  This MAY
+277     # be a compiler bug, since the problem occurs only when _ctypes is
+278     # compiled with the MS SDK compiler.  Or an uninitialized variable?
+279     CFUNCTYPE(c_int)(lambda: None)
+As you can see, CFUNCTYPE function at line 279 is added by unittest on Win64 for whatever reasons. For mac user, this line is useless and lead to memory error on macOS. So I comment out line 279, and rerun vim, there is no errors with powerline.
 
-
+also need to sign everything in share/cmake-3.16/
