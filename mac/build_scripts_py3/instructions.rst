@@ -26,3 +26,22 @@ entire tbb include dir to
 
 /Users/m/miniconda3/envs/cc3d_2019/include/vtk-8.1/tbb
 
+
+
+INstall conda packages as follows:
+
+
+.. code-block:: console
+
+    conda install -c conda-forge numpy scipy pandas jinja2 webcolors vtk=8.2 pyqt=5.6.0 pyqtgraph deprecated qscintilla2 jinja2 chardet cmake swig=3
+
+next
+
+.. code-block:: console
+
+    conda install -c compucell3d tbb_full_dev
+
+.. code-block:: console
+
+    pip install libroadrunner
+

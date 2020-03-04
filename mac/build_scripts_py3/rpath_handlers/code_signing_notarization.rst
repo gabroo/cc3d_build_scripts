@@ -56,6 +56,10 @@ We assume that CC3D is installed in ``/Users/m/mini_cc3d_install_1``
 
 
 
+Note:
+-----
+
+Libraries that are hardcoded are idelly placed in the "deepest library folder"
 https://www.bountysource.com/issues/63856438-update-macos-to-mojave-then-vim-get-error-with-powerline
 After code-signign importing numpy may result in MemoryError to fix this we need to
 modify ctypes __init__.py
