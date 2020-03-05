@@ -19,7 +19,7 @@ def is_exe(fpath):
 
 
 def needs_signing(fpath):
-    extensions_to_sign = ['.pyd', '.so', '.dylib']
+    extensions_to_sign = ['.pyd', '.so', '.dylib', '.in']
     core, ext = splitext(fpath)
     if ext in extensions_to_sign:
         return True
