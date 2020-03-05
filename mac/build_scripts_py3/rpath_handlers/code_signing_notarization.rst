@@ -1,3 +1,8 @@
+order
+
+1.fix rparh
+2. codesign
+
 CC3D Code Signing and Authorization
 ===================================
 
