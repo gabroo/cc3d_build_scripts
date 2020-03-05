@@ -82,3 +82,12 @@ modify ctypes __init__.py
 As you can see, CFUNCTYPE function at line 279 is added by unittest on Win64 for whatever reasons. For mac user, this line is useless and lead to memory error on macOS. So I comment out line 279, and rerun vim, there is no errors with powerline.
 
 also need to sign everything in share/cmake-3.16/
+
+this is what is being signed in python:
+<python_dir>/bin
+<python_dir>/lib
+<python_dir>/libexec
+<python_dir>/plugins
+<python_dir>/qml
+<python_dir>/sbin
+<python_dir>/share/cmake-3.16
