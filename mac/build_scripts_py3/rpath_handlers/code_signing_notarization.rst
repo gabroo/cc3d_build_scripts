@@ -102,6 +102,35 @@ libraries that I will add to the prerequisite folder are: ``libgcc_s.1.dylib``,
 because C++ libraries from CC3D will go to ``<CC3D_install_dir>/lib/site-packages/cpp``
 
 
+Code-signing python distribution
+================================
+
+**Important:**
+
+This step has to be performeb on OSX 10.13 or above
+
+Once we prepared our distribution we need to code-sign it. We will use convenience script from
+cc3d_build_scripts_repo. The script is located in ``mac/build_scripts_py3/rpath_handlers`` and
+is called ``recursive_code_sign``. Since Python distribution contains a lot of files we will
+sign only those that need to be signed - binaries and executable. To shorten run time of the script
+we will specify subdirectories of ``python37``
+
+
+
+In particular this is the list of subdirs where files need to be recursively signed:
+
+<python_dir>/bin
+<python_dir>/lib
+<python_dir>/libexec
+<python_dir>/plugins
+<python_dir>/qml
+<python_dir>/sbin
+<python_dir>/share/cmake-3.16
+
+
+/Users/m/prerequisites/4.1.2/python37
+
+
 
 order
 
