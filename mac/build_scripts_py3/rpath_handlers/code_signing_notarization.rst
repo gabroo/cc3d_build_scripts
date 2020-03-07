@@ -1,3 +1,108 @@
+Preparing conda installation
+============================
+We compile CC3D on OSX 10.9 and do notarization/signing on OSX 10.14
+
+Let us first build conda environment that we will use to compile signed and notarized version of
+CC3D. To do so we run the following
+
+.. code-block:: console
+
+    conda create -n cc3d_2021 python=3.7
+
+This will create conda environment called ``cc3d_2021`` and ``python version 3.7`` will be the only version
+installed. It is important to ensure that ``conda-forge`` is the chanel you are getting code from
+because we will be installing packages that are unavailable in the default conda channel
+
+Let us activate the environment:
+
+.. code-block:: console
+
+    conda activate cc3d_2021
+
+After we set up basic ``cc3d_2021`` environment and activated it we need to add more packages
+that are necessary for CC3D:
+
+.. code-block:: console
+
+    conda install -c conda-forge numpy scipy pandas jinja2 webcolors vtk=8.2 pyqt=5.6.0 pyqtgraph deprecated qscintilla2 jinja2 chardet cmake swig=3 python.app
+
+
+Now, to fix possible issues with missing development libraries for tbb (dependency of VTK) we also
+install ``tbb_full_dev`` package from ``compucell3d`` channel. This package contains
+dependencies (library + header files) for tbb library
+
+.. code-block:: console
+
+     conda install -c compucell3d tbb_full_dev
+
+Next we install libroadrunner by running:
+
+.. code-block:: console
+
+    pip install libroadrunner
+
+
+The basic installation is there. Now, let us copy ``~/miniconda3/envs/cc3d_2021`` to ``~/prerequisites/4.1.2/python37``
+
+.. code-block:: console
+
+    mkdir -p ~/prerequisites/4.1.2/python37 & cp -R -p ~/miniconda3/envs/cc3d_2021/* ~/prerequisites/4.1.2/python37
+
+Creating compucell3d.app and twedit++.app
+=========================================
+
+For CC3D to work properly on OSX we need to run it using ``python.app`` package. This will ensure
+that our GUIs behave correctly. All we need to do in this section is to copy
+``~/prerequisites/4.1.2/python37/python.app`` to ``~/prerequisites/4.1.2/python37/compucell3d.app`` and to ``~/prerequisites/4.1.2/python37/twedit++.app``. Next, in each of those app bundles (i.e. in ``compucell3d.app`` and ``twedit++.app``) we modify ``Contents/Info.plist`` file and add
+replace ``<string>python</string>`` with ``<string>CompuCell3D</string>`` and
+``<string>Twedit++</string>`` respectively
+
+
+Fixing ctypes __init__.py after signing
+========================================
+
+In this section we will comment out unneeded one line in ctypes/__init__.py file. It turns out
+that after signing python package numpy will not import properly. The line to comment out looks
+as follows: ``CFUNCTYPE(c_int)(lambda: None)``
+
+Here is more explanation
+
+https://www.bountysource.com/issues/63856438-update-macos-to-mojave-then-vim-get-error-with-powerline
+After code-signign importing numpy may result in MemoryError to fix this we need to
+modify ctypes __init__.py
+
+265 def _reset_cache():
+266     _pointer_type_cache.clear()
+267     _c_functype_cache.clear()
+268     if _os.name in ("nt", "ce"):
+269         _win_functype_cache.clear()
+270     # _SimpleCData.c_wchar_p_from_param
+271     POINTER(c_wchar).from_param = c_wchar_p.from_param
+272     # _SimpleCData.c_char_p_from_param
+273     POINTER(c_char).from_param = c_char_p.from_param
+274     _pointer_type_cache[None] = c_void_p
+275     # XXX for whatever reasons, creating the first instance of a callback
+276     # function is needed for the unittests on Win64 to succeed.  This MAY
+277     # be a compiler bug, since the problem occurs only when _ctypes is
+278     # compiled with the MS SDK compiler.  Or an uninitialized variable?
+279     CFUNCTYPE(c_int)(lambda: None)
+As you can see, CFUNCTYPE function at line 279 is added by unittest on Win64 for whatever reasons. For mac user, this line is useless and lead to memory error on macOS. So I comment out line 279, and rerun vim, there is no errors with powerline.
+
+
+Adding compiler libraries
+=========================
+
+CC3D uses gcc 4.8 compiler installed via Homebrew system. Homebrew gcc compilers have proper
+OpenMP implementation that default OSX compilers lack. Because of that we also need to distribute
+some libraries from the homebrew gcc - in fact there are three libraries - ``libgcc`` ``libstdc++`` and ``libgomp``. In my gcc installation they are located in
+``/usr/local/Cellar/gcc48/4.8.2/lib/gcc/x86_64-apple-darwin13.0.2/4.8.2``. The actual names of
+libraries that I will add to the prerequisite folder are: ``libgcc_s.1.dylib``,
+``libgomp.1.dylib``, ``libstdc++.6.dylib``. I will copy those libraries to
+``~/prerequisites/4.1.2/lib/site-packages/cpp``. The reason I pick this directory hierarchy is
+because C++ libraries from CC3D will go to ``<CC3D_install_dir>/lib/site-packages/cpp``
+
+
+
 order
 
 1.fix rparh
