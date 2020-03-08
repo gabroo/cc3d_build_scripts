@@ -28,7 +28,8 @@ from distutils.dir_util import copy_tree
 import datetime
 from build_utils_py3.build_utils import *
 from build_utils_py3.configs import ConfigsOSX
-
+from pathlib import Path
+from mac.build_scripts_py3.rpath_handlers.rpath_fixer import fix_hardcoded_paths
 
 
 t1 = time.time()
@@ -136,14 +137,34 @@ subprocess.call(cmake_args)
 subprocess.call(['make', '-j ' + str(args.cores)])
 subprocess.call(['make', 'install'])
 
+#
+lib_install_dir = join(INSTALL_PREFIX, 'lib')
+Path(lib_install_dir).mkdir(parents=True, exist_ok=True)
 
 try:
-    copy_tree(join(CFG.PREREQUISITES_DIR,'lib'), INSTALL_PREFIX, preserve_symlinks=1)
+    copy_tree(join(CFG.PREREQUISITES_DIR,'lib'), lib_install_dir, preserve_symlinks=1)
 except OSError as e:
     if str(e).find('File exists'):
         pass
     else:
         raise e
+
+# fixing rpath
+directory = INSTALL_PREFIX
+
+extensions = ['.so', '.dylib']
+target_location_of_hardcoded_libs = join(INSTALL_PREFIX, 'lib/site-packages/cc3d/cpp/lib')
+hardcoded_paths_list = [
+    '/usr/local/Cellar/gcc48/4.8.2/lib/gcc/x86_64-apple-darwin13.0.2/4.8.2/libgcc_s.1.dylib',
+    '/usr/local/lib/gcc/x86_64-apple-darwin13.0.2/4.8.2/libstdc++.6.dylib',
+    '/usr/local/lib/gcc/x86_64-apple-darwin13.0.2/4.8.2/libgomp.1.dylib'
+
+]
+
+fix_hardcoded_paths(directory=directory, extensions=extensions,
+                    target_location_of_hardcoded_libs=target_location_of_hardcoded_libs,
+                    hardcoded_paths_list=hardcoded_paths_list)
+
 
 
 INSTALL_PREFIX_UP = dirname(INSTALL_PREFIX)
