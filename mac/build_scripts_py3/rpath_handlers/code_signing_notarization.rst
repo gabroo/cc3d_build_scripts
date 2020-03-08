@@ -131,6 +131,12 @@ In particular this is the list of subdirs where files need to be recursively sig
 /Users/m/prerequisites/4.1.2/python37
 
 
+Building CC3D package
+=====================
+
+At this point we can build CC3D package. We will use``/Users/m/CC3D_BUILD_SCRIPTS_GIT/mac/build_scripts_py3/build_script_dmg.py`` script that does not copy python
+from prerequisite folder
+
 
 order
 
