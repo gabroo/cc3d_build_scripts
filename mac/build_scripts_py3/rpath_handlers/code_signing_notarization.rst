@@ -123,6 +123,9 @@ we will specify subdirectories of ``python37``
 
 In particular this is the list of subdirs where files need to be recursively signed:
 
+<python_dir>/python.app
+<python_dir>/compucell3d.app
+<python_dir>/twedit++.app
 <python_dir>/bin
 <python_dir>/lib
 <python_dir>/libexec
@@ -130,6 +133,7 @@ In particular this is the list of subdirs where files need to be recursively sig
 <python_dir>/qml
 <python_dir>/sbin
 <python_dir>/share/cmake-3.16
+
 
 
 We wrote a convenience sript ``python_recursive_sign.py`` that performs those steps.
