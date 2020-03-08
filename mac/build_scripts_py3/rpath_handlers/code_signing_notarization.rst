@@ -138,6 +138,59 @@ At this point we can build CC3D package. We will use``/Users/m/CC3D_BUILD_SCRIPT
 from prerequisite folder
 
 
+Fixing hard-coded paths in CC3D libraries
+=========================================
+
+When CC3D gets compiled those 3 gcc compiler libraries appear as hard-coded dependencies of CC3D libraries.
+We can use script ``rpath_printout`` to ge a list of all hardcoded libraries in the CC3D package. When we run it as
+
+.. code-block:: console
+
+    python rpath_printout.py --directory=/Users/m/install_projects/CC3D_4.1.2
+    --extensions
+    .dylib
+    .so
+
+
+we will see which libraries have hardcoded paths. We are only interested in "non-system" libraries and in our case
+those are:
+
+/usr/local/Cellar/gcc48/4.8.2/lib/gcc/x86_64-apple-darwin13.0.2/4.8.2/libgcc_s.1.dylib
+/usr/local/lib/gcc/x86_64-apple-darwin13.0.2/4.8.2/libstdc++.6.dylib
+/usr/local/lib/gcc/x86_64-apple-darwin13.0.2/4.8.2/libgomp.1.dylib
+
+We keep a note of them and we will use them in the next script that wil fix hard coded paths for every CC3D liubrary
+
+Running rpath_fixer
+--------------------
+
+``rpath_fixer`` is a script that replaces hardcoded library with @rpath counterpart. @rpath stands for runtime search
+path. The process of replacing it has two components. First we add a new search path to the dependent library using
+``install_name_tool -add_rpath @loader_path/... ...`` command and in step 2 we use ``install_name_tool -change ...``
+command to replace hardcoded path with @rpath/path_to_dependent_library
+
+The script does those steps automatically. In out case since we know which 3 libraries are hardcoded we run the script
+as follows:
+
+.. code-block:: console
+
+
+    python rpath_fixer.py
+    --directory=/Users/m/install_projects/CC3D_4.1.2
+    --extensions
+    .dylib
+    .so
+    --target-location-of-hardcoded-libs=/Users/m/install_projects/CC3D_4.1.2/lib/site-packages/cc3d/cpp/lib
+    --hardcoded-paths-list
+    /usr/local/Cellar/gcc48/4.8.2/lib/gcc/x86_64-apple-darwin13.0.2/4.8.2/libgcc_s.1.dylib
+    /usr/local/lib/gcc/x86_64-apple-darwin13.0.2/4.8.2/libstdc++.6.dylib
+    /usr/local/lib/gcc/x86_64-apple-darwin13.0.2/4.8.2/libgomp.1.dylib
+
+where the argument ``--target-location-of-hardcoded-libs`` points to location of the folder in the CC3D install
+directory where we will copy the 3 gcc compiler libraries
+
+Although we show this step as standalone step, we integrated this into CC3D build script
+
 order
 
 1.fix rparh

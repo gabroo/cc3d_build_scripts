@@ -8,10 +8,10 @@
   "CMAKE_C_FLAGS":"-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64",
   "CMAKE_CXX_COMPILER":"/usr/local/Cellar/gcc48/4.8.2/bin/g++",
   "CMAKE_CXX_FLAGS":"-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64",
-  "PREREQUISITES_DIR": "/Users/m/prerequisites/4.1.0",
-  "PYTHON_EXECUTABLE": "/Users/m/prerequisites/4.1.0/python37/bin/python",
-  "PYTHON_INCLUDE_DIR": "/Users/m/prerequisites/4.1.0/python37/include/python3.7m",
-  "PYTHON_LIBRARY": "/Users/m/prerequisites/4.1.0/python37/lib/libpython3.7m.dylib",
-  "VTK_DIR": "/Users/m/prerequisites/4.1.0/python37/lib/cmake/vtk-8.2"
+  "PREREQUISITES_DIR": "/Users/m/prerequisites/4.1.2",
+  "PYTHON_EXECUTABLE": "/Users/m/prerequisites/4.1.2/python37/bin/python",
+  "PYTHON_INCLUDE_DIR": "/Users/m/prerequisites/4.1.2/python37/include/python3.7m",
+  "PYTHON_LIBRARY": "/Users/m/prerequisites/4.1.2/python37/lib/libpython3.7m.dylib",
+  "VTK_DIR": "/Users/m/prerequisites/4.1.2/python37/lib/cmake/vtk-8.2"
 
 }
