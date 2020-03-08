@@ -1,3 +1,9 @@
+order
+
+1.fix rparh
+2. codesign
+
+
 Preparing conda installation
 ============================
 We compile CC3D on OSX 10.9 and do notarization/signing on OSX 10.14
@@ -197,10 +203,24 @@ directory where we will copy the 3 gcc compiler libraries
 
 Although we show this step as standalone step, we integrated this into CC3D build script
 
-order
+Code Signing
+=============
 
-1.fix rparh
-2. codesign
+Once we signed python distribution and compiled cc3d we run a script that finalizes installation. What it does is
+first sign CC3D code, second copy signed pyt distribution:
+
+you run this code as follows:
+
+.. code-block:: console
+
+    python finalize_cc3d_install.py
+    --cc3d-install-dir=/Volumes/mavericksosx/Users/m/install_projects/CC3D_4.1.2
+    --certificate-label="Developer ID Application: XXX"
+    --python-source-signed-dir=/Users/m/prerequisites/4.1.2/python37_signed
+    --keychain-path=/Users/m/Library/Keychains/login.keychain-db
+
+
+
 
 CC3D Code Signing and Authorization
 ===================================
