@@ -219,6 +219,11 @@ you run this code as follows:
     --python-source-signed-dir=/Users/m/prerequisites/4.1.2/python37_signed
     --keychain-path=/Users/m/Library/Keychains/login.keychain-db
 
+Building dmg
+============
+
+we use DMG canvas to build dmg and to do notarization. This si paid software but wort 20$ . Make sure to enable
+dmg signing and notarization
 
 
 
