@@ -115,8 +115,6 @@ is called ``recursive_code_sign``. Since Python distribution contains a lot of f
 sign only those that need to be signed - binaries and executable. To shorten run time of the script
 we will specify subdirectories of ``python37``
 
-
-
 In particular this is the list of subdirs where files need to be recursively signed:
 
 <python_dir>/bin
@@ -128,7 +126,15 @@ In particular this is the list of subdirs where files need to be recursively sig
 <python_dir>/share/cmake-3.16
 
 
-/Users/m/prerequisites/4.1.2/python37
+We wrote a convenience sript ``python_recursive_sign.py`` that performs those steps.
+
+The important thing is that you run this step only when you change python environment which is not that often. Think
+of it as a one-time setup task. You do it and then use signed package.
+
+It iss worth mentioning that when you build CC3D on OSX 10.9 you use unsigned version but when you build .dmg
+that will contain python and is to be notarized you used signed version but you do those steps on OSX 10.13 or above
+
+In the future we will develop a solution that runs fully on one platform
 
 
 Building CC3D package
