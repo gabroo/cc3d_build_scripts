@@ -70,6 +70,7 @@ def codesign_directory(directory, certificate_label, keychain_path):
             # we enable hardened runtime using --options runtime
             # see https://stackoverflow.com/questions/52905940/how-to-codesign-and-enable-the-hardened-runtime-for-a-3rd-party-cli-on-xcode
             cmd = f'codesign -f -v --options runtime --timestamp -s "{certificate_label}" --keychain {keychain_path} {fname}'
+            # cmd = f'codesign -f -v -s "{certificate_label}" --keychain {keychain_path} {fname}'
             os.system(cmd)
 
 

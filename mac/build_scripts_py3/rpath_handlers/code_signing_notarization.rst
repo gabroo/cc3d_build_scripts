@@ -95,6 +95,8 @@ modify ctypes __init__.py
 As you can see, CFUNCTYPE function at line 279 is added by unittest on Win64 for whatever reasons. For mac user, this line is useless and lead to memory error on macOS. So I comment out line 279, and rerun vim, there is no errors with powerline.
 
 
+Additionally we will need to to the same fix in 
+
 Adding compiler libraries
 =========================
 
@@ -107,13 +109,17 @@ libraries that I will add to the prerequisite folder are: ``libgcc_s.1.dylib``,
 ``~/prerequisites/4.1.2/lib/site-packages/cpp``. The reason I pick this directory hierarchy is
 because C++ libraries from CC3D will go to ``<CC3D_install_dir>/lib/site-packages/cpp``
 
+libroadrunner
+==============
+
+when we prepare
 
 Code-signing python distribution
 ================================
 
 **Important:**
 
-This step has to be performeb on OSX 10.13 or above
+This step has to be performed on OSX 10.13 or above
 
 Once we prepared our distribution we need to code-sign it. We will use convenience script from
 cc3d_build_scripts_repo. The script is located in ``mac/build_scripts_py3/rpath_handlers`` and
