@@ -112,7 +112,28 @@ because C++ libraries from CC3D will go to ``<CC3D_install_dir>/lib/site-package
 libroadrunner
 ==============
 
-when we prepare
+Currently on OSX 10.9 libroadrunner is on version 1.5.6, this version does not work
+on OSX 10.14+ therefore, we need to prepare separate binaries for OSX 10.14+. This is not
+ideal but once we get updated libroadrunner binaries this limitation will be resolved
+
+gcc compilers on OSX 10.14
+==========================
+
+Getting right compiler on OSX that supports OpenCL can be challenging. After few attempts
+we determined that gcc@6 from homebrew performs best. All other compilers had issues during
+compilation or during runtime. This is not surprising and we sa this behavior in the past
+
+OpenCL solvers on OSX 10.14+
+============================
+
+OpenCL solvers on OSX 10.14 + do not work. It is likely that this is connected with
+Apple decision to stop support openCL starting with OSX 10.14. for the time being we
+recommend that if you need OpenCL solvers on OSX you use OSX 10.13 or lower.
+
+You can always run this operating system from external SSD so that you do not need to
+uninstall your latest OSX that you are using. This is not ideal but it is a solution while
+we research fixes to this problem
+
 
 Code-signing python distribution
 ================================

@@ -1,0 +1,20 @@
+{
+  "CMAKE_PATH": "/Users/m/miniconda3/envs/cc3d_2021/bin/cmake",
+  "CMAKE_GENERATOR_NAME": "Unix Makefiles",
+  "PYQT_VERSION": "5",
+  "PYTHON_MINOR_VERSION": "7",
+  "CMAKE_OSX_DEPLOYMENT_TARGET":"10.9",
+  "CMAKE_C_COMPILER":"/usr/local/Cellar/gcc@6/6.5.0_4/bin/gcc-6",
+  "CMAKE_C_COMPILER_7":"/usr/local/Cellar/gcc@7/7.5.0_1/bin/gcc-7",
+  "CMAKE_C_FLAGS":"-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64",
+  "CMAKE_CXX_COMPILER":"/usr/local/Cellar/gcc@6/6.5.0_4/bin/g++-6",
+  "CMAKE_CXX_COMPILER_7":"/usr/local/Cellar/gcc@7/7.5.0_1/bin/g++-7",
+  "CMAKE_CXX_FLAGS":"-mmacosx-version-min=10.6 -O3 -g -fpermissive -m64",
+  "PREREQUISITES_DIR": "/Users/m/prerequisites/4.1.2_10.14",
+  "PYTHON_EXECUTABLE": "/Users/m/miniconda3/envs/cc3d_2021/bin/python",
+  "PYTHON_INCLUDE_DIR": "/Users/m/miniconda3/envs/cc3d_2021/include/python3.7m",
+  "PYTHON_LIBRARY": "/Users/m/miniconda3/envs/cc3d_2021/lib/libpython3.7m.dylib",
+  "VTK_DIR": "/Users/m/miniconda3/envs/cc3d_2021/lib/cmake/vtk-8.2",
+  "HARDCODED_LIB_PATHS": []
+
+}
