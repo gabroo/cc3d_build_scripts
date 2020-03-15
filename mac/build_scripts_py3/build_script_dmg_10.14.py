@@ -162,9 +162,14 @@ extensions = ['.so', '.dylib']
 target_location_of_hardcoded_libs = join(INSTALL_PREFIX, 'lib/site-packages/cc3d/cpp/lib')
 
 hardcoded_paths_list = [
-    '/usr/local/Cellar/gcc@6/6.5.0_4/lib/gcc/6/libgcc_s.1.dylib',
-    '/usr/local/Cellar/gcc@6/6.5.0_4/lib/gcc/6/libstdc++.6.dylib',
-    '/usr/local/Cellar/gcc@6/6.5.0_4/lib/gcc/6/libgomp.1.dylib'
+'/usr/local/opt/gcc@6/lib/gcc/6/libstdc++.6.dylib',
+'/usr/local/lib/gcc/6/libgcc_s.1.dylib',
+'/usr/local/opt/gcc@6/lib/gcc/6/libgcc_s.1.dylib'
+'/usr/local/opt/gcc@6/lib/gcc/6/libgomp.1.dylib',
+
+# '/usr/local/Cellar/gcc@6/6.5.0_4/lib/gcc/6/libgcc_s.1.dylib',
+# '/usr/local/Cellar/gcc@6/6.5.0_4/lib/gcc/6/libstdc++.6.dylib',
+# '/usr/local/Cellar/gcc@6/6.5.0_4/lib/gcc/6/libgomp.1.dylib'
 
 ]
 
