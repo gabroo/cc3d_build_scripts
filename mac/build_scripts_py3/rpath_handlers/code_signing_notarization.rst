@@ -414,3 +414,13 @@ this is what is being signed in python:
 <python_dir>/qml
 <python_dir>/sbin
 <python_dir>/share/cmake-3.16
+
+Useful Links
+==============
+
+https://github.com/electron/electron/blob/master/docs/tutorial/mac-app-store-submission-guide.md
+https://developer.apple.com/videos/play/wwdc2018/702/
+https://stackoverflow.com/questions/52911791/hardened-runtime-for-java-and-mojave
+https://apple.stackexchange.com/questions/52675/how-do-i-find-out-what-entitlements-an-app-has
+https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_allow-jit
+https://lapcatsoftware.com/articles/hardened-runtime-sandboxing.html
