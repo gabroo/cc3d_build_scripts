@@ -64,7 +64,7 @@ replace ``<string>python</string>`` with ``<string>CompuCell3D</string>`` and
 ``<string>Twedit++</string>`` respectively
 
 
-Fixing ctypes __init__.py after signing
+Fixing ctypes __init__.py after signing (obsolete when using entitlement file to sign python distribution)
 ========================================
 
 In this section we will comment out unneeded one line in ctypes/__init__.py file. It turns out
@@ -109,6 +109,9 @@ libraries that I will add to the prerequisite folder are: ``libgcc_s.1.dylib``,
 ``~/prerequisites/4.1.2/lib/site-packages/cpp``. The reason I pick this directory hierarchy is
 because C++ libraries from CC3D will go to ``<CC3D_install_dir>/lib/site-packages/cpp``
 
+**IMPORTANT** make sure that libraries you copy have write permissions set otherwise you will not be
+able to modify rpath in them
+
 libroadrunner
 ==============
 
@@ -137,10 +140,7 @@ we research fixes to this problem
 
 Code-signing python distribution
 ================================
-
-**Important:**
-
-This step has to be performed on OSX 10.13 or above
+**Important:** :This step has to be performed on OSX 10.13 or above
 
 Once we prepared our distribution we need to code-sign it. We will use convenience script from
 cc3d_build_scripts_repo. The script is located in ``mac/build_scripts_py3/rpath_handlers`` and
@@ -162,17 +162,78 @@ In particular this is the list of subdirs where files need to be recursively sig
 <python_dir>/share/cmake-3.16
 
 
+Signing python distribution for CC3D requires extra care. Since CC3D relies on ``roadrunner`` package
+we need to make sure that ``roadrunner`` works properly within signed Python distribution.
+In particular, since ``roadrunner`` generates JIT-code when loading SBML model modern OSX
+will not allow this to run unless we add extra entitlements during Python distribution code-signing.
+To do that we prepare and XML file called ``entitlements.plist`` and its content looks as follows:
 
-We wrote a convenience sript ``python_recursive_sign.py`` that performs those steps.
+.. code-block:: xml
 
-The important thing is that you run this step only when you change python environment which is not that often. Think
-of it as a one-time setup task. You do it and then use signed package.
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    <plist version="1.0">
+      <dict>
+        <key>com.apple.security.cs.allow-jit</key>
+        <true/>
+        <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+        <true/>
+        <key>com.apple.security.cs.disable-executable-page-protection</key>
+        <true/>
+        <key>com.apple.security.cs.disable-library-validation</key>
+        <true/>
+        <key>com.apple.security.cs.allow-dyld-environment-variables</key>
+        <true/>
+      </dict>
+    </plist>
 
-It iss worth mentioning that when you build CC3D on OSX 10.9 you use unsigned version but when you build .dmg
-that will contain python and is to be notarized you used signed version but you do those steps on OSX 10.13 or above
+We will pass this file to the code-signing function so that the invocation of the ``codesign`` tools
+looks as follows:
+
+.. code-block:: console
+
+    codesign  -v -s "<certificate_label>" -f --entitlement <entitlement_file> --keychain <keychain_path> <binary_file_to_be_signed>
+
+Obviously we do not want to repeat this call manually so instead we create a convenience script that we
+run only once - when we prepare signed distribution of python to be bundled with the rest of CC3D. See
+``mac/build_scripts_py3/rpath_handlers/python_recursive_sign.py``
+
+For convenience we present the entire content of this script:
+
+.. code-block:: python
+
+    from recursive_code_sign import codesign_directory_entitlement
+    from os.path import *
+
+    python_install_dir = '/Users/m/prerequisites/4.1.2_10.14/python37_signed_entitlements'
+    entitlement_file = '/Users/m/CC3D_BUILD_SCRIPTS_GIT/mac/build_scripts_py3/rpath_handlers/entitlements.plist'
+
+    sub_dirs_to_sign = ['bin', 'lib', 'libexec', 'plugins', 'qml', 'sbin', 'share/cmake-3.16',
+                        'compucell3d.app', 'twedit++.app', 'python.app', 'Contents']
+    certificate_label = "Developer ID Application: Indiana University (5J69S77A7G)"
+    keychain_path = "/Users/m/Library/Keychains/login.keychain-db"
+
+    for sub_dir in sub_dirs_to_sign:
+        directory = join(python_install_dir, sub_dir)
+        codesign_directory_entitlement(
+            directory=directory, certificate_label=certificate_label, keychain_path=keychain_path,
+            entitlement_file=entitlement_file)
+
+
+To check entitlements of a binary file follow this example:
+
+.. code-block:: console
+
+    codesign -d --entitlements :- <full_path_to_the_file>
+
+The important thing is that you run this step only when you change python environment which is not that
+often. Think of it as a one-time setup task. You do it and then use signed package.
+
+It is worth mentioning that when you build CC3D on OSX 10.9 you use unsigned version but when you
+build.dmg that will contain python and is to be notarized you used signed version but you do those steps
+on OSX 10.13 or above
 
 In the future we will develop a solution that runs fully on one platform
-
 
 Building CC3D package
 =====================
@@ -234,6 +295,8 @@ directory where we will copy the 3 gcc compiler libraries
 
 Although we show this step as standalone step, we integrated this into CC3D build script
 
+
+
 Code Signing
 =============
 
@@ -247,7 +310,7 @@ you run this code as follows:
     python finalize_cc3d_install.py
     --cc3d-install-dir=/Volumes/mavericksosx/Users/m/install_projects/CC3D_4.1.2
     --certificate-label="Developer ID Application: XXX"
-    --python-source-signed-dir=/Users/m/prerequisites/4.1.2/python37_signed
+    --python-source-signed-dir=/Users/m/prerequisites/4.1.2_10.14/python37_signed_entitlements
     --keychain-path=/Users/m/Library/Keychains/login.keychain-db
 
 Building dmg

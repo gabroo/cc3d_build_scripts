@@ -103,6 +103,7 @@ class ConfigsOSX(ConfigsBase):
         self.RR_INSTALL_PATH = ''
         self.CMAKE_MODULE_LINKER_FLAGS = ''
         self.CMAKE_SHARED_LINKER_FLAGS = ''
+        self.PYTHON_SIGNED_DIR = ''
 
 
         self.initialize()

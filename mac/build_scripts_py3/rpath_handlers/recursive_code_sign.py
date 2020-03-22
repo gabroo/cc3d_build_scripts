@@ -74,6 +74,47 @@ def codesign_directory(directory, certificate_label, keychain_path):
             os.system(cmd)
 
 
+def codesign_directory_entitlement(directory, certificate_label, keychain_path, entitlement_file):
+    """
+
+    :param directory:
+    :param certificate_label:
+    :param keychain_path:
+    :param entitlement_file:
+    :return:
+    """
+
+    # traverse root directory, and list directories as dirs and files as files
+    for root, dirs, files in os.walk(directory):
+
+        path = root.split(os.sep)
+        for file in files:
+            stem, ext = splitext(file)
+
+            fname = join(root, file)
+
+            if not determine_if_binary_file(fname=fname):
+
+                continue
+
+            print(fname)
+            # we enable hardened runtime using --options runtime
+            # see https://stackoverflow.com/questions/52905940/how-to-codesign-and-enable-the-hardened-runtime-for-a-3rd-party-cli-on-xcode
+            # cmd = f'codesign -f -v --options runtime --timestamp -s "{certificate_label}" --keychain {keychain_path} {fname}'
+            # cmd = f'codesign -f --entitlement {entitlement_file} -v -s "{certificate_label}" --keychain {keychain_path} {fname}'
+            # cmd = f'codesign -f --entitlement {entitlement_file} -v --options runtime --timestamp -s "{certificate_label}" --keychain {keychain_path} {fname}'
+            cmd = f'codesign  -v --options runtime --timestamp -s "{certificate_label}" -f --entitlement {entitlement_file} --keychain {keychain_path} {fname}'
+            os.system(cmd)
+            # cmd = f'codesign -f --entitlement {entitlement_file} -v -s "{certificate_label}" --keychain {keychain_path} {fname}'
+            # os.system(cmd)
+
+            # cmd = f'codesign  -v --options runtime --timestamp -s "{certificate_label}"  --keychain {keychain_path} {fname}'
+            # os.system(cmd)
+            # f'codesign -f --entitlement {entitlement_file}'
+            # os.system(cmd)
+
+
+
 
 def main():
     args = process_cml()

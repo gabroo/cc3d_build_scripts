@@ -13,6 +13,13 @@
   "PYTHON_INCLUDE_DIR": "/Users/m/miniconda3/envs/cc3d_2021/include/python3.7m",
   "PYTHON_LIBRARY": "/Users/m/miniconda3/envs/cc3d_2021/lib/libpython3.7m.dylib",
   "VTK_DIR": "/Users/m/miniconda3/envs/cc3d_2021/lib/cmake/vtk-8.2",
-  "HARDCODED_LIB_PATHS": []
+  "HARDCODED_LIB_PATHS": [
+    "/usr/local/opt/gcc@6/lib/gcc/6/libstdc++.6.dylib",
+    "/usr/local/lib/gcc/6/libgcc_s.1.dylib",
+    "/usr/local/opt/gcc@6/lib/gcc/6/libgcc_s.1.dylib",
+    "/usr/local/opt/gcc@6/lib/gcc/6/libgomp.1.dylib"
+  ],
+  "CERTIFICATE_LABEL":"Developer ID Application: Indiana University (5J69S77A7G)",
+  "PYTHON_SIGNED_DIR": "/Users/m/prerequisites/4.1.2_10.14/python37_signed_entitlements"
 
 }
