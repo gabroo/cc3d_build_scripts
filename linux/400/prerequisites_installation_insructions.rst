@@ -1,5 +1,10 @@
 You will need gcc/g++ 4.6 or higher to compile new CC3D (versions 4.x.x)
 
+.. warning::
+    Mixing Python versions:
+    Sometimes when there are more than 1 Python version  installed on your OS CMake may mix headers and libraries from different versions of Python. In this case on cmake-gui check advanced check-box and type Python in the search line. Make sure that headers,
+    executable and libraries of Python come from the same version If they do not, change paths accordingly
+
 Creating your  new python virtual environment aka conda environment:
 
 .. code-block:: console
