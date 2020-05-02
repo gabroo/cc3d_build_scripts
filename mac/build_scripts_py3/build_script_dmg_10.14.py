@@ -15,7 +15,8 @@ example commands:
 
 64bit build - to be run from the top level directory (i.e. from the root of the cc3d_build_scripts repository):
 
-python mac/build_scripts_py3/build_script.py -p /Users/m/install_projects/CC3D_4.0.0 -s /Users/m/CC3D_PY3_GIT   -v 4.0.0.0 --config=mac/build_scripts_py3/config_64bit.json
+
+python /Users/m/CC3D_BUILD_SCRIPTS_GIT/mac/build_scripts_py3/build_script_dmg_10.14.py -p /Users/m/install_projects/CC3D_4.2.0 -s /Users/m/CC3D_PY3_GIT   -v 4.2.0.0 --config=mac/build_scripts_py3/config_64bit_2021_10.14.json -c 8
 
 """
 import time
