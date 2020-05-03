@@ -26,12 +26,13 @@ Let's install numpy inside this environment because we will need it for the CC3D
     conda install -c conda-forge numpy scipy pandas jinja2 webcolors vtk=8.2 pyqt pyqtgraph deprecated qscintilla2 jinja2 chardet cmake swig
 
 
-We will use ``pip`` to install ``webcolors`` and ``libroadrunner``
+We will use ``pip`` to install ``webcolors``, ``libroadrunner`` and ``antimony``
 
 .. code-block:: console
 
     pip install webcolors
     pip install libroadrunner
+    pip install antimony
 
 
 Most of linux dependencies can be easily installed using conda

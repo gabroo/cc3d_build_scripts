@@ -95,8 +95,8 @@ So here we are replacing hardcoded path with a simple statement based on anchor 
 
 This os much better and is guaranteed to work on any machine
 
-Adding libroadrunner
---------------------
+Adding libroadrunner and antimony
+----------------------------------
 
 After you activate your conda environment you also need to install libroadrunner
 The best way is to use ``pip`` command by typing
@@ -104,6 +104,7 @@ The best way is to use ``pip`` command by typing
 .. code-block:: console
 
     pip install libroadrunner
+    pip install antimony
 
 If for some reason (usually incompatibility with your installed numpy version) importing roadrunner fails
 

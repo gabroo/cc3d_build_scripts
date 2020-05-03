@@ -41,11 +41,12 @@ dependencies (library + header files) for tbb library
 
      conda install -c compucell3d tbb_full_dev
 
-Next we install libroadrunner by running:
+Next we install libroadrunner and antimony by running:
 
 .. code-block:: console
 
     pip install libroadrunner
+    pip install antimony
 
 
 The basic installation is there. Now, let us copy ``~/miniconda3/envs/cc3d_2021`` to ``~/prerequisites/4.1.2/python37``
