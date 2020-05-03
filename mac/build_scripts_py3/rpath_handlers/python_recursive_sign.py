@@ -10,6 +10,10 @@ entitlement_file = '/Users/m/CC3D_BUILD_SCRIPTS_GIT/mac/build_scripts_py3/rpath_
 
 sub_dirs_to_sign = ['bin', 'lib', 'libexec', 'plugins', 'qml', 'sbin', 'share/cmake-3.16',
                     'compucell3d.app', 'twedit++.app', 'python.app', 'Contents']
+
+# sub_dirs_to_sign = ['lib/python3.7/site-packages/antimony', 'lib/python3.7/site-packages/antimony-2.11.0.dist-info']
+
+
 certificate_label = "Developer ID Application: Indiana University (5J69S77A7G)"
 keychain_path = "/Users/m/Library/Keychains/login.keychain-db"
 
