@@ -133,7 +133,13 @@ cmake_args = [CFG.CMAKE_PATH, '-G', CFG.CMAKE_GENERATOR_NAME, '-DCMAKE_BUILD_TYP
 
 subprocess.call(cmake_args)
 
-subprocess.call(['make', '-j ' + str(args.cores)])
+# subprocess.call(['make', '-j ' + str(args.cores)])
+
+cmd = f'make -j {args.cores}'
+print(cmd)
+os.system(cmd)
+
+
 subprocess.call(['make', 'install'])
 
 
