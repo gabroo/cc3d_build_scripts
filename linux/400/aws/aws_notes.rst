@@ -137,6 +137,71 @@ the virtual machine might differ but you will see this in the pop-up dialog that
 
     make sure you are ssh-ing as user ``ubuntu``. simply change ``root@ec2-18-217-20...`` to ``ubuntu@ec2-18-217-20...`` in the ssh command
 
+|connect_ssh|
+
+Step 4
+~~~~~~
+
+Run CC3D. After you log in to your AWS instance. you will land in the home directory. If you type
+
+.. code-block:: console
+
+    ls
+
+you will see ``CC3D_4.2.0_ubuntu_18.04_64bit`` folder. This is where CC3D is installed
+
+Launch ``xterm``
+
+.. code-block:: console
+
+    xterm&
+
+|ls_xterm|
+
+and then do the following:
+
+.. code-block:: console
+
+    cd CC3D_4.2.0_ubuntu_18.04_64bit
+    ./compucell3d.sh
+
+This will Launch CC3D.
+
+|cc3d_first_lanuch|
+
+Step 5
+~~~~~~
+
+Copy simulation files to your AWS instance. Here we will use SCP
+
+The command is quite simple
+
+.. code-block:: console
+
+    scp -i ~/.ssh/ubuntu_18_t2_medium.pem nh-cc3d-covid-tissue-response-model-master.zip ubuntu@ec2-18-217-205-200.us-east-2.compute.amazonaws.com:~
+
+As before ``-i ~/.ssh/ubuntu_18_t2_medium.pem`` is key-based authentication for scp. Works in the similar way
+as with ssh , as we described above. We are copying our model ``nh-cc3d-covid-tissue-response-model-master.zip``
+to home directory of AWS instance: ``ubuntu@ec2-18-217-205-200.us-east-2.compute.amazonaws.com:~``
+
+Make sure to run this command from your "home" computer
+
+Step 6
+~~~~~~
+
+Run Covid simulation in AWS instance. After copying simulation zip file we can unpack it and move to
+wherever we want to store it. Hint, I am using Midnight Mommander that is also installed on this ubuntu instance
+Type
+
+.. code-block:: console
+
+    mc
+
+if you want to use it. If not you can use command line , and this is fine as well
+
+When we load the simulation and hit Play the simulation runs and this is final result:
+
+|cc3d_on_aws|
 
 .. |AMI_image_search| image:: images/AMI_image_search.png
    :width: 7.7000in
@@ -153,6 +218,22 @@ the virtual machine might differ but you will see this in the pop-up dialog that
 .. |connect_to_launched_instance| image:: images/connect_to_launched_instance.png
    :width: 7.7000in
    :height: 4.7in
+
+.. |connect_ssh| image:: images/connect_ssh.png
+   :width: 4.7000in
+   :height: 2.9in
+
+.. |ls_xterm| image:: images/ls_xterm.png
+   :width: 4.7000in
+   :height: 2.9in
+
+.. |cc3d_first_lanuch| image:: images/cc3d_first_lanuch.png
+   :width: 4.7000in
+   :height: 2.9in
+
+.. |cc3d_on_aws| image:: images/cc3d_on_aws.png
+   :width: 6.8000in
+   :height: 4.3in
 
 
 
