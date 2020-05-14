@@ -203,6 +203,15 @@ When we load the simulation and hit Play the simulation runs and this is final r
 
 |cc3d_on_aws|
 
+Step 7
+~~~~~~
+
+After you finish running turn off the instance so that you are not being charged for usage. To do so
+Go to instances panel and in the ``Actions`` pull-down menu choose ``Instance State -> Stop``
+
+|instance_stop|
+
+
 .. |AMI_image_search| image:: images/AMI_image_search.png
    :width: 7.7000in
    :height: 3.5526in
@@ -235,6 +244,9 @@ When we load the simulation and hit Play the simulation runs and this is final r
    :width: 6.8000in
    :height: 4.3in
 
+.. |instance_stop| image:: images/instance_stop.png
+   :width: 7.8000in
+   :height: 4.3in
 
 
 
