@@ -273,7 +273,7 @@ This will list all the screens you have (including ``cc3d_1``)
 
     screen -r cc3d_1
 
-Notice that I used lower-case letter ``r`` to go back to screen
+Notice that I used lower-case letter `r` to go back to screen
 
 7. Now you can detach again and starte new screen for new simulation. So ``Ctrl+a, d`` followed by
 
@@ -287,7 +287,7 @@ We created new screen ``cc3d_2`` and now when we do
 
     screen -ls
 
-we would see ``cc3d_1` and `cc3d_2``. If both screens are runnign simulation we can easily switch between
+we would see ``cc3d_1`` and ``cc3d_2``. If both screens are runnign simulation we can easily switch between
 screens using combination of ``Ctrl+a, d`` (detach) and ``screen -r <screen_name>`` (attach)
 
 8. Finally, when you are done with a screen and your simulation is finished and you want to simply exit
