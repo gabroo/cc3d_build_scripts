@@ -1,7 +1,10 @@
+
 order
 
 1.fix rparh
 2. codesign
+
+make sure not to double-sign python using entitlements file this causes issues
 
 
 Preparing conda installation
