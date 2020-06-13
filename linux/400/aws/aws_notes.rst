@@ -294,6 +294,16 @@ screens using combination of ``Ctrl+a, d`` (detach) and ``screen -r <screen_name
 the screen you simply type ``Ctrl+d``
 
 
+X-Window Forwarding
+-------------------
+
+To run CC3D in the GUI mode you need to make sure that linux (running in AWS cloud) can forward
+windows to your computer. If you are on OSX or Windows you need to install 3rd party tools
+that facilitate this task. Some of them are free some of them you need to pay. However,
+one solution that is always available to you is to install VirtualBox (or VMWare Workstation Player)
+and install under those virtualization platforms your favorite linux. Then use this linux to connect
+to AWS and this way you will ensure that X-window forwarding works
+
 
 
 
