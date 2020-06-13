@@ -211,6 +211,99 @@ Go to instances panel and in the ``Actions`` pull-down menu choose ``Instance St
 
 |instance_stop|
 
+Managing multiple simulations from a single console
+---------------------------------------------------
+
+When you connect to a remote server hosted by AWS (or any other service) one question you may
+have is whether you need to keep your terminal open while the simulaton is running.
+If you would like to see a GUI then the answer is , yes, you need to keep terminal open. However,
+often you want to run simulation in the batch model using ``runScript`` and in this case you can
+start the simulation in the background and either completely logout or start fea other simulations
+from the same terminal an switch between them. To accomplish this task we will use ``screen`` utility
+that should be installable in every linux. For basic tutorial on how to use ``screen`` please see
+
+https://linuxize.com/post/how-to-use-linux-screen/
+
+After you connect to AWS terminal with running linux version that has CC3D do the following:
+
+1. Create new screen within terminal
+
+.. code-block:: console
+
+    screen -R cc3d_1
+
+.. note::
+
+    ``cc3d_1`` that we used here is a label that you give to name a screen. Ths label can be arbitrary
+
+2. Go to a directory where CC3D is installed
+
+.. code-block:: console
+
+    cd ~/CC3D_4.2.0_ubuntu_18.04_64bit
+
+3. Start a simulation
+
+.. code-block:: console
+
+    c./runScript.sh -i <simulation_full_path> -f 1000
+
+.. note::
+
+    ``-f 1000`` options tells CC3D to store complate visualization snapshots every 1000 MCS. See CompuCell3D manual for other command line options
+
+
+4. Detach screen that runs the simulation. Now that the simulation is running you can exit the screen
+and either start new simulation or completely logged out of the computer. To detach screen you
+type ``Ctrl+a`` followed ``d`` - so ``Ctrl+a , d``
+Once you do it the simulation runs in the background
+
+5. List all the screens
+
+.. code-block::
+
+    screen -ls
+
+
+This will list all the screens you have (including ``cc3d_1``)
+
+6. Go back to existing screen to check on simulation
+
+.. code-block::
+
+    screen -r cc3d_1
+
+Notice that I used lower-case letter ``r`` to go back to screen
+
+7. Now you can detach again and starte new screen for new simulation. So ``Ctrl+a, d`` followed by
+
+.. code-block:: console
+
+    screen -R cc3d_2
+
+We created new screen ``cc3d_2`` and now when we do
+
+.. code-block:: console
+
+    screen -ls
+
+we would see ``cc3d_1` and `cc3d_2``. If both screens are runnign simulation we can easily switch between
+screens using combination of ``Ctrl+a, d`` (detach) and ``screen -r <screen_name>`` (attach)
+
+8. Finally, when you are done with a screen and your simulation is finished and you want to simply exit
+the screen you simply type ``Ctrl+d``
+
+
+
+
+
+
+
+
+
+
+
+
 
 .. |AMI_image_search| image:: images/AMI_image_search.png
    :width: 7.7000in
