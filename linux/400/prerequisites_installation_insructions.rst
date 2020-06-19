@@ -23,7 +23,7 @@ Let's install numpy inside this environment because we will need it for the CC3D
 
 .. code-block:: console
 
-    conda install -c conda-forge numpy scipy pandas jinja2 webcolors vtk=8.2 pyqt pyqtgraph deprecated qscintilla2 jinja2 chardet cmake swig
+    conda install -c conda-forge numpy scipy pandas jinja2 webcolors vtk=8.2 pyqt pyqtgraph deprecated qscintilla2 jinja2 chardet cmake swig requests
 
 
 We will use ``pip`` to install ``webcolors``, ``libroadrunner`` and ``antimony``

@@ -65,7 +65,7 @@ Notice ``-X`` switch that enables X11 window forwarding
 
 .. code-block:: console
 
-    wget wget https://sourceforge.net/projects/cc3d/files/4.2.0/linux/Ubuntu_18.04_64bit/CC3D_4.2.0_ubuntu_18.04_64bit.tar.gz
+    wget https://sourceforge.net/projects/cc3d/files/4.2.0/linux/Ubuntu_18.04_64bit/CC3D_4.2.0_ubuntu_18.04_64bit.tar.gz
 
 once the download finishes we install it as follows:
 

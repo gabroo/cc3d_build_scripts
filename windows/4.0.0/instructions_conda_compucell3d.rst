@@ -18,6 +18,6 @@ then
 
 .. code-block:: console
 
-    conda install -c compucell3d vtk=8.2 scipy numpy=1.15 pandas jinja2 pyqt qscintilla2 webcolors pyqtgraph deprecated pywin32 chardet swig=3
+    conda install -c compucell3d vtk=8.2 scipy numpy=1.15 pandas jinja2 pyqt qscintilla2 webcolors pyqtgraph deprecated pywin32 chardet swig=3 requests
 
     conda install -c compucell3d tbb_full_dev
