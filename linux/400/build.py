@@ -118,7 +118,7 @@ if __name__ == '__main__':
         awk_pos = 2
     else:
         awk_pos = 3
-    getCondaEnvironmentPath = f"conda env list | grep -w '{{conda_env}}'| awk '{{{{print ${awk_pos}}}}}'".format(conda_env=conda_env)
+    getCondaEnvironmentPath = f"conda env list | grep -w '{conda_env}'| awk '{{{{print ${awk_pos}}}}}'"
     print (getCondaEnvironmentPath)
     output = os.popen(getCondaEnvironmentPath).read()
     if not output:
