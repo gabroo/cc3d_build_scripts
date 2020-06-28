@@ -71,7 +71,7 @@ if __name__ == '__main__':
     cml_parser.add_argument("-d", "--dependency-channel", action="store", help="name of  conda dependency channel",
                             default='compucell3d')
     cml_parser.add_argument("-e", "--conda-env-name", action="store", help="name of conda environment to create",
-                            default='cc3d_2020')
+                            default='base')
     cml_args = cml_parser.parse_args()
 
     conda_env = cml_args.conda_env_name
@@ -114,8 +114,11 @@ if __name__ == '__main__':
 
     
     
-    
-    getCondaEnvironmentPath = "conda env list | grep -w '{conda_env}'| awk '{{print $2}}'".format(conda_env=conda_env)
+    if conda_env != 'base':
+        awk_pos = 2
+    else:
+        awk_pos = 3
+    getCondaEnvironmentPath = f"conda env list | grep -w '{{conda_env}}'| awk '{{{{print ${awk_pos}}}}}'".format(conda_env=conda_env)
     print (getCondaEnvironmentPath)
     output = os.popen(getCondaEnvironmentPath).read()
     if not output:
