@@ -135,7 +135,7 @@ if __name__ == '__main__':
     Python_LIBRARY_RELEASE = join(conda_env_path, 'lib/libpython3.7m.so')
 
 
-    VTK_DIR = join(conda_env_path, 'lib/cmake/vtk-8.2')
+    VTK_DIR = join(conda_env_path, 'lib/cmake/vtk-9.0')
     cmake_path = join(conda_env_path, 'bin/cmake')
 
 
